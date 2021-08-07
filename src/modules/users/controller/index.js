@@ -1,10 +1,9 @@
-module.exports.fetchAll = require('./fetch-all')
-module.exports.fetchOne = require('./fetch-one')
-module.exports.update = require('./update')
-module.exports.delete = require('./delete')
-module.exports.signup = require('./signup')
-module.exports.signin = require('./signin')
-module.exports.signout = require('./signout')
-module.exports.requestPassword = require('./request-password')
-module.exports.resetPassword = require('./reset-password')
-
+module.exports.fetchAll = require("./fetch-all");
+module.exports.fetchOne = require("./fetch-one");
+module.exports.update = require("./update");
+module.exports.delete = require("./delete");
+module.exports.signup = require("./signup");
+module.exports.signin = require("./signin");
+module.exports.signout = require("./signout");
+module.exports.requestPassword = require("./request-password");
+module.exports.resetPassword = require("./reset-password");

@@ -1,9 +1,10 @@
-const express = require('express')
-const app = express()
-const adminRoutes = require('./modules/admin/router')
-const userRoutes = require('./modules/users/router')
+const express = require("express");
 
-app.use('/admin', adminRoutes)
-app.use('/users', userRoutes)
+const app = express();
+const adminRoutes = require("./modules/admin/router");
+const userRoutes = require("./modules/users/router");
 
-module.exports = app
+app.use("/admin", adminRoutes);
+app.use("/users", userRoutes);
+
+module.exports = app;
