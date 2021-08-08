@@ -8,6 +8,7 @@ module.exports = {
   extends: ["plugin:prettier/recommended", "plugin:import/recommended"],
   parserOptions: {
     ecmaVersion: 12,
+    sourceType: "module",
   },
   rules: {},
 };
