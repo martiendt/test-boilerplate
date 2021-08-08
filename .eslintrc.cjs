@@ -5,7 +5,7 @@ module.exports = {
     es2021: true,
   },
   plugins: ["prettier"],
-  extends: ["plugin:prettier/recommended"],
+  extends: ["plugin:prettier/recommended", "plugin:import/recommended"],
   parserOptions: {
     ecmaVersion: 12,
   },

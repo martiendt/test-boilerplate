@@ -1,16 +1,26 @@
-const express = require("express");
+import { Router } from "express";
+import {
+  create,
+  fetchAll,
+  fetchOne,
+  update,
+  remove,
+  signin,
+  signout,
+  requestPassword,
+  resetPassword,
+} from "./controller/index.js";
 
-const router = express.Router();
-const controller = require("./controller");
+const router = Router();
 
-router.post("/create", controller.create);
-router.get("/", controller.fetchAll);
-router.get("/:id", controller.fetchOne);
-router.put("/:id", controller.update);
-router.delete("/:id", controller.delete);
-router.post("/signin", controller.signin);
-router.post("/signout", controller.signout);
-router.post("/request-password", controller.requestPassword);
-router.post("/reset-password", controller.resetPassword);
+router.post("/", create);
+router.get("/", fetchAll);
+router.get("/:id", fetchOne);
+router.put("/:id", update);
+router.delete("/:id", remove);
+router.post("/signin", signin);
+router.post("/signout", signout);
+router.post("/request-password", requestPassword);
+router.post("/reset-password", resetPassword);
 
-module.exports = router;
+export default router;

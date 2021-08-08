@@ -1,19 +1,22 @@
-const express = require("express");
+import express, { json, urlencoded } from "express";
+import compression from "compression";
+import cors from "cors";
+import helmet from "helmet";
+import router from "./router.js";
+import dotenv from "dotenv-safe";
+
+dotenv.config();
 
 const app = express();
-const compression = require("compression");
-const cors = require("cors");
-const helmet = require("helmet");
-require("dotenv-safe").config();
 
 // gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
 app.use(compression());
 
 // parse json request body
-app.use(express.json());
+app.use(json());
 
 // parse urlencoded request body
-app.use(express.urlencoded({ extended: false }));
+app.use(urlencoded({ extended: false }));
 
 // set security HTTP headers
 app.use(helmet());
@@ -22,6 +25,6 @@ app.use(helmet());
 app.use(cors());
 
 // v1 api routes
-app.use("/v1", require("./router"));
+app.use("/v1", router);
 
-module.exports = app;
+export default app;
