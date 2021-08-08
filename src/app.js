@@ -2,8 +2,8 @@ import express, { json, urlencoded } from "express";
 import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
-import router from "./router.js";
 import dotenv from "dotenv-safe";
+import router from "./router.js";
 
 dotenv.config();
 
