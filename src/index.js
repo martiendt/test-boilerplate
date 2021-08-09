@@ -6,7 +6,9 @@ const server = app
     console.log(`Server listening at http://localhost:${port}`);
   })
   .on("error", (e) => {
-    console.log(`Failed to start server, Port ${port} is taken`);
+    if (e.code === "EADDRINUSE")
+      console.log(`Failed to start server, Port ${port} is taken`);
+    else console.log(e);
   });
 
 export default server;

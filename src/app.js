@@ -2,29 +2,29 @@ import express, { json, urlencoded } from "express";
 import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
-import dotenv from "dotenv-safe";
 import router from "./router.js";
-
-dotenv.config();
+import Connection from "./database/connection.js";
 
 const app = express();
 
-// gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
+// Open connection to mongodb database
+Connection.open();
+
+// Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
 app.use(compression());
 
-// parse json request body
+// Parse json request body
 app.use(json());
 
-// parse urlencoded request body
+// Parse urlencoded request body
 app.use(urlencoded({ extended: false }));
 
-// set security HTTP headers
+// Set security HTTP headers
 app.use(helmet());
 
-// cors
+// Cors
 app.use(cors());
 
-// v1 api routes
+// Api routes version 1
 app.use("/v1", router);
-
 export default app;
