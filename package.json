@@ -35,5 +35,14 @@
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.12",
     "prettier": "2.3.2"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/*.js": [
+      "npm run lint",
+      "git add"
+    ]
   }
 }
