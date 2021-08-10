@@ -3,7 +3,10 @@ import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import router from "./router.js";
+import errorHandler from "./utils/error-handler.js";
+import ApiError from "./utils/api-error.js";
 import Connection from "./database/connection.js";
+import mongodbErrorHandler from "./utils/mongodb-error-handler.js";
 
 const app = express();
 
@@ -27,4 +30,14 @@ app.use(cors());
 
 // Api routes version 1
 app.use("/v1", router);
+
+// Send back a 404 error for any unknown api request
+app.use((req, res, next) => {
+  next(ApiError.notFound());
+});
+
+// Error handler
+app.use(mongodbErrorHandler);
+app.use(errorHandler);
+
 export default app;

@@ -3,17 +3,17 @@ import Connection from "../../../database/connection.js";
 export default async (req, res, next) => {
   try {
     await Connection.open();
-    console.log(Connection.getDatabase());
-    const collection = Connection.getDatabase().collection("files");
 
-    const files = collection.insertOne({
-      a: "b",
-      c: "d",
+    const collection = Connection.getDatabase().collection("admins");
+
+    const result = await collection.insertOne({
+      email: "dokkaebi@gmail.com",
+      username: "daedalius",
+      password: "daedalius",
     });
 
-    res.json({ files: files });
+    res.json({ result });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err });
+    next(err);
   }
 };

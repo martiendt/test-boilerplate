@@ -8,6 +8,7 @@ import {
   create as createAdminCollection,
   drop as dropAdminCollection,
 } from "../modules/admin/admins.schema.js";
+import logger from "../utils/logger/index.js";
 
 class Connection {
   constructor() {
@@ -34,7 +35,7 @@ class Connection {
   async open() {
     await this.client.connect();
     this.database = this.client.db(databaseConfig.name);
-    console.log(`database "${databaseConfig.name}" connected`);
+    logger.info(`Database "${databaseConfig.name}" connected`);
     // Add collections and schema validation
     await this.createCollections();
   }
@@ -42,7 +43,7 @@ class Connection {
   // Close MongoDB connection
   async close() {
     await this.client.close();
-    console.log(`database "${databaseConfig.name}" closed`);
+    logger.info(`Database "${databaseConfig.name}" closed`);
   }
 
   getDatabase() {
