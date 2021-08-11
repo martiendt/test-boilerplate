@@ -1,9 +1,18 @@
 import winston from "winston";
+import "winston-daily-rotate-file";
 
-const { combine, timestamp, printf, json } = winston.format;
+const { combine, timestamp, json } = winston.format;
+
+const dailyRotateTransport = new winston.transports.DailyRotateFile({
+  filename: "logs/application-%DATE%.log",
+  datePattern: "YYYY-MM-DD-HH",
+  zippedArchive: true,
+  maxSize: "20m",
+  maxFiles: "14d",
+});
 
 const logger = winston.createLogger({
-  level: "info",
+  level: "warn",
   format: combine(
     winston.format.colorize(),
     winston.format.errors({ stack: true }),
@@ -11,7 +20,7 @@ const logger = winston.createLogger({
     json()
   ),
   defaultMeta: { service: "boilerplate-service" },
-  transports: [new winston.transports.Console()],
+  transports: [dailyRotateTransport],
 });
 
 export default logger;

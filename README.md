@@ -10,7 +10,8 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 - **Compression** Using gzip compression with [Compression](https://github.com/expressjs/compression)
 - **CORS** Cross-Origin Resource-Sharing enabled using [Cors](https://github.com/expressjs/cors)
 - **Environment Variable** using [dotenv-safe](https://www.npmjs.com/package/dotenv-safe)
-- **Logging** using [...](...)
+- **Logging** using [Winston](https://github.com/winstonjs/winston) and [winston-daily-rotate-file
+](https://www.npmjs.com/package/winston-daily-rotate-file)
 - **Mail Delivery** using [...](...)
 - **NoSQL Database** using  [MongoDB](https://www.mongodb.com/)
 - **Process Manager (development)** using [Nodemon](https://github.com/remy/nodemon)
