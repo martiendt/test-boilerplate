@@ -14,23 +14,19 @@ export default function (error, req, res, next) {
       if (error.code === 121) {
         logger.error(JSON.stringify(error.errInfo));
         const message = "Document failed validation";
-        let errors = [];
+        let errors = {};
         if (error.errInfo) {
           error.errInfo.details.schemaRulesNotSatisfied.forEach((el) => {
             console.log(el);
             if (el.operatorName === "required") {
               el.missingProperties.forEach((property) => {
-                errors.push({
-                  name: property,
-                  reason: "required",
-                });
+                errors[property] = ["required"];
               });
             } else if (el.operatorName === "properties") {
               el.propertiesNotSatisfied.forEach((properties) => {
-                errors.push({
-                  name: properties.propertyName,
-                  reason: properties.details[0].reason,
-                });
+                errors[properties.propertyName] = [
+                  properties.details[0].reason,
+                ];
               });
             }
           });

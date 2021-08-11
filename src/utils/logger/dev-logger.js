@@ -7,6 +7,7 @@ const logFormat = printf(({ level, message, timestamp, stack }) => {
 });
 
 const logger = winston.createLogger({
+  exitOnError: false,
   level: "info",
   format: combine(
     winston.format.colorize(),
