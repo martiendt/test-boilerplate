@@ -116,15 +116,29 @@ export async function fetchAll(req) {
     const limit = Number(req.query.limit) || 10;
     const page = Number(req.query.page) || 1;
 
-    const cursor = Connection.getDatabase()
-      .collection("admins")
+    const collection = Connection.getDatabase().collection("admins");
+    console.log(qsp.filter(req.query.filter));
+
+    const cursor = collection
       .find()
       .filter(qsp.filter(req.query.filter))
       .skip(qsp.skip((page - 1) * limit))
       .limit(qsp.limit(limit))
       .sort(qsp.sort(req.query.sort))
       .project(qsp.fields(req.query.fields, restrictedFields));
-    return await cursor.toArray();
+
+    const result = await cursor.toArray();
+
+    const totalDocument = await collection.countDocuments(
+      qsp.filter(req.query.filter)
+    );
+
+    return {
+      data: result,
+      page: page,
+      totalPerPage: limit,
+      totalDocument: totalDocument,
+    };
   } catch (err) {
     throw new Error(err);
   }

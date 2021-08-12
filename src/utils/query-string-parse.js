@@ -147,7 +147,12 @@ const renameAggregator = (val, keysMap) => {
     return Object.keys(val).reduce((obj, key) => {
       const propKey = renameAggregator(key, keysMap);
       const propVal = renameAggregator(val[key], keysMap);
-      obj[propKey] = propVal;
+      // $regex has to be a string
+      if (propKey === "$regex") {
+        obj[propKey] = propVal.toString();
+      } else {
+        obj[propKey] = propVal;
+      }
       return obj;
     }, {});
   } else if (typeof val === "string") {

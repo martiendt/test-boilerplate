@@ -1,11 +1,11 @@
-class ResponseFormat {
-  constructor(code, message, optional = {}) {
-    this.code = code;
-    this.message = message;
-    if (optional.errors) {
-      this.errors = optional.errors;
-    }
-  }
+export function paginate(result, page, totalPerPage, totalDocument) {
+  return {
+    page: page,
+    totalPerPage: totalPerPage,
+    totalPage: Math.ceil(totalDocument / totalPerPage),
+    totalDocument,
+    data: result,
+  };
 }
 // Path	/api/v1/plugin/scale-weight/trucks
 // Method / Verb : GET / POST
