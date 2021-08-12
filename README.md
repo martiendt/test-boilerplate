@@ -19,10 +19,10 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 - **Secure HTTP Headers** using [Helmet](https://github.com/helmetjs/helmet)
 - **Testing** using [...](...)
 - **Validation** using [ValidatorJS](https://github.com/mikeerickson/validatorjs)
+- Rate Limitter
 
 ## Getting Started
 
 ### Installation
-
 
 ### Quick Start

@@ -1,6 +1,9 @@
+import { fetchAll } from "../admins.model.js";
+
 export default async (req, res, next) => {
   try {
-    res.status(200).json("Fetch All User");
+    const result = await fetchAll(req);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }

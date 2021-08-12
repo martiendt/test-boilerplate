@@ -7,7 +7,7 @@ import {
 import {
   create as createAdminCollection,
   drop as dropAdminCollection,
-} from "../modules/admin/admins.schema.js";
+} from "../modules/admin/admins.model.js";
 import logger from "../utils/logger/index.js";
 
 class Connection {
