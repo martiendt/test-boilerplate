@@ -1,8 +1,12 @@
+import { ObjectId } from "mongodb";
 import Connection from "../../database/connection.js";
 import qsp from "../../utils/query-string-parse.js";
+import JWT from "jsonwebtoken";
+import { authAdminConfig } from "../../config/auth.js";
 
 const collectionName = "admins";
-const restrictedFields = ["password", "emailVerificationCode"];
+
+export const restrictedFields = ["password", "emailVerificationCode"];
 
 export async function create(database) {
   try {
@@ -103,6 +107,7 @@ export async function create(database) {
     throw new Error(error);
   }
 }
+
 export async function drop(database) {
   try {
     await database.collection(collectionName).drop();
@@ -111,26 +116,35 @@ export async function drop(database) {
   }
 }
 
-export async function fetchAll(req) {
+export async function fetchAll(
+  query,
+  options = {
+    includeRestrictedFields: false,
+  }
+) {
   try {
-    const limit = Number(req.query.limit) || 10;
-    const page = Number(req.query.page) || 1;
+    const limit = Number(query.limit) || 10;
+    const page = Number(query.page) || 1;
 
     const collection = Connection.getDatabase().collection("admins");
-    console.log(qsp.filter(req.query.filter));
 
     const cursor = collection
       .find()
-      .filter(qsp.filter(req.query.filter))
+      .filter(qsp.filter(query.filter))
       .skip(qsp.skip((page - 1) * limit))
       .limit(qsp.limit(limit))
-      .sort(qsp.sort(req.query.sort))
-      .project(qsp.fields(req.query.fields, restrictedFields));
+      .sort(qsp.sort(query.sort))
+      .project(
+        qsp.fields(
+          query.fields,
+          options.includeRestrictedFields === false ? restrictedFields : []
+        )
+      );
 
     const result = await cursor.toArray();
 
     const totalDocument = await collection.countDocuments(
-      qsp.filter(req.query.filter)
+      qsp.filter(query.filter)
     );
 
     return {
@@ -144,20 +158,48 @@ export async function fetchAll(req) {
   }
 }
 
-export async function fetchOne() {
-  try {
-    // allowed fields to select
-    const allowedFields = ["username", "email", "password"];
-    console.log("HAL");
-    const result = await Connection.getDatabase()
-      .collection("admins")
-      .findOne();
-    console.log("NBE");
-    console.log(result);
-
-    return result;
-  } catch (err) {
-    console.log(err);
-    return new Error(err);
+export async function fetchOne(
+  id,
+  query = {},
+  options = {
+    includeRestrictedFields: false,
   }
+) {
+  try {
+    const collection = Connection.getDatabase().collection("admins");
+
+    const cursor = collection
+      .find()
+      .filter({
+        _id: ObjectId(id),
+      })
+      .project(
+        qsp.fields(
+          query.fields,
+          options.includeRestrictedFields === false ? restrictedFields : []
+        )
+      );
+
+    const result = await cursor.toArray();
+
+    return result.length > 0 ? result[0] : {};
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function verifyPassword() {}
+
+export async function verifyEmailValidation() {}
+
+export function signNewToken(id) {
+  return JWT.sign(
+    {
+      iss: "checkin",
+      sub: id,
+      iat: new Date().getTime(),
+      exp: new Date().setDate(new Date().getDate() + 30),
+    },
+    authAdminConfig.secret
+  );
 }

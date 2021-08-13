@@ -48,13 +48,11 @@ export default async (req, res, next) => {
       createdAt: createdAt,
     });
 
-    console.log(result);
-
     // sign new token
     const token = JWT.sign(
       {
         iss: "express-api-boilerplate",
-        sub: result.result.insertedId,
+        sub: result.insertedId,
         iat: new Date().getTime(),
         exp: new Date().setDate(new Date().getDate() + 30),
       },

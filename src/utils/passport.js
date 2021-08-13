@@ -1,22 +1,25 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-const { authUserConfig } = require("../config/auth");
-const User = require("../module/users/services");
-const bcrypt = require("bcrypt");
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import { authAdminConfig } from "../config/auth.js";
+import { compare } from "bcrypt";
+import {
+  fetchAll as fetchAllAdmin,
+  restrictedFields as restrictedFieldsAdmin,
+} from "../modules/admin/admins.model.js";
 
 passport.use(
+  "jwt-admin",
   new JwtStrategy(
     {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: authUserConfig.secret,
+      secretOrKey: authAdminConfig.secret,
     },
     async (payload, done) => {
       try {
         // find user token
-        const user = await User.find(payload.sub);
-        // handle if user doens't exists
+        const user = await find(payload.sub);
+        // handle if user doesn't exists
         if (!user) {
           return done(null, false);
         }
@@ -30,6 +33,7 @@ passport.use(
 );
 
 passport.use(
+  "local-admin",
   new LocalStrategy(
     {
       usernameField: "email",
@@ -37,27 +41,30 @@ passport.use(
     },
     async (username, password, done) => {
       try {
-        // find correct user
+        // find correct admin
         // return empty array when username not found
-        const user = await Auth.get({
-          filter: {
-            email: username,
+        let admin = await fetchAllAdmin(
+          {
+            filter: {
+              email: username,
+            },
           },
-        });
-        // handle if user doesn't exists
-        if (user.length === 0) {
+          {
+            includeRestrictedFields: true,
+          }
+        );
+        // handle if admin doesn't exists
+        if (admin.length === 0) {
           return done(null, false);
         }
         // handle wrong password
-        const isPasswordMatch = await bcrypt.compare(
-          password,
-          user[0].password
-        );
+        admin = admin.data[0];
+        const isPasswordMatch = await compare(password, admin.password);
         if (!isPasswordMatch) {
           return done(null, false);
         }
-        // return user
-        done(null, user);
+        // return admin
+        done(null, admin);
       } catch (error) {
         done(error, false);
       }

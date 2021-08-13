@@ -1,6 +1,17 @@
+import { fetchOne } from "../admins.model.js";
+import { constants } from "http2";
+
 export default async (req, res, next) => {
   try {
-    res.status(200).json("Fetch One User");
+    const result = await fetchOne(req.params.id, req.query);
+
+    if (Object.keys(result).length === 0) {
+      return res.status(constants.HTTP_STATUS_NO_CONTENT).json();
+    }
+
+    res.status(constants.HTTP_STATUS_OK).json({
+      data: result,
+    });
   } catch (error) {
     next(error);
   }
