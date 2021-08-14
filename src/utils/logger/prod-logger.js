@@ -13,7 +13,7 @@ const dailyRotateTransport = new winston.transports.DailyRotateFile({
 
 const logger = winston.createLogger({
   exitOnError: false,
-  level: "warn",
+  level: "error",
   format: combine(
     winston.format.colorize(),
     winston.format.errors({ stack: true }),

@@ -129,8 +129,12 @@ export async function fetchAll(
 
     const collection = Connection.getDatabase().collection("admins");
 
+    console.log(`query id ${query._id}`);
+
     const cursor = collection
-      .find()
+      .find({
+        _id: query._id,
+      })
       .filter(qsp.filter(query.filter))
       .skip(qsp.skip((page - 1) * limit))
       .limit(qsp.limit(limit))
@@ -170,8 +174,7 @@ export async function fetchOne(
     const collection = Connection.getDatabase().collection("admins");
 
     const cursor = collection
-      .find()
-      .filter({
+      .find({
         _id: ObjectId(id),
       })
       .project(

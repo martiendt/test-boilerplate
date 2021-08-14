@@ -4,7 +4,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { authAdminConfig } from "../config/auth.js";
 import {
   fetchAll as fetchAllAdmin,
-  restrictedFields as restrictedFieldsAdmin,
+  fetchOne as fetchOneAdmin,
   verifyPassword as verifyPasswordAdmin,
 } from "../modules/admin/admin.model.js";
 
@@ -17,14 +17,10 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        // find user token
-        const user = await find(payload.sub);
-        // handle if user doesn't exists
-        if (!user) {
-          return done(null, false);
-        }
-        // return user
-        done(null, user);
+        // find user from token
+        let admin = await fetchOneAdmin(payload.sub);
+
+        done(null, admin ?? false);
       } catch (error) {
         done(error, false);
       }

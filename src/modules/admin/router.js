@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authAdminLocal } from "../../utils/auth.js";
+import { authAdminLocal, authAdminJwt } from "../../utils/auth.js";
 import {
   create,
   fetchAll,
@@ -20,11 +20,11 @@ const router = Router();
 const use = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch((e) => next(e));
 
-router.post("/", create);
-router.get("/", fetchAll);
-router.get("/:id", fetchOne);
-router.put("/:id", update);
-router.delete("/:id", remove);
+router.post("/", authAdminJwt, create);
+router.get("/", authAdminJwt, fetchAll);
+router.get("/:id", authAdminJwt, fetchOne);
+router.put("/:id", authAdminJwt, update);
+router.delete("/:id", authAdminJwt, remove);
 router.post("/signin", authAdminLocal, signin);
 router.post("/signout", signout);
 router.post("/request-password", requestPassword);
