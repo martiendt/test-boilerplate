@@ -1,4 +1,4 @@
-import { fetchAll } from "../admins.model.js";
+import { fetchAll } from "../admin.model.js";
 import { paginate } from "../../../utils/response-format.js";
 import { constants } from "http2";
 

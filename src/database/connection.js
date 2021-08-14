@@ -3,11 +3,11 @@ import databaseConfig from "../config/database.js";
 import {
   create as createUserCollection,
   drop as dropUserCollection,
-} from "../modules/user/users.schema.js";
+} from "../modules/user/user.model.js";
 import {
   create as createAdminCollection,
   drop as dropAdminCollection,
-} from "../modules/admin/admins.model.js";
+} from "../modules/admin/admin.model.js";
 import logger from "../utils/logger/index.js";
 
 class Connection {

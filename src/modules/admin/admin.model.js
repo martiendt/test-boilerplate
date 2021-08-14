@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import Connection from "../../database/connection.js";
 import qsp from "../../utils/query-string-parse.js";
 import JWT from "jsonwebtoken";
+import { compare } from "bcrypt";
 import { authAdminConfig } from "../../config/auth.js";
 
 const collectionName = "admins";
@@ -188,14 +189,16 @@ export async function fetchOne(
   }
 }
 
-export async function verifyPassword() {}
+export async function verifyPassword(passwordInput, passwordDb) {
+  return await compare(passwordInput, passwordDb);
+}
 
 export async function verifyEmailValidation() {}
 
 export function signNewToken(id) {
   return JWT.sign(
     {
-      iss: "checkin",
+      iss: "express-api-boilerplate",
       sub: id,
       iat: new Date().getTime(),
       exp: new Date().setDate(new Date().getDate() + 30),

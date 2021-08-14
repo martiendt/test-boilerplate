@@ -1,5 +1,5 @@
 import { Router } from "express";
-import passport from "passport";
+import { authAdminLocal } from "../../utils/auth.js";
 import {
   create,
   fetchAll,
@@ -25,11 +25,7 @@ router.get("/", fetchAll);
 router.get("/:id", fetchOne);
 router.put("/:id", update);
 router.delete("/:id", remove);
-router.post(
-  "/signin",
-  passport.authenticate("local-admin", { session: false, failWithError: true }),
-  signin
-);
+router.post("/signin", authAdminLocal, signin);
 router.post("/signout", signout);
 router.post("/request-password", requestPassword);
 router.post("/reset-password", resetPassword);

@@ -58,8 +58,9 @@ export default async (req, res, next) => {
       },
       authAdminConfig.secret
     );
-
-    handleResponse(res, result);
+    res.json({
+      data: { _id: result.insertedId, token: token },
+    });
   } catch (err) {
     next(err);
   }

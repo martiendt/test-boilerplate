@@ -2,11 +2,11 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { authAdminConfig } from "../config/auth.js";
-import { compare } from "bcrypt";
 import {
   fetchAll as fetchAllAdmin,
   restrictedFields as restrictedFieldsAdmin,
-} from "../modules/admin/admins.model.js";
+  verifyPassword as verifyPasswordAdmin,
+} from "../modules/admin/admin.model.js";
 
 passport.use(
   "jwt-admin",
@@ -38,8 +38,10 @@ passport.use(
     {
       usernameField: "email",
       passwordField: "password",
+      session: false,
     },
     async (username, password, done) => {
+      console.log("test");
       try {
         // find correct admin
         // return empty array when username not found
@@ -54,17 +56,15 @@ passport.use(
           }
         );
         // handle if admin doesn't exists
-        if (admin.length === 0) {
+        if (admin.data.length === 0) {
           return done(null, false);
         }
         // handle wrong password
-        admin = admin.data[0];
-        const isPasswordMatch = await compare(password, admin.password);
-        if (!isPasswordMatch) {
+        if (!(await verifyPasswordAdmin(password, admin.data[0].password))) {
           return done(null, false);
         }
         // return admin
-        done(null, admin);
+        done(null, admin.data[0]);
       } catch (error) {
         done(error, false);
       }

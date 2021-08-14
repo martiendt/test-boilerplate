@@ -1,9 +1,10 @@
 {
   "name": "@point-hub/express-api-boilerplate",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Express API Boilerplate",
   "main": "index.js",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",

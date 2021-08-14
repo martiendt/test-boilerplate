@@ -1,5 +1,6 @@
 import ApiError from "./api-error.js";
 import logger from "./logger/index.js";
+import { STATUS_CODES } from "http";
 import { constants } from "http2";
 
 export default function (error, req, res, next) {
@@ -7,10 +8,18 @@ export default function (error, req, res, next) {
     return res.status(error.code).json({ error });
   }
 
-  // Log unknown error
-  logger.error(error);
+  if (error.status === constants.HTTP_STATUS_UNAUTHORIZED) {
+    return res.status(constants.HTTP_STATUS_UNAUTHORIZED).json({
+      error: { message: STATUS_CODES[constants.HTTP_STATUS_UNAUTHORIZED] },
+    });
+  }
 
-  return res
-    .status(constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
-    .json({ error: { message: "Internal Server Error" } });
+  // Log unknown error
+  logger.error(error.name);
+
+  return res.status(constants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json({
+    error: {
+      message: STATUS_CODES[constants.HTTP_STATUS_INTERNAL_SERVER_ERROR],
+    },
+  });
 }

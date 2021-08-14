@@ -12,14 +12,15 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 - **Environment Variable** using [dotenv-safe](https://www.npmjs.com/package/dotenv-safe)
 - **Logging** using [Winston](https://github.com/winstonjs/winston) and [winston-daily-rotate-file
 ](https://www.npmjs.com/package/winston-daily-rotate-file)
-- **Mail Delivery** using [...](...)
+- **Mail Delivery** using [NodeMailer](...)
+- **Module Alias** using [Module Alias](...)
 - **NoSQL Database** using  [MongoDB](https://www.mongodb.com/)
 - **Process Manager (development)** using [Nodemon](https://github.com/remy/nodemon)
 - **Process Manager (production)** using [PM2](https://pm2.keymetrics.io/)
 - **Secure HTTP Headers** using [Helmet](https://github.com/helmetjs/helmet)
-- **Testing** using [...](...)
+- **Testing** using [Jest](...)
 - **Validation** using [ValidatorJS](https://github.com/mikeerickson/validatorjs)
-- Rate Limitter
+- **Rate Limitter** using [...](...)
 
 ## Getting Started
 
