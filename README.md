@@ -13,7 +13,6 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 - **Logging** using [Winston](https://github.com/winstonjs/winston) and [winston-daily-rotate-file
 ](https://www.npmjs.com/package/winston-daily-rotate-file)
 - **Mail Delivery** using [NodeMailer](...)
-- **Module Alias** using [Module Alias](...)
 - **NoSQL Database** using  [MongoDB](https://www.mongodb.com/)
 - **Process Manager (development)** using [Nodemon](https://github.com/remy/nodemon)
 - **Process Manager (production)** using [PM2](https://pm2.keymetrics.io/)

@@ -1,5 +1,5 @@
 import { fetchAll } from "../admin.model.js";
-import { paginate } from "../../../utils/response-format.js";
+import { paginate } from "#src/utils/response-format.js";
 import { constants } from "http2";
 
 export default async (req, res, next) => {

@@ -1,14 +1,14 @@
 import { MongoClient } from "mongodb";
-import databaseConfig from "../config/database.js";
+import databaseConfig from "#src/config/database.js";
 import {
   create as createUserCollection,
   drop as dropUserCollection,
-} from "../modules/user/user.model.js";
+} from "#src/modules/user/user.model.js";
 import {
   create as createAdminCollection,
   drop as dropAdminCollection,
-} from "../modules/admin/admin.model.js";
-import logger from "../utils/logger/index.js";
+} from "#src/modules/admin/admin.model.js";
+import logger from "#src/utils/logger/index.js";
 
 class Connection {
   constructor() {
