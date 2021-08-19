@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authAdminLocal, authAdminJwt } from "../../utils/auth.js";
+import { authAdminLocal, authAdminJwt } from "#src/utils/auth.js";
 import {
   create,
   fetchAll,

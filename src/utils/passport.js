@@ -1,12 +1,12 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import { authAdminConfig } from "../config/auth.js";
+import { authAdminConfig } from "#src/config/auth.js";
 import {
   fetchAll as fetchAllAdmin,
   fetchOne as fetchOneAdmin,
   verifyPassword as verifyPasswordAdmin,
-} from "../modules/admin/admin.model.js";
+} from "#src/modules/admin/admin.model.js";
 
 passport.use(
   "jwt-admin",
