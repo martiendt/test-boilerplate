@@ -1,9 +1,9 @@
 import { ObjectId } from "mongodb";
-import Connection from "../../database/connection.js";
-import qsp from "../../utils/query-string-parse.js";
+import Connection from "#src/database/connection.js";
+import qsp from "#src/utils/query-string-parse.js";
 import JWT from "jsonwebtoken";
 import { compare } from "bcrypt";
-import { authAdminConfig } from "../../config/auth.js";
+import { authAdminConfig } from "#src/config/auth.js";
 
 const collectionName = "admins";
 
@@ -128,8 +128,6 @@ export async function fetchAll(
     const page = Number(query.page) || 1;
 
     const collection = Connection.getDatabase().collection("admins");
-
-    console.log(`query id ${query._id}`);
 
     const cursor = collection
       .find({

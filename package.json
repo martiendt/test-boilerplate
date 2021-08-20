@@ -17,7 +17,8 @@
     "express",
     "expressjs",
     "boilerplate",
-    "api"
+    "api",
+    "mongodb"
   ],
   "author": "Martien Dermawan Tanama <martien@pointhub.net> (https://www.pointhub.net)",
   "license": "ISC",

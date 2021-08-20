@@ -7,9 +7,11 @@ yarn-error.log*
 
 # Envorinment variable
 .env
-.env.test
-.env.production
+.env.development.local
+.env.testing.local
 
 # Npm
 node_modules
 package-lock.json
+
+coverage

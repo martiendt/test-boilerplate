@@ -1,11 +1,11 @@
-import Connection from "../../../database/connection.js";
-import handleResponse from "../../../utils/response-handler.js";
-import ApiError from "../../../utils/api-error.js";
+import Connection from "#src/database/connection.js";
+import handleResponse from "#src/utils/response-handler.js";
+import ApiError from "#src/utils/api-error.js";
 import Validator from "validatorjs";
 import JWT from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { authAdminConfig } from "../../../config/auth.js";
+import { authAdminConfig } from "#src/config/auth.js";
 
 function validateRequest(data) {
   const rules = {

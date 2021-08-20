@@ -1,8 +1,4 @@
-import dotenv from "dotenv-safe";
-
-dotenv.config({
-  allowEmptyValues: true,
-});
+import "./environment.js";
 
 export const authAdminConfig = {
   secret: process.env.AUTH_ADMIN_SECRET || "secret",

@@ -37,7 +37,6 @@ passport.use(
       session: false,
     },
     async (username, password, done) => {
-      console.log("test");
       try {
         // find correct admin
         // return empty array when username not found

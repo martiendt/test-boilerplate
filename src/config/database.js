@@ -1,8 +1,4 @@
-import dotenv from "dotenv-safe";
-
-dotenv.config({
-  allowEmptyValues: true,
-});
+import "./environment.js";
 
 const database = {
   host: process.env.DB_HOST || "mongodb://127.0.0.1:27017",

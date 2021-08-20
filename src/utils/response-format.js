@@ -7,6 +7,7 @@ export function paginate(result, page, totalPerPage, totalDocument) {
     data: result,
   };
 }
+
 // Path	/api/v1/plugin/scale-weight/trucks
 // Method / Verb : GET / POST
 // Status	500

@@ -7,11 +7,12 @@ import errorHandler from "./utils/error-handler.js";
 import ApiError from "./utils/api-error.js";
 import Connection from "./database/connection.js";
 import mongodbErrorHandler from "./utils/mongodb-error-handler.js";
+import "#src/config/environment.js";
 
 const app = express();
 
 // Open connection to mongodb database
-Connection.open();
+if (process.env.NODE_ENV === "test") Connection.open();
 
 // Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
 app.use(compression());
