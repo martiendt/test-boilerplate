@@ -17,7 +17,7 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 - **Process Manager (development)** using [Nodemon](https://github.com/remy/nodemon)
 - **Process Manager (production)** using [PM2](https://pm2.keymetrics.io/)
 - **Secure HTTP Headers** using [Helmet](https://github.com/helmetjs/helmet)
-- **Testing** using [Jest](...)
+- **Testing** using [Jest](https://jestjs.io/) [Supertest](https://www.npmjs.com/package/supertest) 
 - **Validation** using [ValidatorJS](https://github.com/mikeerickson/validatorjs)
 - **Rate Limitter** using [...](...)
 

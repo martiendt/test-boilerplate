@@ -7,8 +7,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/index.js",
-    "test": "NODE_ENV=test",
-    "test:coverage": "NODE_ENV=test",
+    "test": "NODE_ENV=test jest",
+    "test:coverage": "NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",
     "lint:fix": "eslint ./src/* --fix"
   },
@@ -40,11 +40,13 @@
     "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.15.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-custom-alias": "^1.2.0",
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
     "nodemon": "^2.0.12",
     "prettier": "2.3.2"
   },
