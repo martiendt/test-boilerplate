@@ -7,8 +7,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/index.js",
-    "test": "NODE_ENV=test jest",
-    "test:coverage": "NODE_ENV=test jest --coverage",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",
     "lint:fix": "eslint ./src/* --fix"
   },
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.15.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-custom-alias": "^1.2.0",
