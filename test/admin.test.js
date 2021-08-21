@@ -1,5 +1,3 @@
-import chai, { expect } from "chai";
-import chaiHttp from "chai-http";
 import Connection from "#src/database/connection.js";
 
 chai.use(chaiHttp);
@@ -8,8 +6,8 @@ describe("Admin", () => {
   describe("Signup", () => {
     before(async function () {
       // runs once before the first test in this block
-      // await Connection.open();
-      // await Connection.createCollection();
+      await Connection.open();
+      await Connection.createCollection();
     });
 
     it("should return -1 when the value is not present", async () => {
