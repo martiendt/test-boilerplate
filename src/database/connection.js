@@ -56,8 +56,8 @@ class Connection {
    * Create new collection if not exists and any schema validation or indexes
    */
   async createCollections() {
-    createAdminCollection(this.database);
-    createUserCollection(this.database);
+    await createAdminCollection(this.database);
+    await createUserCollection(this.database);
   }
 
   /**
@@ -67,8 +67,8 @@ class Connection {
    * So every test can generate fresh database
    */
   async dropCollections() {
-    dropAdminCollection(this.database);
-    dropUserCollection(this.database);
+    await dropAdminCollection(this.database);
+    await dropUserCollection(this.database);
   }
 }
 
