@@ -36,8 +36,6 @@ class Connection {
     await this.client.connect();
     this.database = this.client.db(databaseConfig.name);
     logger.info(`Database "${databaseConfig.name}" connected`);
-    // Add collections and schema validation
-    await this.createCollections();
   }
 
   // Close MongoDB connection

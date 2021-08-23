@@ -12,7 +12,11 @@ import "#src/config/environment.js";
 const app = express();
 
 // Open connection to mongodb database
-if (process.env.NODE_ENV !== "test") Connection.open();
+if (process.env.NODE_ENV !== "test")
+  Connection.open().then(async () => {
+    // Add collections and schema validation
+    await Connection.createCollections();
+  });
 
 // Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
 app.use(compression());

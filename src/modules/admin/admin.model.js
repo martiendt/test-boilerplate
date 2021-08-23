@@ -124,8 +124,8 @@ export async function fetchAll(
   }
 ) {
   try {
-    const limit = Number(query.limit) || 10;
-    const page = Number(query.page) || 1;
+    const page = Number(query.page ?? 1);
+    const limit = Number(query.limit ?? 10);
 
     const collection = Connection.getDatabase().collection("admins");
 
