@@ -36,32 +36,45 @@ export default async (req, res, next) => {
 
     const collection = Connection.getDatabase().collection("admins");
 
-    const result = await collection.insertOne({
-      email: req.body.email.toLowerCase(),
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      username: req.body.username.toLowerCase(),
-      password: hashPassword,
-      // system generated value
-      emailVerified: false,
-      emailVerificationCode: emailVerficicationCode,
-      createdAt: createdAt,
-    });
+    await Connection.startSession();
 
-    // sign new token
-    const token = JWT.sign(
-      {
-        iss: "express-api-boilerplate",
-        sub: result.insertedId,
-        iat: new Date().getTime(),
-        exp: new Date().setDate(new Date().getDate() + 30),
-      },
-      authAdminConfig.secret
-    );
-    res.status(201).json({
-      data: { _id: result.insertedId, token: token },
-    });
+    await Connection.session.withTransaction(async () => {
+      const result = await collection.insertOne(
+        {
+          email: req.body.email.toLowerCase(),
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          username: req.body.username.toLowerCase(),
+          password: hashPassword,
+          // system generated value
+          emailVerified: false,
+          emailVerificationCode: emailVerficicationCode,
+          createdAt: createdAt,
+        },
+        {
+          session: Connection.session,
+        }
+      );
+
+      await Connection.commitTransaction();
+
+      // sign new token
+      const token = JWT.sign(
+        {
+          iss: "express-api-boilerplate",
+          sub: result.insertedId,
+          iat: new Date().getTime(),
+          exp: new Date().setDate(new Date().getDate() + 30),
+        },
+        authAdminConfig.secret
+      );
+      res.status(201).json({
+        data: { _id: result.insertedId, token: token },
+      });
+    }, Connection.transactionOptions);
   } catch (err) {
     next(err);
+  } finally {
+    // await Connection.endSession();
   }
 };

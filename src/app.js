@@ -9,40 +9,40 @@ import Connection from "./database/connection.js";
 import mongodbErrorHandler from "./utils/mongodb-error-handler.js";
 import "#src/config/environment.js";
 
-const app = express();
+export default function () {
+  const app = express();
+  // Open connection to mongodb database
+  if (process.env.NODE_ENV !== "test")
+    Connection.open().then(async () => {
+      // Add collections and schema validation
+      await Connection.createCollections();
+    });
+  // Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
+  app.use(compression());
+  console.log("ASDS");
+  // Parse json request body
+  app.use(json());
 
-// Open connection to mongodb database
-if (process.env.NODE_ENV !== "test")
-  Connection.open().then(async () => {
-    // Add collections and schema validation
-    await Connection.createCollections();
+  // Parse urlencoded request body
+  app.use(urlencoded({ extended: false }));
+
+  // Set security HTTP headers
+  app.use(helmet());
+
+  // Cors
+  app.use(cors());
+
+  // Api routes version 1
+  app.use("/v1", router);
+
+  // Send back a 404 error for any unknown api request
+  app.use((req, res, next) => {
+    next(ApiError.notFound());
   });
 
-// Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
-app.use(compression());
+  // Error handler
+  app.use(mongodbErrorHandler);
+  app.use(errorHandler);
 
-// Parse json request body
-app.use(json());
-
-// Parse urlencoded request body
-app.use(urlencoded({ extended: false }));
-
-// Set security HTTP headers
-app.use(helmet());
-
-// Cors
-app.use(cors());
-
-// Api routes version 1
-app.use("/v1", router);
-
-// Send back a 404 error for any unknown api request
-app.use((req, res, next) => {
-  next(ApiError.notFound());
-});
-
-// Error handler
-app.use(mongodbErrorHandler);
-app.use(errorHandler);
-
-export default app;
+  return app;
+}

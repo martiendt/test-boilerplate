@@ -4,7 +4,7 @@ import { port } from "./config/server.js";
 
 const configPort = port || 3000;
 
-const server = app
+const server = app()
   .listen(configPort, () => {
     logger.info(`Server listening at http://localhost:${configPort}`);
   })

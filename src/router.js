@@ -1,9 +1,23 @@
 import express from "express";
 import adminRoutes from "./modules/admin/router.js";
 import userRoutes from "./modules/user/router.js";
-import "./utils/passport.js";
+import {
+  passportAdminLocal,
+  passportAdminJwt,
+} from "#src/middleware/auth/passport.js";
+import {
+  fetchAll as fetchAllAdmin,
+  fetchOne as fetchOneAdmin,
+  verifyPassword as verifyPasswordAdmin,
+} from "#src/modules/admin/admin.model.js";
 
 const app = express();
+
+/**
+ * Import Passport for authentication
+ */
+passportAdminLocal(fetchAllAdmin, verifyPasswordAdmin);
+passportAdminJwt(fetchOneAdmin);
 
 /**
  * Get Client IP
@@ -13,6 +27,9 @@ const app = express();
  */
 app.set("trust proxy", true);
 
+/**
+ * All available module routes
+ */
 app.use("/admin", adminRoutes);
 app.use("/users", userRoutes);
 

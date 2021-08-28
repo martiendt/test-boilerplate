@@ -29,6 +29,12 @@ class Connection {
       useUnifiedTopology: true,
     };
     this.client = new MongoClient(uri, options);
+
+    this.transactionOptions = {
+      readPreference: "primary",
+      readConcern: { level: "local" },
+      writeConcern: { w: "majority" },
+    };
   }
 
   // Open MongoDB connection
@@ -46,6 +52,22 @@ class Connection {
 
   getDatabase() {
     return this.database;
+  }
+
+  startSession(session = "session") {
+    this[session] = this.client.startSession();
+  }
+
+  async commitTransaction(session = "session") {
+    await this[session].commitTransaction();
+  }
+
+  async abortTransaction(session = "session") {
+    await this[session].abortTransaction();
+  }
+
+  async endSession(session = "session") {
+    await this[session].endSession();
   }
 
   /**

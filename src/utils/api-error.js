@@ -14,7 +14,7 @@ class ApiError {
     return new ApiError(constants.HTTP_STATUS_BAD_REQUEST, message);
   }
 
-  static unauthorized(message) {
+  static unauthorized(message = "unauthorized") {
     return new ApiError(constants.HTTP_STATUS_UNAUTHORIZED, message);
   }
 

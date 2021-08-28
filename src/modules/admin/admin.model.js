@@ -9,6 +9,11 @@ const collectionName = "admins";
 
 export const restrictedFields = ["password", "emailVerificationCode"];
 
+/**
+ * Create & Drop Collection Schema
+ * ===============================
+ */
+
 export async function create(database) {
   try {
     const collections = await database.listCollections().toArray();
@@ -119,9 +124,7 @@ export async function drop(database) {
 
 export async function fetchAll(
   query,
-  options = {
-    includeRestrictedFields: false,
-  }
+  options = { includeRestrictedFields: false }
 ) {
   try {
     const page = Number(query.page ?? 1);
@@ -161,6 +164,10 @@ export async function fetchAll(
   }
 }
 
+/**
+ * Fetch one data
+ * @public
+ */
 export async function fetchOne(
   id,
   query = {},
@@ -189,6 +196,11 @@ export async function fetchOne(
     throw new Error(err);
   }
 }
+
+/**
+ * Helper Function
+ * ===============
+ */
 
 export async function verifyPassword(passwordInput, passwordDb) {
   return await compare(passwordInput, passwordDb);

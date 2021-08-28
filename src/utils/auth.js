@@ -1,6 +1,6 @@
 import passport from "passport";
 
-export const authAdminLocal = passport.authenticate("local-admin", {
+export const authAdminLocal = passport.authenticate("admin-local", {
   failWithError: true,
   session: false,
 });
