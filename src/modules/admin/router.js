@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authAdminLocal, authAdminJwt } from "#src/middleware/auth/index.js";
+import passport from "passport";
 import {
   create,
   fetchAll,
@@ -11,7 +11,7 @@ import {
   requestPassword,
   resetPassword,
 } from "./controller/index.js";
-
+import { authAdminLocal, authAdminJwt } from "#src/middleware/auth/index.js";
 const router = Router();
 
 // Caller function for global error handling
@@ -20,14 +20,17 @@ const router = Router();
 const use = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch((e) => next(e));
 
-router.post("/", authAdminJwt, create);
-router.get("/", authAdminJwt, fetchAll);
-router.get("/:id", authAdminJwt, fetchOne);
-router.put("/:id", authAdminJwt, update);
-router.delete("/:id", authAdminJwt, remove);
-router.post("/signin", authAdminLocal, signin);
+router.post("/", authAdminJwt(), create);
+router.get("/", authAdminJwt(), fetchAll);
+router.get("/:id", authAdminJwt(), fetchOne);
+router.put("/:id", authAdminJwt(), update);
+router.delete("/:id", authAdminJwt(), remove);
+router.post("/signin", authAdminLocal(), signin);
 router.post("/signout", signout);
 router.post("/request-password", requestPassword);
 router.post("/reset-password", resetPassword);
+router.post("/secret", authAdminJwt(), (req, res, next) => {
+  res.json(req.user);
+});
 
 export default router;
