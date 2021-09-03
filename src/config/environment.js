@@ -6,16 +6,16 @@
 import * as fs from "fs";
 import dotenv from "dotenv-safe";
 
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
-dotenv.config({
-  allowEmptyValues: true,
-  path:
-    process.env.NODE_ENV === "production"
-      ? ".env"
-      : fs.existsSync(`.env.${process.env.NODE_ENV}.local`)
-      ? `.env.${process.env.NODE_ENV}.local`
-      : `.env.${process.env.NODE_ENV}`,
-});
+export function setupEnvironment(env = "development") {
+  dotenv.config({
+    allowEmptyValues: true,
+    path:
+      env === "production"
+        ? ".env"
+        : fs.existsSync(`.env.${env}.local`)
+        ? `.env.${env}.local`
+        : `.env.${env}`,
+  });
+}
 
 export default dotenv;

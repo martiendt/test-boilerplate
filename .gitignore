@@ -7,8 +7,7 @@ yarn-error.log*
 
 # Envorinment variable
 .env
-.env.development.local
-.env.testing.local
+.env.**.local
 
 # Npm
 node_modules
