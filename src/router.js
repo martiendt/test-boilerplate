@@ -5,19 +5,14 @@ import {
   passportAdminLocal,
   passportAdminJwt,
 } from "#src/middleware/auth/passport.js";
-import {
-  fetchAll as fetchAllAdmin,
-  fetchOne as fetchOneAdmin,
-  verifyPassword as verifyPasswordAdmin,
-} from "#src/modules/admin/admin.model.js";
 
 const app = express();
 
 /**
  * Import Passport for authentication
  */
-passportAdminLocal(fetchAllAdmin, verifyPasswordAdmin);
-passportAdminJwt(fetchOneAdmin);
+passportAdminLocal();
+passportAdminJwt();
 
 /**
  * Get Client IP

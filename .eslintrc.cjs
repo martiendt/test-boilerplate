@@ -5,7 +5,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  plugins: ["prettier"],
+  plugins: ["prettier", "import"],
   extends: ["plugin:prettier/recommended", "plugin:import/recommended"],
   parserOptions: {
     ecmaVersion: 12,
@@ -13,6 +13,21 @@ module.exports = {
   },
   rules: {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
+    "import/order": [
+      "error",
+      {
+        alphabetize: {
+          order: "asc",
+          caseInsensitive: false,
+        },
+        pathGroups: [
+          {
+            pattern: "~/**",
+            group: "external",
+          },
+        ],
+      },
+    ],
   },
   settings: {
     "import/resolver": {

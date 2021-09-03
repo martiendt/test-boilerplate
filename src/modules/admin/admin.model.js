@@ -1,9 +1,9 @@
+import { compare } from "bcrypt";
+import JWT from "jsonwebtoken";
 import { ObjectId } from "mongodb";
+import { authAdminConfig } from "#src/config/auth.js";
 import Connection from "#src/database/connection.js";
 import qsp from "#src/utils/query-string-parse.js";
-import JWT from "jsonwebtoken";
-import { compare } from "bcrypt";
-import { authAdminConfig } from "#src/config/auth.js";
 
 const collectionName = "admins";
 
@@ -166,6 +166,11 @@ export async function fetchAll(
 
 /**
  * Fetch one data
+ *
+ * @param {String} id
+ * @param {Object} query
+ * @param {Object} options
+ * @return {Object}
  * @public
  */
 export async function fetchOne(
@@ -195,27 +200,4 @@ export async function fetchOne(
   } catch (err) {
     throw new Error(err);
   }
-}
-
-/**
- * Helper Function
- * ===============
- */
-
-export async function verifyPassword(passwordInput, passwordDb) {
-  return await compare(passwordInput, passwordDb);
-}
-
-export async function verifyEmailValidation() {}
-
-export function signNewToken(id) {
-  return JWT.sign(
-    {
-      iss: "express-api-boilerplate",
-      sub: id,
-      iat: new Date().getTime(),
-      exp: new Date().setDate(new Date().getDate() + 30),
-    },
-    authAdminConfig.secret
-  );
 }

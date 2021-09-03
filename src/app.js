@@ -19,7 +19,7 @@ export default function () {
     });
   // Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
   app.use(compression());
-  console.log("ASDS");
+
   // Parse json request body
   app.use(json());
 

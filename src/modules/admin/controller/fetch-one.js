@@ -1,5 +1,5 @@
-import { fetchOne } from "../admin.model.js";
 import { constants } from "http2";
+import { fetchOne } from "../admin.model.js";
 
 export default async (req, res, next) => {
   try {

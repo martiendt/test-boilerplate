@@ -3,8 +3,8 @@
  * .env.development(shared) and .env.development.local (not shared) are used in development mode.
  * .env.test(shared) and .env.test.local (not shared) are used in test mode.
  */
-import dotenv from "dotenv-safe";
 import * as fs from "fs";
+import dotenv from "dotenv-safe";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 

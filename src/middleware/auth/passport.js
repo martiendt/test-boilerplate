@@ -1,52 +1,51 @@
 import passport from "passport";
+import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
-import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { authAdminConfig } from "#src/config/auth.js";
+import { verifyPassword } from "#src/middleware/auth/helper.js";
+import {
+  fetchAll as fetchAllAdmin,
+  fetchOne as fetchOneAdmin,
+} from "#src/modules/admin/admin.model.js";
 
-export function passportAdminLocal(fetchAllAdmin, verifyPassword) {
+/**
+ * Authenticate admin using passport local strategy
+ */
+export async function passportAdminLocal() {
   passport.use(
     "admin-local",
-    new LocalStrategy(
-      {
-        usernameField: "email",
-        passwordField: "password",
-        session: false,
-      },
-      async (username, password, done) => {
-        try {
-          // find correct admin
-          // return empty array when username not found
-          const result = await fetchAllAdmin(
-            {
-              filter: {
-                email: username,
-              },
-            },
-            {
-              includeRestrictedFields: true,
-            }
-          );
-          // handle if admin doesn't exists
-          const admin = result.data.length === 1 ? result.data[0] : undefined;
+    new LocalStrategy({ session: false }, async (username, password, done) => {
+      try {
+        // search admin by username or email
+        const result = await fetchAllAdmin(
+          { filter: { ":or": [{ username: username }, { email: username }] } },
+          { includeRestrictedFields: true }
+        );
 
-          if (result.data.length === 0) {
-            return done(null, false);
-          }
-          // handle wrong password
-          if (!(await verifyPassword(password, admin.password))) {
-            return done(null, false);
-          }
-          // return admin
-          done(null, admin);
-        } catch (error) {
-          done(error, false);
+        // handle if admin doesn't exists
+        const admin = result.data.length === 1 ? result.data[0] : undefined;
+        if (admin === undefined) {
+          return done(null, false);
         }
+
+        // handle wrong password
+        if (!verifyPassword(password, admin.password)) {
+          return done(null, false);
+        }
+
+        // return admin
+        done(null, admin);
+      } catch (error) {
+        done(error, false);
       }
-    )
+    })
   );
 }
 
-export function passportAdminJwt(fetchOneAdmin) {
+/**
+ * Authenticate admin using passport jwt strategy
+ */
+export function passportAdminJwt() {
   passport.use(
     "admin-jwt",
     new JwtStrategy(
@@ -56,10 +55,10 @@ export function passportAdminJwt(fetchOneAdmin) {
       },
       async (payload, done) => {
         try {
-          // find user from token
+          // payload.sub is admin_id from jwt token
           let admin = await fetchOneAdmin(payload.sub);
-          console.log(admin);
-          done(null, admin ?? false);
+
+          done(null, Object.keys(admin).length > 0 ? admin : false);
         } catch (error) {
           done(error, false);
         }
