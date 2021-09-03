@@ -1,13 +1,13 @@
 import { MongoClient } from "mongodb";
 import databaseConfig from "#src/config/database.js";
 import {
-  create as createUserCollection,
-  drop as dropUserCollection,
-} from "#src/modules/user/user.model.js";
-import {
   create as createAdminCollection,
   drop as dropAdminCollection,
 } from "#src/modules/admin/admin.model.js";
+import {
+  create as createUserCollection,
+  drop as dropUserCollection,
+} from "#src/modules/user/user.model.js";
 import logger from "#src/utils/logger/index.js";
 
 class Connection {

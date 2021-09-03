@@ -1,7 +1,7 @@
-import ApiError from "./api-error.js";
-import logger from "./logger/index.js";
 import { STATUS_CODES } from "http";
 import { constants } from "http2";
+import ApiError from "./api-error.js";
+import logger from "./logger/index.js";
 
 export default function (error, req, res, next) {
   if (error instanceof ApiError) {

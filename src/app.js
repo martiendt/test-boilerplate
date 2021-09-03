@@ -1,11 +1,11 @@
-import express, { json, urlencoded } from "express";
 import compression from "compression";
 import cors from "cors";
+import express, { json, urlencoded } from "express";
 import helmet from "helmet";
-import router from "./router.js";
-import errorHandler from "./utils/error-handler.js";
-import ApiError from "./utils/api-error.js";
 import Connection from "./database/connection.js";
+import router from "./router.js";
+import ApiError from "./utils/api-error.js";
+import errorHandler from "./utils/error-handler.js";
 import mongodbErrorHandler from "./utils/mongodb-error-handler.js";
 import "#src/config/environment.js";
 
