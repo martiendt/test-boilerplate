@@ -5,7 +5,6 @@ import Validator from "validatorjs";
 import { authAdminConfig } from "#src/config/auth.js";
 import Connection from "#src/database/connection.js";
 import ApiError from "#src/utils/api-error.js";
-import handleResponse from "#src/utils/response-handler.js";
 
 function validateRequest(data) {
   const rules = {

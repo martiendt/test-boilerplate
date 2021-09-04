@@ -1,4 +1,4 @@
-import qsp from "#src/utils/query-string-parse.js";
+import qsp from "#src/utils/query-string-parse/index.js";
 
 describe("query string parse", () => {
   describe("fields", () => {

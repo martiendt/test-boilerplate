@@ -1,4 +1,4 @@
-import { paginate } from "#src/utils/response-format.js";
+import { paginate } from "#src/utils/response-format/index.js";
 
 describe("Response Format", () => {
   it("should return correct pagination format", () => {

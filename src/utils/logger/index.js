@@ -4,12 +4,19 @@ import testLogger from "./test-logger.js";
 
 let logger = null;
 
-if (process.env.NODE_ENV === "production") {
-  logger = prodLogger;
-} else if (process.env.NODE_ENV === "test") {
-  logger = testLogger;
-} else {
-  logger = devLogger;
+export function init(env) {
+  if (env === "production") {
+    logger = prodLogger;
+    logger.info("Logger started");
+  } else if (env === "test") {
+    logger = testLogger;
+    logger.info("Logger started");
+  } else {
+    logger = devLogger;
+    logger.info("Logger started");
+  }
 }
+
+init(process.env.NODE_ENV);
 
 export default logger;

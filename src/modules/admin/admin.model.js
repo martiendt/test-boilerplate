@@ -3,7 +3,7 @@ import JWT from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { authAdminConfig } from "#src/config/auth.js";
 import Connection from "#src/database/connection.js";
-import qsp from "#src/utils/query-string-parse.js";
+import qsp from "#src/utils/query-string-parse/index.js";
 
 const collectionName = "admins";
 

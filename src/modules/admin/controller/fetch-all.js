@@ -1,6 +1,6 @@
 import { constants } from "http2";
 import { fetchAll } from "../admin.model.js";
-import { paginate } from "#src/utils/response-format.js";
+import { paginate } from "#src/utils/response-format/index.js";
 
 export default async (req, res, next) => {
   try {
