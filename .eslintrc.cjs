@@ -4,6 +4,7 @@ module.exports = {
     commonjs: true,
     node: true,
     es2021: true,
+    jest: true,
   },
   plugins: ["prettier", "import"],
   extends: ["plugin:prettier/recommended", "plugin:import/recommended"],

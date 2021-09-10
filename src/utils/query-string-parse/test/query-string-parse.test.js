@@ -18,6 +18,7 @@ describe("query string parse", () => {
 
       expect(result).toStrictEqual({ firstName: 1, lastName: 1, username: 1 });
     });
+
     it("should convert format field with restricted field", () => {
       const fields = "";
       const restrictedFields = ["password"];
@@ -27,6 +28,7 @@ describe("query string parse", () => {
       expect(result).toStrictEqual({ password: 0 });
     });
   });
+
   describe("filters", () => {
     it("should return empty object when query undefined", () => {
       const query = undefined;
@@ -48,7 +50,7 @@ describe("query string parse", () => {
           { isAdmin: "true" },
           { isSuspended: "false" },
           { suspendedAt: null },
-          { createdAt: "01-01-2021" },
+          { createdAt: "2021-01-01" },
         ],
       };
 
@@ -61,7 +63,7 @@ describe("query string parse", () => {
           { isAdmin: true },
           { isSuspended: false },
           { suspendedAt: null },
-          { createdAt: new Date("01-01-2021") },
+          { createdAt: new Date("2021-01-01") },
         ],
       });
     });
@@ -79,10 +81,12 @@ describe("query string parse", () => {
       const result = qsp.limit("10");
       expect(result).toStrictEqual(10);
     });
+
     it("should return default value", () => {
       const result = qsp.limit();
       expect(result).toStrictEqual(10);
     });
+
     it("should return maximum value", () => {
       const result = qsp.limit(2000);
       expect(result).toStrictEqual(1000);
