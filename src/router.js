@@ -1,6 +1,6 @@
+import fs from "fs";
+import path from "path";
 import express from "express";
-import adminRoutes from "./modules/admin/router.js";
-import userRoutes from "./modules/user/router.js";
 import {
   passportAdminLocal,
   passportAdminJwt,
@@ -25,7 +25,35 @@ app.set("trust proxy", true);
 /**
  * All available module routes
  */
-app.use("/admin", adminRoutes);
-app.use("/users", userRoutes);
+
+async function getModuleRouter(dir, key = "", deep = 0) {
+  const dirents = fs.readdirSync(dir, { withFileTypes: true });
+  const files = await Promise.all(
+    dirents.map((dirent) => {
+      const dirPath = path.join(dir, dirent.name);
+      if (dirent.isDirectory() && deep == 0) {
+        return getModuleRouter(dirPath, dirent.name, deep + 1);
+      } else if (dirent.name === "router.js") {
+        return { [key]: dirPath };
+      }
+    })
+  );
+  return files.flat();
+}
+
+getModuleRouter("./src/modules")
+  .then(async (res) => {
+    res = res.filter((n) => n);
+    const object = Object.assign({}, ...res);
+    for (const property in object) {
+      const { default: router } = await import(
+        `./modules/${property}/router.js`
+      );
+      app.use(`/${property}`, router);
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 export default app;
