@@ -9,12 +9,7 @@ const collectionName = "admins";
 
 export const restrictedFields = ["password", "emailVerificationCode"];
 
-/**
- * Create & Drop Collection Schema
- * ===============================
- */
-
-export async function create(database) {
+export async function createCollection(database) {
   try {
     const collections = await database.listCollections().toArray();
     const exists = collections.some(function (el) {
@@ -114,7 +109,7 @@ export async function create(database) {
   }
 }
 
-export async function drop(database) {
+export async function dropCollection(database) {
   try {
     await database.collection(collectionName).drop();
   } catch (error) {
@@ -122,6 +117,16 @@ export async function drop(database) {
   }
 }
 
+export async function create() {}
+
+/**
+ * Fetch all data from database
+ *
+ * @param {Object} query
+ * @param {Object} options
+ * @return {Object}
+ * @public
+ */
 export async function fetchAll(
   query,
   options = { includeRestrictedFields: false }
@@ -165,7 +170,7 @@ export async function fetchAll(
 }
 
 /**
- * Fetch one data
+ * Fetch one data from database
  *
  * @param {String} id
  * @param {Object} query
@@ -201,3 +206,13 @@ export async function fetchOne(
     throw new Error(err);
   }
 }
+
+export async function update() {}
+
+export async function remove() {}
+
+export async function updatePassword() {}
+
+export async function resetPassword() {}
+
+export async function createDefaultAdmin() {}

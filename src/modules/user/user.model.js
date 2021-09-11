@@ -61,7 +61,7 @@ const properties = {
   },
 };
 
-export async function create(database) {
+export async function createCollection(database) {
   try {
     const collections = await database.listCollections().toArray();
     const exists = collections.some(function (el) {
@@ -102,7 +102,7 @@ export async function create(database) {
     throw new Error(error);
   }
 }
-export async function drop(database) {
+export async function dropCollection(database) {
   try {
     await database.collection(collectionName).drop();
   } catch (error) {

@@ -1,6 +1,6 @@
 import passport from "passport";
 import { signNewToken } from "#src/middleware/auth/helper.js";
-import ApiError from "#src/utils/api-error.js";
+import ApiError from "#src/middleware/error-handler/api-error.js";
 
 export function authAdminLocal() {
   return async function (req, res, next) {

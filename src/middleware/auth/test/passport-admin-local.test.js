@@ -4,8 +4,8 @@ import httpMocks from "node-mocks-http";
 import * as authHelper from "#src/middleware/auth/helper.js";
 import { authAdminLocal } from "#src/middleware/auth/index.js";
 import { passportAdminLocal } from "#src/middleware/auth/passport.js";
+import ApiError from "#src/middleware/error-handler/api-error.js";
 import * as adminModel from "#src/modules/admin/admin.model.js";
-import ApiError from "#src/utils/api-error.js";
 
 describe("passport", () => {
   let req, res, next;

@@ -1,9 +1,15 @@
 import { STATUS_CODES } from "http";
 import { constants } from "http2";
+import { MongoError } from "mongodb";
 import ApiError from "./api-error.js";
-import logger from "./logger/index.js";
+import { handle as handleMongoDbError } from "./mongodb-error.js";
+import logger from "#src/utils/logger/index.js";
 
 export default function (error, req, res, next) {
+  if (error instanceof MongoError) {
+    error = handleMongoDbError(error);
+  }
+
   if (error instanceof ApiError) {
     return res.status(error.code).json({ error });
   }

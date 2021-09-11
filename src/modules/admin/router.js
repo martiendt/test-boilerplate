@@ -10,7 +10,9 @@ import {
   requestPassword,
   resetPassword,
 } from "./controller/index.js";
+import rulesCreate from "./rules/create.js";
 import { authAdminLocal, authAdminJwt } from "#src/middleware/auth/index.js";
+import validation from "#src/middleware/validation/index.js";
 const router = Router();
 
 // Caller function for global error handling
@@ -19,7 +21,7 @@ const router = Router();
 const use = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch((e) => next(e));
 
-router.post("/", authAdminJwt(), create);
+router.post("/", authAdminJwt(), validation(rulesCreate), create);
 router.get("/", authAdminJwt(), fetchAll);
 router.get("/:id", authAdminJwt(), fetchOne);
 router.put("/:id", authAdminJwt(), update);

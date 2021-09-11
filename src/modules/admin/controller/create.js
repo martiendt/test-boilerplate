@@ -1,41 +1,17 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
-import Validator from "validatorjs";
 import { authAdminConfig } from "#src/config/auth.js";
 import Connection from "#src/database/connection.js";
-import ApiError from "#src/utils/api-error.js";
-
-function validateRequest(data) {
-  const rules = {
-    firstName: "required|string",
-    lastName: "required|string",
-    username: "required|alpha_num",
-    email: "required|email",
-    password: "required|min:8",
-  };
-
-  const validation = new Validator(data, rules);
-
-  if (validation.fails()) {
-    throw ApiError.unprocessableEntity(
-      "Unprocessable Entity",
-      validation.errors
-    );
-  }
-}
 
 export default async (req, res, next) => {
   try {
-    validateRequest(req.body);
-
+    Connection.startSession();
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     const emailVerficicationCode = crypto.randomBytes(20).toString("hex");
     const createdAt = new Date();
 
     const collection = Connection.getDatabase().collection("admins");
-
-    await Connection.startSession();
 
     await Connection.session.withTransaction(async () => {
       const result = await collection.insertOne(
@@ -74,6 +50,6 @@ export default async (req, res, next) => {
   } catch (err) {
     next(err);
   } finally {
-    // await Connection.endSession();
+    await Connection.endSession();
   }
 };

@@ -6,7 +6,7 @@
 import * as fs from "fs";
 import dotenv from "dotenv-safe";
 
-export function setupEnvironment(env = "development") {
+export function setupEnvironment(env) {
   dotenv.config({
     allowEmptyValues: true,
     path:
@@ -17,5 +17,7 @@ export function setupEnvironment(env = "development") {
         : `.env.${env}`,
   });
 }
+
+setupEnvironment(process.env.NODE_ENV);
 
 export default dotenv;

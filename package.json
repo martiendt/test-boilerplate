@@ -6,7 +6,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",

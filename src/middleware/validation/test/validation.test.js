@@ -1,5 +1,5 @@
 import faker from "faker";
-import { validate, validation } from "#src/middleware/validate/index.js";
+import validation from "#src/middleware/validation/index.js";
 
 describe("validate", () => {
   let rules = {};
@@ -17,14 +17,6 @@ describe("validate", () => {
       name: ["required"],
       password: ["required", "min:8"],
     };
-  });
-
-  it("should return validation result", () => {
-    const data = req.body;
-
-    const result = validate(data, rules);
-
-    expect(result).toBeTruthy();
   });
 
   it("should call next(error) function when error occured", () => {
