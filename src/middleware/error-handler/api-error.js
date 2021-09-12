@@ -30,7 +30,10 @@ class ApiError {
     return new ApiError(constants.HTTP_STATUS_NOT_FOUND, message);
   }
 
-  static unprocessableEntity(message, errors) {
+  static unprocessableEntity(
+    message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY],
+    errors = {}
+  ) {
     return new ApiError(constants.HTTP_STATUS_UNPROCESSABLE_ENTITY, message, {
       ...errors,
     });

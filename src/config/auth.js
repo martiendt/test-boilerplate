@@ -1,4 +1,6 @@
-import "./environment.js";
+import { setupEnvironment } from "./environment.js";
+
+setupEnvironment(process.env.NODE_ENV);
 
 export const authAdminConfig = {
   secret: process.env.AUTH_ADMIN_SECRET || "secret",

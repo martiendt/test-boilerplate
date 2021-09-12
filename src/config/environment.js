@@ -18,6 +18,4 @@ export function setupEnvironment(env) {
   });
 }
 
-setupEnvironment(process.env.NODE_ENV);
-
 export default dotenv;

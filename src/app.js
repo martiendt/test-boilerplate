@@ -8,15 +8,15 @@ import errorHandler from "./middleware/error-handler/index.js";
 import router from "./router.js";
 import { env } from "#src/config/server.js";
 
-export default function () {
+export default async function () {
   const app = express();
 
-  // Open connection to mongodb database
   if (env !== "test") {
-    Connection.open().then(async () => {
-      // Add collections and schema validation
-      await Connection.createCollections();
-    });
+    // Open connection to mongodb database
+    await Connection.open();
+
+    // Add collections and schema validation
+    await Connection.createCollections();
   }
 
   // Gzip compressing can greatly decrease the size of the response body and hence increase the speed of a web app
