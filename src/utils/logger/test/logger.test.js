@@ -1,15 +1,15 @@
-import { init } from "#src/utils/logger/index.js";
+import logger from "#src/utils/logger/index.js";
 
 describe("logger", () => {
   it("should not throw an error", () => {
     expect(() => {
-      init("test");
+      logger("test").info("Hello World");
     }).not.toThrow();
     expect(() => {
-      init("development");
+      logger("development").info("Hello World");
     }).not.toThrow();
     expect(() => {
-      init("production");
+      logger("production").info("Hello World");
     }).not.toThrow();
   });
 });

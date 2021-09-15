@@ -20,7 +20,7 @@ export default function (error, req, res, next) {
   }
 
   // Log unknown error
-  logger.error(error);
+  logger().error(error);
 
   return res.status(constants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json({
     error: {

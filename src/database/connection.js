@@ -41,13 +41,13 @@ class Connection {
   async open() {
     await this.client.connect();
     this.database = this.client.db(databaseConfig.name);
-    logger.info(`Database "${databaseConfig.name}" connected`);
+    logger().info(`Database "${databaseConfig.name}" connected`);
   }
 
   // Close MongoDB connection
   async close() {
     await this.client.close();
-    logger.info(`Database "${databaseConfig.name}" closed`);
+    logger().info(`Database "${databaseConfig.name}" closed`);
   }
 
   getDatabase() {
