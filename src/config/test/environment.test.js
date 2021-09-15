@@ -4,7 +4,7 @@ import { setupEnvironment } from "#src/config/environment.js";
 
 describe("read environment file", () => {
   const env = "test";
-  it("should read local environment if exists", () => {
+  it("should read local environment if exists", async () => {
     expect.hasAssertions();
 
     let exists = true;
@@ -20,13 +20,15 @@ describe("read environment file", () => {
     }
 
     setupEnvironment(env);
+
     expect(fs.existsSync(`.env.${env}.local`)).toBeTruthy();
+
     if (!exists) {
       fs.rmSync(`.env.${env}.local`);
     }
   });
 
-  it("should read default environment", () => {
+  it("should read default environment", async () => {
     expect.hasAssertions();
 
     let exists = false;
@@ -46,12 +48,12 @@ describe("read environment file", () => {
     }
   });
 
-  it("should read production environment", () => {
+  it("should read production environment", async () => {
     setupEnvironment("production");
     expect(fs.existsSync(`.env`)).toBeTruthy();
   });
 
-  it("should read development environment", () => {
+  it("should read development environment", async () => {
     setupEnvironment("development");
     expect(fs.existsSync(`.env`)).toBeTruthy();
   });
