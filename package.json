@@ -7,8 +7,8 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
-    "test": "cross-env NODE_ENV=test jest -b",
-    "test:coverage": "cross-env NODE_ENV=test jest --coverage -b",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",
     "lint:fix": "eslint ./src/* --fix"
   },
