@@ -4,8 +4,7 @@
  * .env.test(shared) and .env.test.local (not shared) are used in test mode.
  */
 import * as fs from "fs";
-import dotenv from "dotenv-safe";
-
+import dotenv from "dotenv";
 export function setupEnvironment(env) {
   dotenv.config({
     allowEmptyValues: true,
