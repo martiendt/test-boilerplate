@@ -3,13 +3,12 @@ import { EOL } from "os";
 import { setupEnvironment } from "#src/config/environment.js";
 
 describe("read environment file", () => {
-  let env = "test";
-  beforeEach(() => {
-    env = "test";
-  });
+  const env = "test";
   it("should read local environment if exists", () => {
     expect.hasAssertions();
+
     let exists = true;
+
     if (!fs.existsSync(`.env.${env}.local`)) {
       exists = false;
       fs.writeFileSync(`.env.${env}.local`, `NODE_ENV=test${EOL}`);
@@ -22,7 +21,6 @@ describe("read environment file", () => {
 
     setupEnvironment(env);
     expect(fs.existsSync(`.env.${env}.local`)).toBeTruthy();
-
     if (!exists) {
       fs.rmSync(`.env.${env}.local`);
     }
@@ -49,8 +47,12 @@ describe("read environment file", () => {
   });
 
   it("should read production environment", () => {
-    env = "production";
-    setupEnvironment(env);
+    setupEnvironment("production");
+    expect(fs.existsSync(`.env`)).toBeTruthy();
+  });
+
+  it("should read development environment", () => {
+    setupEnvironment("development");
     expect(fs.existsSync(`.env`)).toBeTruthy();
   });
 });
