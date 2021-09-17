@@ -11,7 +11,7 @@ import {
 /**
  * Authenticate admin using passport local strategy
  */
-export async function passportAdminLocal() {
+export function passportAdminLocal() {
   passport.use(
     "admin-local",
     new LocalStrategy({ session: false }, async (username, password, done) => {

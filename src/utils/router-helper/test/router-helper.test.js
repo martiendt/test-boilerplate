@@ -1,6 +1,6 @@
 import { searchModules } from "../index.js";
 
-describe("Router Helper", () => {
+describe("router helper", () => {
   it("should return router in modules", async () => {
     const obj = await searchModules("./src/modules");
     expect(obj).toHaveProperty("admin");

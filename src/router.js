@@ -1,14 +1,15 @@
 import express from "express";
-import { searchModules } from "./utils/router-helper/index.js";
 import {
   passportAdminLocal,
   passportAdminJwt,
 } from "#src/middleware/auth/passport.js";
+import adminRouter from "#src/modules/admin/router.js";
+import userRouter from "#src/modules/user/router.js";
 
 const app = express();
 
 /**
- * Import Passport for authentication
+ * Import Passport for protecting routes
  */
 passportAdminLocal();
 passportAdminJwt();
@@ -24,17 +25,7 @@ app.set("trust proxy", true);
 /**
  * Register all available modules
  */
-searchModules("./src/modules")
-  .then(async (obj) => {
-    for (const property in obj) {
-      const { default: router } = await import(
-        `./modules/${property}/router.js`
-      );
-      app.use(`/${property}`, router);
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+app.use(`/admin`, adminRouter);
+app.use(`/user`, userRouter);
 
 export default app;

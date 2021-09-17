@@ -6,7 +6,7 @@ export function authAdminLocal() {
   return async function (req, res, next) {
     try {
       if (req.body.username === undefined || req.body.password === undefined) {
-        ApiError.unprocessableEntity("Username and password is required");
+        return next(ApiError.unprocessableEntity());
       }
 
       await passport.authenticate("admin-local", function (error, user) {
