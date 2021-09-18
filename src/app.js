@@ -35,7 +35,7 @@ export default async function () {
   app.use(cors());
 
   // Api routes version 1
-  app.use("/v1", router);
+  app.use("/v1", await router());
 
   // Send back a 404 error for any unknown api request
   app.use((req, res, next) => {
