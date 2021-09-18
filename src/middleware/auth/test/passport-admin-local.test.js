@@ -53,13 +53,14 @@ describe("passport", () => {
       req.body.password = password;
       await authAdminLocal()(req, res, next);
       expect(req.user).toBeUndefined();
-      expect(ApiError.unauthorized).toHaveBeenCalled();
+      expect(next).toHaveBeenCalled();
     });
 
     it("should handle require password", async () => {
       req.body.username = data[0].username;
       await authAdminLocal()(req, res, next);
       expect(req.user).toBeUndefined();
+      expect(next).toHaveBeenCalled();
     });
 
     it("should handle username not found in database", async () => {
