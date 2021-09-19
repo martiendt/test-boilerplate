@@ -9,17 +9,18 @@ export default function (error, req, res, next) {
   if (error instanceof MongoError) {
     error = handleMongoDbError(error);
   }
+
+  // error from passport authenticate
+  if (error.status === constants.HTTP_STATUS_UNAUTHORIZED) {
+    error = ApiError.unauthorized();
+  }
+
+  // return API error
   if (error instanceof ApiError) {
     return res.status(error.code).json({ error });
   }
 
-  if (error.status === constants.HTTP_STATUS_UNAUTHORIZED) {
-    return res.status(constants.HTTP_STATUS_UNAUTHORIZED).json({
-      error: { message: STATUS_CODES[constants.HTTP_STATUS_UNAUTHORIZED] },
-    });
-  }
-
-  // Log unknown error
+  // log unknown error
   logger().error(error);
 
   return res.status(constants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json({

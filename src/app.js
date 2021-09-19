@@ -8,7 +8,7 @@ import errorHandler from "./middleware/error-handler/index.js";
 import router from "./router.js";
 import { env } from "#src/config/server.js";
 
-export default async function () {
+export default async function app() {
   const app = express();
 
   if (env !== "test") {
