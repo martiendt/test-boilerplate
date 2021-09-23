@@ -1,17 +1,22 @@
 import { Router } from "express";
 import * as adminController from "./controller/index.js";
+import { authAdminLocal, authAdminJwt } from "./middleware/auth/index.js";
+import {
+  passportAdminLocal,
+  passportAdminJwt,
+} from "./middleware/auth/passport.js";
 import rulesCreate from "./rules/create.js";
-import { authAdminLocal, authAdminJwt } from "#src/middleware/auth/index.js";
 import validation from "#src/middleware/validation/index.js";
+
+/**
+ * Import Passport for protecting routes
+ */
+passportAdminLocal();
+passportAdminJwt();
 
 const router = Router();
 
-router.post(
-  "/",
-  authAdminJwt(),
-  validation(rulesCreate),
-  adminController.create
-);
+router.post("/", validation(rulesCreate), adminController.create);
 
 router.get("/", authAdminJwt(), adminController.fetchAll);
 

@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import Connection from "#src/database/connection.js";
-import qsp from "#src/utils/query-string-parse/index.js";
+import queryString from "#src/utils/query-string-mongodb/index.js";
 
 const collectionName = "admins";
 
@@ -138,12 +138,12 @@ export async function fetchAll(
       .find({
         _id: query._id,
       })
-      .filter(qsp.filter(query.filter))
-      .skip(qsp.skip((page - 1) * limit))
-      .limit(qsp.limit(limit))
-      .sort(qsp.sort(query.sort))
+      .filter(queryString.filter(query.filter))
+      .skip(queryString.skip((page - 1) * limit))
+      .limit(queryString.limit(limit))
+      .sort(queryString.sort(query.sort))
       .project(
-        qsp.fields(
+        queryString.fields(
           query.fields,
           options.includeRestrictedFields === false ? restrictedFields : []
         )
@@ -152,7 +152,7 @@ export async function fetchAll(
     const result = await cursor.toArray();
 
     const totalDocument = await collection.countDocuments(
-      qsp.filter(query.filter)
+      queryString.filter(query.filter)
     );
 
     return {
@@ -190,7 +190,7 @@ export async function fetchOne(
         _id: ObjectId(id),
       })
       .project(
-        qsp.fields(
+        queryString.fields(
           query.fields,
           options.includeRestrictedFields === false ? restrictedFields : []
         )

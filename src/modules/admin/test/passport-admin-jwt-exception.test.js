@@ -3,10 +3,10 @@ import faker from "faker";
 import jwt from "jsonwebtoken";
 import httpMocks from "node-mocks-http";
 import passport from "passport";
+import * as adminModel from "../admin.model.js";
+import { authAdminJwt } from "../middleware/auth/index.js";
+import { passportAdminJwt } from "../middleware/auth/passport.js";
 import { authAdminConfig } from "#src/config/auth.js";
-import { authAdminJwt } from "#src/middleware/auth/index.js";
-import { passportAdminJwt } from "#src/middleware/auth/passport.js";
-import * as adminModel from "#src/modules/admin/admin.model.js";
 
 describe("passport", () => {
   let req, res, next;

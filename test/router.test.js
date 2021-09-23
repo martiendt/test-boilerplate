@@ -1,7 +1,5 @@
-import faker from "faker";
 import supertest from "supertest";
 import app from "#src/app.js";
-import Connection from "#src/database/connection.js";
 
 describe("admin", () => {
   let application;

@@ -2,10 +2,10 @@ import { jest } from "@jest/globals";
 import faker from "faker";
 import httpMocks from "node-mocks-http";
 import passport from "passport";
-import * as authHelper from "#src/middleware/auth/helper.js";
-import { authAdminLocal } from "#src/middleware/auth/index.js";
-import { passportAdminLocal } from "#src/middleware/auth/passport.js";
-import * as adminModel from "#src/modules/admin/admin.model.js";
+import * as adminModel from "../admin.model.js";
+import * as authHelper from "../middleware/auth/helper.js";
+import { authAdminLocal } from "../middleware/auth/index.js";
+import { passportAdminLocal } from "../middleware/auth/passport.js";
 
 describe("passport", () => {
   let req, res, next;

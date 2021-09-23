@@ -1,11 +1,11 @@
-import qsp from "#src/utils/query-string-parse/index.js";
+import queryString from "#src/utils/query-string-mongodb/index.js";
 
 describe("query string parse", () => {
   describe("fields", () => {
     it("should convert format field", () => {
       const fields = "username, firstName, lastName";
 
-      const result = qsp.fields(fields);
+      const result = queryString.fields(fields);
 
       expect(result).toStrictEqual({ firstName: 1, lastName: 1, username: 1 });
     });
@@ -14,7 +14,7 @@ describe("query string parse", () => {
       const fields = "username, firstName, lastName, password";
       const restrictedFields = "password";
 
-      const result = qsp.fields(fields, restrictedFields);
+      const result = queryString.fields(fields, restrictedFields);
 
       expect(result).toStrictEqual({ firstName: 1, lastName: 1, username: 1 });
     });
@@ -23,7 +23,7 @@ describe("query string parse", () => {
       const fields = "";
       const restrictedFields = ["password"];
 
-      const result = qsp.fields(fields, restrictedFields);
+      const result = queryString.fields(fields, restrictedFields);
 
       expect(result).toStrictEqual({ password: 0 });
     });
@@ -32,13 +32,13 @@ describe("query string parse", () => {
   describe("filters", () => {
     it("should return empty object when query undefined", () => {
       const query = undefined;
-      const result = qsp.filter(query);
+      const result = queryString.filter(query);
       expect(result).toStrictEqual({});
     });
 
     it("should convert query string to object", () => {
       const query = '{"name":"John", "age":30, "city":"New York"}';
-      const result = qsp.filter(query);
+      const result = queryString.filter(query);
       expect(result).toStrictEqual({ name: "John", age: 30, city: "New York" });
     });
 
@@ -54,7 +54,7 @@ describe("query string parse", () => {
         ],
       };
 
-      const result = qsp.filter(query);
+      const result = queryString.filter(query);
 
       expect(result).toStrictEqual({
         $or: [
@@ -71,38 +71,38 @@ describe("query string parse", () => {
 
   describe("skip", () => {
     it("should return integer value", () => {
-      const result = qsp.skip("10");
+      const result = queryString.skip("10");
       expect(result).toStrictEqual(10);
     });
   });
 
   describe("limit", () => {
     it("should return integer value", () => {
-      const result = qsp.limit("10");
+      const result = queryString.limit("10");
       expect(result).toStrictEqual(10);
     });
 
     it("should return default value", () => {
-      const result = qsp.limit();
+      const result = queryString.limit();
       expect(result).toStrictEqual(10);
     });
 
     it("should return maximum value", () => {
-      const result = qsp.limit(2000);
+      const result = queryString.limit(2000);
       expect(result).toStrictEqual(1000);
     });
   });
 
   describe("sort", () => {
     it("should return converted value", () => {
-      const result = qsp.sort("username,-address");
+      const result = queryString.sort("username,-address");
       expect(result).toStrictEqual({
         username: 1,
         address: -1,
       });
     });
     it("should return null when no field passes", () => {
-      const result = qsp.sort();
+      const result = queryString.sort();
       expect(result).toBeNull();
     });
   });

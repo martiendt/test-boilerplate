@@ -1,19 +1,9 @@
 import express from "express";
 import { searchModules } from "./utils/router-helper/index.js";
-import {
-  passportAdminLocal,
-  passportAdminJwt,
-} from "#src/middleware/auth/passport.js";
 
 export default async function () {
   try {
     const app = express();
-
-    /**
-     * Import Passport for protecting routes
-     */
-    passportAdminLocal();
-    passportAdminJwt();
 
     /**
      * Get Client IP

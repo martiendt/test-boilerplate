@@ -2,11 +2,11 @@
   "name": "@point-hub/express-api-boilerplate",
   "version": "0.0.1",
   "description": "Express API Boilerplate",
-  "main": "./src/index.js",
+  "main": "./src/server.js",
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/server.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",
