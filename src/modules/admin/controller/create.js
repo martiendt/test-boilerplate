@@ -1,55 +1,26 @@
-import crypto from "crypto";
-import bcrypt from "bcrypt";
-import JWT from "jsonwebtoken";
-import { authAdminConfig } from "#src/config/auth.js";
-import Connection from "#src/database/connection.js";
+import { constants } from "http2";
+import { create as createAdmin } from "../admin.model.js";
+import mailer from "#src/utils/mailer/index.js";
 
 export default async (req, res, next) => {
   try {
-    Connection.startSession();
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
-    const emailVerficicationCode = crypto.randomBytes(20).toString("hex");
-    const createdAt = new Date();
+    const result = await createAdmin(req.body);
 
-    const collection = Connection.getDatabase().collection("admins");
+    console.log(result);
 
-    await Connection.session.withTransaction(async () => {
-      const result = await collection.insertOne(
-        {
-          email: req.body.email.toLowerCase(),
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          username: req.body.username.toLowerCase(),
-          password: hashPassword,
-          // system generated value
-          emailVerified: false,
-          emailVerificationCode: emailVerficicationCode,
-          createdAt: createdAt,
-        },
-        {
-          session: Connection.session,
-        }
-      );
+    // const verificationEmailUrl = `${process.env.DOMAIN_API}/v1/auth/verify-email?emailToken=${result.ops[0].emailVerificationCode}`
 
-      await Connection.commitTransaction();
+    // const message = {
+    //   to: "test@example.com",
+    //   subject: "Point Checkin Verification Account",
+    //   html: `Thanks for signin up, <p>please click link below to verify your email address to get access to our apps.</p>`,
+    // };
 
-      // sign new token
-      const token = JWT.sign(
-        {
-          iss: "express-api-boilerplate",
-          sub: result.insertedId,
-          iat: new Date().getTime(),
-          exp: new Date().setDate(new Date().getDate() + 30),
-        },
-        authAdminConfig.secret
-      );
-      res.status(201).json({
-        data: { _id: result.insertedId, token: token },
-      });
-    }, Connection.transactionOptions);
+    // mailer.send(message);
+
+    return res.status(constants.HTTP_STATUS_CREATED).json(result);
   } catch (err) {
+    console.log(err);
     next(err);
-  } finally {
-    await Connection.endSession();
   }
 };

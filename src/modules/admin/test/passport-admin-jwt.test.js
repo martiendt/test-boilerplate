@@ -36,7 +36,7 @@ describe("passport", () => {
   });
   describe("jwt authentication for admin", () => {
     it("should authenticate admin token", async () => {
-      jest.spyOn(adminModel, "fetchOne").mockReturnValue({ ...data });
+      jest.spyOn(adminModel, "readOne").mockReturnValue({ ...data });
 
       req = httpMocks.createRequest({
         headers: {
@@ -53,7 +53,7 @@ describe("passport", () => {
     });
 
     it("should handle invalid token", async () => {
-      jest.spyOn(adminModel, "fetchOne").mockReturnValue({});
+      jest.spyOn(adminModel, "readOne").mockReturnValue({});
       req = httpMocks.createRequest({
         headers: {
           Authorization: `Bearer ${token}`,

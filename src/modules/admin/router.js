@@ -18,13 +18,13 @@ const router = Router();
 
 router.post("/", validation(rulesCreate), adminController.create);
 
-router.get("/", authAdminJwt(), adminController.fetchAll);
+router.get("/", authAdminJwt(), adminController.readAll);
 
-router.get("/:id", authAdminJwt(), adminController.fetchOne);
+router.get("/:id", authAdminJwt(), adminController.readOne);
 
 router.put("/:id", authAdminJwt(), adminController.update);
 
-router.delete("/:id", authAdminJwt(), adminController.remove);
+router.delete("/:id", authAdminJwt(), adminController.destroy);
 
 router.post("/signin", authAdminLocal(), adminController.signin);
 

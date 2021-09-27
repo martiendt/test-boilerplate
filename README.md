@@ -21,8 +21,31 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 - **Validation** using [ValidatorJS](https://github.com/mikeerickson/validatorjs)
 - **Rate Limitter** using [...](...)
 
+- Auth Database (Refresh Token, Revoke)
+- Server Auth
+- Cron
+- Cache
+- Socketio, Redis
+- Storage AWS s3 (Upload, Download, Stream, Delete)
+- Image Processing
+- Notification (Email / Wa / SMS)
+- Import Export Excel
+- Telescope
+- Localization
+
 ## Getting Started
 
 ### Installation
 
 ### Quick Start
+
+### Testing Email
+When building complex applications then sooner or later you end up in a situation where you need to send emails from your application in test environment but do not want to accidentally spam anyone.
+
+One solution would be to separate development email addresses and use only some specific testing address to send all mail to but a better approach would be to use a separate email catching service that accepts all messages like a normal transactional SMTP service would but instead of delivering these to destination, it only logs these messages.
+
+There are several options for using such a service, Nodemailer has built-in support for Ethereal Email. You can create new testing account on the fly by using the createTestAccount method or from the Ethereal homepage.
+
+Reference Links: 
+https://nodemailer.com/smtp/testing/
+https://ethereal.email/

@@ -3,7 +3,7 @@ import databaseConfig from "#src/config/database.js";
 import {
   createCollection as createAdminCollection,
   dropCollection as dropAdminCollection,
-} from "#src/modules/admin/admin.model.js";
+} from "#src/modules/admin/admin.schema.js";
 import {
   createCollection as createUserCollection,
   dropCollection as dropUserCollection,

@@ -1,4 +1,5 @@
 import passport from "passport";
+import { update as updateAdmin } from "../../admin.model.js";
 import { signNewToken } from "./helper.js";
 import ApiError from "#src/middleware/error-handler/api-error.js";
 
@@ -37,13 +38,20 @@ export function authAdminLocal() {
 export function authAdminJwt() {
   return async function (req, res, next) {
     try {
-      await passport.authenticate("admin-jwt", function (error, user, info) {
+      await passport.authenticate("admin-jwt", async (error, user, info) => {
         if (error) {
           return next(error);
         }
+
         if (user === undefined || !user) {
           return next(ApiError.unauthorized());
         }
+
+        // update last online and user ip
+        await updateAdmin(user._id, {
+          lastOnline: new Date(),
+          lastIp: req.ip,
+        });
 
         req.user = {
           _id: user._id,

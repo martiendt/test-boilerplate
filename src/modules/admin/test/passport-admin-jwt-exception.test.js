@@ -33,7 +33,7 @@ describe("passport", () => {
   });
   describe("jwt authentication for admin", () => {
     it("should handle exception ./passport", async () => {
-      jest.spyOn(adminModel, "fetchOne").mockImplementation(() => {
+      jest.spyOn(adminModel, "readOne").mockImplementation(() => {
         throw new Error();
       });
       await authAdminJwt()(req, res, next);

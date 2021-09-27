@@ -2,8 +2,8 @@ import passport from "passport";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
 import {
-  fetchAll as fetchAllAdmin,
-  fetchOne as fetchOneAdmin,
+  readAll as readAllAdmin,
+  readOne as readOneAdmin,
 } from "../../admin.model.js";
 import { verifyPassword } from "./helper.js";
 import { authAdminConfig } from "#src/config/auth.js";
@@ -17,7 +17,7 @@ export function passportAdminLocal() {
     new LocalStrategy({ session: false }, async (username, password, done) => {
       try {
         // search admin by username or email
-        const result = await fetchAllAdmin(
+        const result = await readAllAdmin(
           { filter: { ":or": [{ username: username }, { email: username }] } },
           { includeRestrictedFields: true }
         );
@@ -56,7 +56,7 @@ export function passportAdminJwt() {
       async (payload, done) => {
         try {
           // payload.sub is admin_id from jwt token
-          let admin = await fetchOneAdmin(payload.sub);
+          let admin = await readOneAdmin(payload.sub);
 
           done(null, Object.keys(admin).length > 0 ? admin : false);
         } catch (error) {
