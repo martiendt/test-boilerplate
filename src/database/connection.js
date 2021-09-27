@@ -54,6 +54,10 @@ class Connection {
     return this.database;
   }
 
+  getCollection(name) {
+    return this.getDatabase().collection(name);
+  }
+
   startSession(session = "session") {
     this[session] = this.client.startSession();
   }

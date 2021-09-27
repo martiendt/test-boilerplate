@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import hbs from "nodemailer-express-handlebars";
 import { mailConfig } from "#src/config/mail.js";
 
 // create reusable transporter object using the default SMTP transport
@@ -10,6 +11,17 @@ const devTransporter = nodemailer.createTransport({
     pass: mailConfig.password,
   },
 });
+
+devTransporter.use(
+  "compile",
+  hbs({
+    viewEngine: {
+      defaultLayout: false,
+    },
+    viewPath: "./src/modules",
+    extName: ".hbs",
+  })
+);
 
 export default {
   async send(data) {

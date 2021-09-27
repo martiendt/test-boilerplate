@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
-import JWT from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { collectionName, restrictedFields } from "../admin.schema.js";
 import { authAdminConfig } from "#src/config/auth.js";
@@ -9,59 +9,34 @@ import queryString from "#src/utils/query-string-mongodb/index.js";
 
 export async function create(data) {
   try {
-    Connection.startSession();
     const hashPassword = await bcrypt.hash(data.password, 10);
     const emailVerficicationCode = crypto.randomBytes(20).toString("hex");
     const createdAt = new Date();
 
-    const collection = Connection.getDatabase().collection("admins");
-    let result;
-    await Connection.session.withTransaction(async () => {
-      result = await collection.insertOne(
-        {
-          email: data.email.toLowerCase(),
-          firstName: data.firstName,
-          lastName: data.lastName,
-          username: data.username.toLowerCase(),
-          password: hashPassword,
-          // system generated value
-          emailVerified: false,
-          emailVerificationCode: emailVerficicationCode,
-          createdAt: createdAt,
-          addresses: {
-            location: "jl keanngan no 21",
-            zipcode: "60054",
-          },
-        },
-        {
-          session: Connection.session,
-        }
-      );
+    const collection = Connection.getCollection(collectionName);
 
-      await Connection.commitTransaction();
+    const result = await collection.insertOne(
+      {
+        email: data.email.toLowerCase(),
+        firstName: data.firstName,
+        lastName: data.lastName,
+        username: data.username.toLowerCase(),
+        password: hashPassword,
 
-      // sign new token
-      result.token = JWT.sign(
-        {
-          iss: "express-api-boilerplate",
-          sub: result.insertedId,
-          iat: new Date().getTime(),
-          exp: new Date().setDate(new Date().getDate() + 30),
-        },
-        authAdminConfig.secret
-      );
+        // system generated value
+        emailVerified: false,
+        emailVerificationCode: emailVerficicationCode,
+        createdAt: createdAt,
+        updatedAt: createdAt,
+      },
+      {
+        session: Connection.session,
+      }
+    );
 
-      return result;
-    }, Connection.transactionOptions);
     return result;
   } catch (err) {
-    console.log(
-      err.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0]
-        .details
-    );
     return new Error(err);
-  } finally {
-    await Connection.endSession();
   }
 }
 
@@ -81,7 +56,7 @@ export async function readAll(
     const page = Number(query.page ?? 1);
     const limit = Number(query.limit ?? 10);
 
-    const collection = Connection.getDatabase().collection(collectionName);
+    const collection = Connection.getCollection(collectionName);
 
     const cursor = collection
       .find({
@@ -132,7 +107,7 @@ export async function readOne(
   }
 ) {
   try {
-    const collection = Connection.getDatabase().collection(collectionName);
+    const collection = Connection.getCollection(collectionName);
 
     const filter = { _id: ObjectId(id) };
 
@@ -151,7 +126,7 @@ export async function readOne(
 
 export async function update(id, data = {}, options = { upsert: true }) {
   try {
-    const collection = Connection.getDatabase().collection(collectionName);
+    const collection = Connection.getCollection(collectionName);
 
     const filter = { _id: ObjectId(id) };
 
@@ -165,7 +140,7 @@ export async function update(id, data = {}, options = { upsert: true }) {
 
 export async function destroy(id) {
   try {
-    const collection = Connection.getDatabase().collection(collectionName);
+    const collection = Connection.getCollection(collectionName);
 
     return await collection.deleteOne({ _id: ObjectId(id) });
   } catch (err) {
