@@ -1,34 +1,26 @@
 import { Router } from "express";
 import * as adminController from "./controller/index.js";
-import { authAdminLocal, authAdminJwt } from "./middleware/auth/index.js";
-import {
-  passportAdminLocal,
-  passportAdminJwt,
-} from "./middleware/auth/passport.js";
-import rulesCreate from "./rules/create.js";
-import validation from "#src/middleware/validation/index.js";
-
-/**
- * Import Passport for protecting routes
- */
-passportAdminLocal();
-passportAdminJwt();
+import { authAdminJwt as authenticate } from "./middleware/auth/index.js";
+import * as rules from "./rules/index.js";
+import validate from "#src/middleware/validation/index.js";
 
 const router = Router();
 
-router.post("/", validation(rulesCreate), adminController.create);
+router.post("/", authenticate, validate(rules.create), adminController.create);
 
-router.get("/", authAdminJwt(), adminController.readAll);
+router.get("/", authenticate, adminController.readAll);
 
-router.get("/:id", authAdminJwt(), adminController.readOne);
+router.get("/:id", authenticate, adminController.readOne);
 
-router.put("/:id", authAdminJwt(), adminController.update);
+router.put("/:id", authenticate, validate(rules.update), adminController.update);
 
-router.delete("/:id", authAdminJwt(), adminController.destroy);
+router.delete("/:id", authenticate, adminController.destroy);
 
-router.post("/signin", authAdminLocal(), adminController.signin);
+router.put("/:id/update-password", authenticate, adminController.updatePassword);
 
-router.post("/signout", adminController.signout);
+router.post("/signin", adminController.signin);
+
+router.post("/signout", authenticate, adminController.signout);
 
 router.post("/request-password", adminController.requestPassword);
 

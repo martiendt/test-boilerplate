@@ -1,4 +1,4 @@
-import { update as updateAdmin } from "../admin.model.js";
+import { update as updateAdmin } from "../service/admin.service.js";
 
 export default async (req, res, next) => {
   try {

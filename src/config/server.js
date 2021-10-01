@@ -5,3 +5,5 @@ setupEnvironment(process.env.NODE_ENV);
 export const env = process.env.NODE_ENV;
 
 export const port = process.env.PORT || 3000;
+
+export const domain = process.env.DOMAIN;

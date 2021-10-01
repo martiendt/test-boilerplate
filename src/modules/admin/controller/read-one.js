@@ -1,5 +1,5 @@
 import { constants } from "http2";
-import { readOne } from "../admin.model.js";
+import { readOne } from "../service/admin.service.js";
 
 export default async (req, res, next) => {
   try {

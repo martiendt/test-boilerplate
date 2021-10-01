@@ -24,6 +24,7 @@
   "author": "Martien Dermawan Tanama <martien@pointhub.net> (https://www.pointhub.net)",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.28.2",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
@@ -36,7 +37,6 @@
     "nodemailer-express-handlebars": "^4.0.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
     "validatorjs": "^3.22.1",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5"

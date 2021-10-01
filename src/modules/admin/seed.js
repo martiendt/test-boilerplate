@@ -1,4 +1,4 @@
-import { create } from "./admin.model.js";
+import { create } from "./service/admin.service.js";
 
 export async function createDefaultAdmin() {
   await create({

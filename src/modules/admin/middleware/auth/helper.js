@@ -1,3 +1,4 @@
+import argon2 from "argon2";
 import { compareSync, hashSync } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { authAdminConfig } from "#src/config/auth.js";
@@ -6,30 +7,30 @@ import { authAdminConfig } from "#src/config/auth.js";
  * Encrypt password
  *
  * @param {String} password
- * @return {String}
+ * @returns {Promise<String>}
  * @public
  */
-export const encryptPassword = (password) => {
-  return hashSync(password, 10);
+export const encryptPassword = async (password) => {
+  return await argon2.hash(password);
 };
 
 /**
  * Compare encrypted password is match
  *
- * @param {String} password
  * @param {String} encryptedPassword
- * @return {Boolean}
+ * @param {String} password
+ * @returns {Boolean}
  * @public
  */
-export const verifyPassword = (password, encryptedPassword) => {
-  return compareSync(password, encryptedPassword);
+export const verifyPassword = async (encryptedPassword, password) => {
+  return argon2.verify(encryptedPassword, password);
 };
 
 /**
  * Sign new jwt token for authentication
  *
  * @param {String} id
- * @return {String}
+ * @returns {String}
  */
 export const signNewToken = (id) => {
   return jwt.sign(

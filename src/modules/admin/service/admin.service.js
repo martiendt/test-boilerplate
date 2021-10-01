@@ -1,42 +1,18 @@
-import crypto from "crypto";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { ObjectId } from "mongodb";
-import { collectionName, restrictedFields } from "../admin.schema.js";
-import { authAdminConfig } from "#src/config/auth.js";
-import Connection from "#src/database/connection.js";
-import queryString from "#src/utils/query-string-mongodb/index.js";
+import * as adminModel from "../admin.model.js";
+import { generateEmailVerificationCode, generateEncryptedPassword } from "../utils/generator.js";
 
 export async function create(data) {
   try {
-    const hashPassword = await bcrypt.hash(data.password, 10);
-    const emailVerficicationCode = crypto.randomBytes(20).toString("hex");
-    const createdAt = new Date();
+    // replace password with encrypted password
+    data.password = await generateEncryptedPassword(data.password);
+    // inject email verification code
+    data.emailVerficicationCode = generateEmailVerificationCode();
 
-    const collection = Connection.getCollection(collectionName);
-
-    const result = await collection.insertOne(
-      {
-        email: data.email.toLowerCase(),
-        firstName: data.firstName,
-        lastName: data.lastName,
-        username: data.username.toLowerCase(),
-        password: hashPassword,
-
-        // system generated value
-        emailVerified: false,
-        emailVerificationCode: emailVerficicationCode,
-        createdAt: createdAt,
-        updatedAt: createdAt,
-      },
-      {
-        session: Connection.session,
-      }
-    );
+    const result = await adminModel.create(data);
 
     return result;
   } catch (err) {
-    return new Error(err);
+    return err;
   }
 }
 
@@ -45,45 +21,22 @@ export async function create(data) {
  *
  * @param {Object} query
  * @param {Object} options
- * @return {Object}
+ * @returns {Promise<Object>}
  * @public
  */
-export async function readAll(
-  query,
-  options = { includeRestrictedFields: false }
-) {
+export async function readAll(query, options = { includeRestrictedFields: false }) {
   try {
-    const page = Number(query.page ?? 1);
-    const limit = Number(query.limit ?? 10);
+    // set default value
+    query.page = Number(query.page ?? 1);
+    query.limit = Number(query.limit ?? 10);
 
-    const collection = Connection.getCollection(collectionName);
-
-    const cursor = collection
-      .find({
-        _id: query._id,
-      })
-      .filter(queryString.filter(query.filter))
-      .skip(queryString.skip((page - 1) * limit))
-      .limit(queryString.limit(limit))
-      .sort(queryString.sort(query.sort))
-      .project(
-        queryString.fields(
-          query.fields,
-          options.includeRestrictedFields === false ? restrictedFields : []
-        )
-      );
-
-    const result = await cursor.toArray();
-
-    const totalDocument = await collection.countDocuments(
-      queryString.filter(query.filter)
-    );
+    const result = await adminModel.readAll(query, options);
 
     return {
-      data: result,
-      page: page,
-      totalPerPage: limit,
-      totalDocument: totalDocument,
+      data: result.data,
+      page: result.page,
+      totalPerPage: result.totalPerPage,
+      totalDocument: result.totalDocument,
     };
   } catch (err) {
     return new Error(err);
@@ -96,7 +49,7 @@ export async function readAll(
  * @param {String} id
  * @param {Object} query
  * @param {Object} options
- * @return {Object}
+ * @returns {Promise<Object>}
  * @public
  */
 export async function readOne(
@@ -107,16 +60,7 @@ export async function readOne(
   }
 ) {
   try {
-    const collection = Connection.getCollection(collectionName);
-
-    const filter = { _id: ObjectId(id) };
-
-    const result = await collection.findOne(filter, {
-      projection: queryString.fields(
-        query.fields,
-        options.includeRestrictedFields === false ? restrictedFields : []
-      ),
-    });
+    const result = await adminModel.readOne(id, query, options);
 
     return result ?? {};
   } catch (err) {
@@ -126,11 +70,7 @@ export async function readOne(
 
 export async function update(id, data = {}, options = { upsert: true }) {
   try {
-    const collection = Connection.getCollection(collectionName);
-
-    const filter = { _id: ObjectId(id) };
-
-    const result = await collection.updateOne(filter, { $set: data }, options);
+    const result = await adminModel.update(id, data, options);
 
     return result;
   } catch (err) {
@@ -140,9 +80,9 @@ export async function update(id, data = {}, options = { upsert: true }) {
 
 export async function destroy(id) {
   try {
-    const collection = Connection.getCollection(collectionName);
+    const result = await adminModel.destroy(id);
 
-    return await collection.deleteOne({ _id: ObjectId(id) });
+    return result;
   } catch (err) {
     return new Error(err);
   }

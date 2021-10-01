@@ -1,14 +1,27 @@
 import mailer from "#src/utils/mailer/index.js";
 
-export async function sendEmailVerification(data) {
-  // const verificationEmailUrl = `${process.env.DOMAIN_API}/v1/auth/verify-email?emailToken=${result.ops[0].emailVerificationCode}`;
-
+export async function sendEmailVerification(to, username, verificationLink) {
   const message = {
-    to: "test@example.com",
+    to: to,
     subject: "Verification Account",
     template: "admin/email/email-verification",
     context: {
-      name: "John Doe",
+      name: username,
+      verificationLink: verificationLink,
+    },
+  };
+
+  mailer.send(message);
+}
+
+export async function sendEmailRequestPassword(to, username, verificationLink) {
+  const message = {
+    to: to,
+    subject: "Verification Account",
+    template: "admin/email/email-verification",
+    context: {
+      name: username,
+      verificationLink: verificationLink,
     },
   };
 

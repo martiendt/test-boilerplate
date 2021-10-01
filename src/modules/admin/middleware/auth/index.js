@@ -1,70 +1,37 @@
 import passport from "passport";
-import { update as updateAdmin } from "../../admin.model.js";
-import { signNewToken } from "./helper.js";
+import { update as updateAdmin } from "../../service/admin.service.js";
 import ApiError from "#src/middleware/error-handler/api-error.js";
+import "./passport.js";
 
-export function authAdminLocal() {
-  return async function (req, res, next) {
-    try {
-      if (req.body.username === undefined || req.body.password === undefined) {
-        return next(ApiError.unprocessableEntity());
+export async function authAdminJwt(req, res, next) {
+  try {
+    await passport.authenticate("admin-jwt", async (error, user, info) => {
+      if (error) {
+        return next(error);
       }
 
-      await passport.authenticate("admin-local", function (error, user) {
-        if (error) {
-          return next(error);
-        }
-        if (user === undefined || !user) {
-          return next(ApiError.unauthorized());
-        }
+      if (user === undefined || !user) {
+        return next(ApiError.unauthorized());
+      }
 
-        req.user = {
-          _id: user._id,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          token: signNewToken(user._id),
-        };
+      // update last online and user ip
+      await updateAdmin(user._id, {
+        lastOnline: new Date(),
+        lastIp: req.ip,
+      });
 
-        next();
-      })(req, res, next);
-    } catch (error) {
-      next(error);
-    }
-  };
-}
+      // inject user into request
+      req.user = {
+        _id: user._id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
 
-export function authAdminJwt() {
-  return async function (req, res, next) {
-    try {
-      await passport.authenticate("admin-jwt", async (error, user, info) => {
-        if (error) {
-          return next(error);
-        }
-
-        if (user === undefined || !user) {
-          return next(ApiError.unauthorized());
-        }
-
-        // update last online and user ip
-        await updateAdmin(user._id, {
-          lastOnline: new Date(),
-          lastIp: req.ip,
-        });
-
-        req.user = {
-          _id: user._id,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        };
-
-        next();
-      })(req, res, next);
-    } catch (error) {
-      next(error);
-    }
-  };
+      next();
+    })(req, res, next);
+  } catch (error) {
+    next(error);
+  }
 }

@@ -21,7 +21,7 @@ export function setupEnvironment(env) {
  * .env.test(shared) and .env.test.local (not shared) are used in test mode.
  *
  * @param {String} env
- * @return {String}
+ * @returns {String}
  * @private
  */
 function getPath(env) {

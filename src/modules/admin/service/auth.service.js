@@ -1,29 +1,13 @@
-import crypto from "crypto";
-import bcrypt from "bcrypt";
-import JWT from "jsonwebtoken";
-import { ObjectId } from "mongodb";
-import { collectionName, restrictedFields } from "../admin.schema.js";
-import { authAdminConfig } from "#src/config/auth.js";
-import Connection from "#src/database/connection.js";
-import queryString from "#src/utils/query-string-mongodb/index.js";
+import * as adminModel from "../admin.model.js";
+import { generateEncryptedPassword } from "../utils/generator.js";
 
-export async function updatePassword(
-  id,
-  newPassword,
-  options = { upsert: true }
-) {
+export async function updatePassword(id, newPassword, options = { upsert: false }) {
   try {
-    const collection = Connection.getDatabase().collection(collectionName);
+    const encryptedPassword = await generateEncryptedPassword(newPassword);
 
-    const filter = { _id: ObjectId(id) };
+    const data = { password: encryptedPassword };
 
-    const hashPassword = await bcrypt.hash(newPassword, 10);
-
-    let data = {
-      password: hashPassword,
-    };
-
-    const result = await collection.updateOne(filter, { $set: data }, options);
+    const result = await adminModel.update(id, data, options);
 
     return result;
   } catch (err) {

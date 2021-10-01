@@ -3,9 +3,9 @@ import faker from "faker";
 import jwt from "jsonwebtoken";
 import httpMocks from "node-mocks-http";
 import passport from "passport";
-import * as adminModel from "../admin.model.js";
+import "../middleware/auth/passport.js";
 import { authAdminJwt } from "../middleware/auth/index.js";
-import { passportAdminJwt } from "../middleware/auth/passport.js";
+import * as adminService from "../service/admin.service.js";
 import { authAdminConfig } from "#src/config/auth.js";
 
 describe("passport", () => {
@@ -33,7 +33,7 @@ describe("passport", () => {
   });
   describe("jwt authentication for admin", () => {
     it("should handle exception ./passport", async () => {
-      jest.spyOn(adminModel, "readOne").mockImplementation(() => {
+      jest.spyOn(adminService, "readOne").mockImplementation(() => {
         throw new Error();
       });
       await authAdminJwt()(req, res, next);

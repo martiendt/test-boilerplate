@@ -2,9 +2,9 @@ import { jest } from "@jest/globals";
 import faker from "faker";
 import jwt from "jsonwebtoken";
 import httpMocks from "node-mocks-http";
-import * as adminModel from "../admin.model.js";
 import { authAdminJwt } from "../middleware/auth/index.js";
 import { passportAdminJwt } from "../middleware/auth/passport.js";
+import * as adminService from "../service/admin.service.js";
 import { authAdminConfig } from "#src/config/auth.js";
 
 describe("passport", () => {
@@ -36,7 +36,7 @@ describe("passport", () => {
   });
   describe("jwt authentication for admin", () => {
     it("should authenticate admin token", async () => {
-      jest.spyOn(adminModel, "readOne").mockReturnValue({ ...data });
+      jest.spyOn(adminService, "readOne").mockReturnValue({ ...data });
 
       req = httpMocks.createRequest({
         headers: {
@@ -53,7 +53,7 @@ describe("passport", () => {
     });
 
     it("should handle invalid token", async () => {
-      jest.spyOn(adminModel, "readOne").mockReturnValue({});
+      jest.spyOn(adminService, "readOne").mockReturnValue({});
       req = httpMocks.createRequest({
         headers: {
           Authorization: `Bearer ${token}`,

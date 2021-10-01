@@ -13,7 +13,7 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "prettier/prettier": ["error", { endOfLine: "auto" }],
+    "prettier/prettier": ["error", { endOfLine: "auto", printWidth: 120 }],
     "import/order": [
       "error",
       {

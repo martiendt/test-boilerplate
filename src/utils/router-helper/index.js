@@ -7,7 +7,7 @@ import path from "path";
  * @param {String} dir
  * @param {String} key
  * @param {Integer} deep
- * @return {Object}
+ * @returns {Promise<Object>}
  */
 export async function searchModules(dir, key = "", deep = 0) {
   const dirents = fs.readdirSync(dir, { withFileTypes: true });

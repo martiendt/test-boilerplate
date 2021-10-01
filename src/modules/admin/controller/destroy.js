@@ -1,4 +1,4 @@
-import { destroy } from "../admin.model.js";
+import { destroy } from "../service/admin.service.js";
 import ApiError from "#src/middleware/error-handler/api-error.js";
 
 export default async (req, res, next) => {
