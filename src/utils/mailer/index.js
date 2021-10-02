@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
+import inLineCss from "nodemailer-juice";
 import { mailConfig } from "#src/config/mail.js";
+import { copyrightYear, appName } from "#src/resources/emails/handlebarsHelpers.js";
 
 // create reusable transporter object using the default SMTP transport
 const devTransporter = nodemailer.createTransport({
@@ -17,11 +19,15 @@ devTransporter.use(
   hbs({
     viewEngine: {
       defaultLayout: false,
+      layoutsDir: "./src/resources/emails",
+      partialsDir: "./src/resources/emails",
+      helpers: { copyrightYear, appName },
     },
     viewPath: "./src/modules",
     extName: ".hbs",
   })
 );
+devTransporter.use("compile", inLineCss());
 
 export default {
   async send(data) {
