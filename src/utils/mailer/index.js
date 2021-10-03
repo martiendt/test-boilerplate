@@ -1,3 +1,4 @@
+import fs from "fs";
 import nodemailer from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
 import inLineCss from "nodemailer-juice";
@@ -28,7 +29,12 @@ devTransporter.use(
     extName: ".hbs",
   })
 );
-devTransporter.use("compile", inLineCss());
+devTransporter.use(
+  "compile",
+  inLineCss({
+    extraCss: fs.readFileSync("./src/resources/emails/styles.min.css").toString(),
+  })
+);
 
 export default {
   async send(data) {

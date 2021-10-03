@@ -14,14 +14,14 @@ export async function sendEmailVerification(to, username, verificationLink) {
   mailer.send(message);
 }
 
-export async function sendEmailRequestPassword(to, username, verificationLink) {
+export async function sendEmailRequestPassword(to, username, resetPasswordLink) {
   const message = {
     to: to,
     subject: "Verification Account",
-    template: "admin/email/email-verification",
+    template: "admin/email/request-password",
     context: {
       name: username,
-      verificationLink: verificationLink,
+      resetPasswordLink: resetPasswordLink,
     },
   };
 
