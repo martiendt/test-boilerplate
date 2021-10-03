@@ -18,7 +18,7 @@ devTransporter.use(
   "compile",
   hbs({
     viewEngine: {
-      defaultLayout: false,
+      // defaultLayout: false,
       layoutsDir: "./src/resources/emails",
       partialsDir: "./src/resources/emails",
       helpers: { copyrightYear, appName },
