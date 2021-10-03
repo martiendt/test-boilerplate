@@ -22,6 +22,7 @@ devTransporter.use(
       layoutsDir: "./src/resources/emails",
       partialsDir: "./src/resources/emails",
       helpers: { copyrightYear, appName },
+      extname: ".hbs",
     },
     viewPath: "./src/modules",
     extName: ".hbs",
