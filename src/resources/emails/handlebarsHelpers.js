@@ -1,3 +1,5 @@
+import { appName as name } from "#src/config/server.js";
+
 /**
  * Generate text containing released year and
  * current year like 2016-2021 or just 2021
@@ -19,5 +21,5 @@ export const copyrightYear = (releaseYear) => {
  * @returns {string}
  */
 export const appName = () => {
-  return process.env.APP_NAME ?? "Your Brand";
+  return name;
 };

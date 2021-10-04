@@ -13,7 +13,7 @@ export async function createCollection(database) {
         validator: {
           $jsonSchema: {
             bsonType: "object",
-            required: ["username", "email", "password"],
+            required: ["username", "email", "password", "createdAt", "updatedAt"],
             properties: {
               createdAt: {
                 bsonType: "date",
@@ -22,6 +22,14 @@ export async function createCollection(database) {
               updatedAt: {
                 bsonType: "date",
                 description: "must be a date and is required",
+              },
+              lastOnline: {
+                bsonType: "date",
+                description: "must be a date",
+              },
+              lastIp: {
+                bsonType: "string",
+                description: "must be a string",
               },
               username: {
                 bsonType: "string",
