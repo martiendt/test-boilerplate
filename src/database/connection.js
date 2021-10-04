@@ -4,10 +4,6 @@ import {
   createCollection as createAdminCollection,
   dropCollection as dropAdminCollection,
 } from "#src/modules/admin/admin.schema.js";
-import {
-  createCollection as createUserCollection,
-  dropCollection as dropUserCollection,
-} from "#src/modules/user/user.model.js";
 import logger from "#src/utils/logger/index.js";
 
 class Connection {
@@ -81,7 +77,6 @@ class Connection {
    */
   async createCollections() {
     await createAdminCollection(this.database);
-    await createUserCollection(this.database);
   }
 
   /**
@@ -92,7 +87,6 @@ class Connection {
    */
   async dropCollections() {
     await dropAdminCollection(this.database);
-    await dropUserCollection(this.database);
   }
 }
 
