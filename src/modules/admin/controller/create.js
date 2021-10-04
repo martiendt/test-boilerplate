@@ -1,15 +1,29 @@
 import { constants } from "http2";
-import { create as createAdmin } from "../service/admin.service.js";
+import { create, readOne } from "../service/admin.service.js";
+import { sendEmailVerification } from "../service/email.service.js";
+import { domain } from "#src/config/server.js";
 
 export default async (req, res, next) => {
   try {
-    const result = await createAdmin(req.body);
+    const result = await create(req.body);
 
-    console.log(result);
+    const user = await readOne(result.insertedId, {
+      includeRestrictedFields: true,
+    });
 
-    return res.status(constants.HTTP_STATUS_CREATED).json(result);
+    // check spam
+
+    // send email verification
+    await sendEmailVerification(
+      req.body.email,
+      `${req.body.firstName} ${req.body.lastName}`,
+      `https://${domain}/${user.emailVerificationCode}`
+    );
+
+    return res.status(constants.HTTP_STATUS_CREATED).json({
+      insertedId: result.insertedId,
+    });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

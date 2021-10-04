@@ -1,36 +1,43 @@
 import { ObjectId } from "mongodb";
 import { collectionName, restrictedFields } from "./admin.schema.js";
 import Connection from "#src/database/connection.js";
+import { removeEmpty } from "#src/utils/object/index.js";
 import queryString from "#src/utils/query-string-mongodb/index.js";
 
+/**
+ * Create data
+ *
+ * @param {Object} data
+ * @returns
+ */
 export async function create(data) {
   try {
     const createdAt = new Date();
 
     const collection = Connection.getCollection(collectionName);
 
-    const result = await collection.insertOne(
-      {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        username: data.username,
-        password: data.password,
+    let payload = {
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      username: data.username,
+      password: data.password,
+      phone: data.phone ?? null,
 
-        // system generated value
-        emailVerified: false,
-        emailVerificationCode: data.emailVerficicationCode,
-        createdAt: createdAt,
-        updatedAt: createdAt,
-      },
-      {
-        session: Connection.session,
-      }
-    );
+      // system generated value
+      emailVerified: false,
+      emailVerificationCode: data.emailVerficicationCode,
+      createdAt: createdAt,
+      updatedAt: createdAt,
+    };
+
+    payload = removeEmpty(payload);
+
+    const result = await collection.insertOne(payload, { session: Connection.session });
 
     return result;
-  } catch (err) {
-    throw new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -69,8 +76,8 @@ export async function readAll(query, options = { includeRestrictedFields: false 
       totalPerPage: limit,
       totalDocument: totalDocument,
     };
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -100,11 +107,19 @@ export async function readOne(
     });
 
     return result ?? {};
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 
+/**
+ * Update data
+ *
+ * @param {String} id
+ * @param {Object} data
+ * @param {Object} options
+ * @returns
+ */
 export async function update(id, data = {}, options = { upsert: true }) {
   try {
     const collection = Connection.getCollection(collectionName);
@@ -114,17 +129,23 @@ export async function update(id, data = {}, options = { upsert: true }) {
     const result = await collection.updateOne(filter, { $set: data }, options);
 
     return result;
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 
+/**
+ * Destroy data
+ *
+ * @param {String} id
+ * @returns
+ */
 export async function destroy(id) {
   try {
     const collection = Connection.getCollection(collectionName);
 
     return await collection.deleteOne({ _id: ObjectId(id) });
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }

@@ -1,18 +1,19 @@
 import * as adminModel from "../admin.model.js";
-import { generateEmailVerificationCode, generateEncryptedPassword } from "../utils/generator.js";
+import { generateEmailVerificationCode } from "../utils/generator.js";
+import { encrypt } from "#src/middleware/auth/hash.js";
 
 export async function create(data) {
   try {
     // replace password with encrypted password
-    data.password = await generateEncryptedPassword(data.password);
+    data.password = await encrypt(data.password);
     // inject email verification code
     data.emailVerficicationCode = generateEmailVerificationCode();
 
     const result = await adminModel.create(data);
 
     return result;
-  } catch (err) {
-    return err;
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -38,8 +39,8 @@ export async function readAll(query, options = { includeRestrictedFields: false 
       totalPerPage: result.totalPerPage,
       totalDocument: result.totalDocument,
     };
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -63,8 +64,8 @@ export async function readOne(
     const result = await adminModel.readOne(id, query, options);
 
     return result ?? {};
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -73,8 +74,8 @@ export async function update(id, data = {}, options = { upsert: true }) {
     const result = await adminModel.update(id, data, options);
 
     return result;
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -83,7 +84,17 @@ export async function destroy(id) {
     const result = await adminModel.destroy(id);
 
     return result;
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function addToSet(id, data = {}, options = { upsert: true }) {
+  try {
+    const result = await adminModel.update(id, data, options);
+
+    return result;
+  } catch (error) {
+    throw error;
   }
 }

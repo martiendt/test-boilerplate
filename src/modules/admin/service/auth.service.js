@@ -1,17 +1,17 @@
 import * as adminModel from "../admin.model.js";
-import { generateEncryptedPassword } from "../utils/generator.js";
+import { encrypt } from "#src/middleware/auth/hash.js";
 
 export async function updatePassword(id, newPassword, options = { upsert: false }) {
   try {
-    const encryptedPassword = await generateEncryptedPassword(newPassword);
+    const encryptedPassword = await encrypt(newPassword);
 
     const data = { password: encryptedPassword };
 
     const result = await adminModel.update(id, data, options);
 
     return result;
-  } catch (err) {
-    return new Error(err);
+  } catch (error) {
+    throw error;
   }
 }
 

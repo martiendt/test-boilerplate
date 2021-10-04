@@ -43,10 +43,10 @@ export default {
       //
     } else {
       // send mail with defined transport object
-      devTransporter.sendMail(data, (err, info) => {
-        if (err) {
-          console.log("Error occurred. " + err.message);
-          return new Error(err);
+      devTransporter.sendMail(data, (error, info) => {
+        if (error) {
+          console.log("Error occurred. " + error.message);
+          throw error;
         }
 
         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
