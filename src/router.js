@@ -1,5 +1,5 @@
 import express from "express";
-import { searchModules } from "./utils/router-helper/index.js";
+import { searchModules } from "./utils/file-system/index.js";
 
 export default async function () {
   try {

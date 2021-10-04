@@ -25,7 +25,7 @@ export async function create(data) {
  * @returns {Promise<Object>}
  * @public
  */
-export async function readAll(query, options = { includeRestrictedFields: false }) {
+export async function readAll(query = {}, options = { includeRestrictedFields: false }) {
   try {
     // set default value
     query.page = Number(query.page ?? 1);
@@ -53,13 +53,7 @@ export async function readAll(query, options = { includeRestrictedFields: false 
  * @returns {Promise<Object>}
  * @public
  */
-export async function readOne(
-  id,
-  query = {},
-  options = {
-    includeRestrictedFields: false,
-  }
-) {
+export async function readOne(id, query = {}, options = { includeRestrictedFields: false }) {
   try {
     const result = await adminModel.readOne(id, query, options);
 
