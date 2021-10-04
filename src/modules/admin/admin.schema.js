@@ -19,6 +19,10 @@ export async function createCollection(database) {
                 bsonType: "date",
                 description: "must be a date and is required",
               },
+              updatedAt: {
+                bsonType: "date",
+                description: "must be a date and is required",
+              },
               username: {
                 bsonType: "string",
                 minLength: 3,
@@ -72,6 +76,43 @@ export async function createCollection(database) {
                 enum: ["active", "suspended"],
                 description: "must be a string between active or suspended",
               },
+              tokens: {
+                bsonType: "array",
+                items: {
+                  bsonType: "object",
+                  required: ["accessToken", "refreshToken", "expiresAt", "issuer", "audience"],
+                  properties: {
+                    createdAt: {
+                      bsonType: "date",
+                      description: "must be a date and is required",
+                    },
+                    updatedAt: {
+                      bsonType: "date",
+                      description: "must be a date and is required",
+                    },
+                    expiresAt: {
+                      bsonType: "date",
+                      description: "must be a date and is required",
+                    },
+                    accessToken: {
+                      bsonType: "string",
+                      description: "must be a string and is required",
+                    },
+                    refreshToken: {
+                      bsonType: "string",
+                      description: "must be a string and is required",
+                    },
+                    issuer: {
+                      bsonType: "string",
+                      description: "must be a string and is required",
+                    },
+                    audience: {
+                      bsonType: "string",
+                      description: "must be a string and is required",
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -98,7 +139,7 @@ export async function createCollection(database) {
       }
     );
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 }
 
@@ -106,6 +147,6 @@ export async function dropCollection(database) {
   try {
     await database.collection(collectionName).drop();
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 }

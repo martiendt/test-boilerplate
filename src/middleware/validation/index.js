@@ -6,9 +6,7 @@ export default function (rules = {}) {
     const validator = new Validator(req.body, rules);
 
     if (validator.fails()) {
-      return next(
-        ApiError.unprocessableEntity("Unprocessable Entity", validator.errors)
-      );
+      return next(ApiError.unprocessableEntity(undefined, validator.errors));
     }
 
     next();

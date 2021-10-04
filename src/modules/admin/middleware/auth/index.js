@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import passport from "passport";
 import { update as updateAdmin } from "../../service/admin.service.js";
 import ApiError from "#src/middleware/error-handler/api-error.js";

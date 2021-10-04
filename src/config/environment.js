@@ -25,17 +25,7 @@ export function setupEnvironment(env) {
  * @private
  */
 function getPath(env) {
-  let path = ".env";
-
-  if (env !== "production") {
-    if (fs.existsSync(`.env.${env}.local`)) {
-      path = `.env.${env}.local`;
-    } else {
-      path = `.env.${env}`;
-    }
-  }
-
-  return path;
+  return env === "test" ? ".env.test" : ".env";
 }
 
 export default dotenv;

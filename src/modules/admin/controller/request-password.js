@@ -1,18 +1,20 @@
-import mailer from "#src/utils/mailer/index.js";
+import { constants } from "http2";
+import { readAll } from "../service/admin.service.js";
+import { sendEmailRequestPassword } from "../service/email.service.js";
 
 export default async (req, res, next) => {
   try {
-    // const verificationEmailUrl = `${process.env.DOMAIN_API}/v1/auth/verify-email?emailToken=${result.ops[0].emailVerificationCode}`
+    // check email is valid
+    // check user email in database
+    // check spam
+    const result = await readAll(req.body);
+    const user = result[0];
+    const token = "";
+    const resetPasswordUrl = `${process.env.DOMAIN_API}/v1/auth/reset-password?resetToken=${token}`;
 
-    // const message = {
-    //   to: "test@example.com",
-    //   subject: "Point Checkin Verification Account",
-    //   html: `Thanks for signin up, <p>please click link below to verify your email address to get access to our apps.</p>`,
-    // };
+    await sendEmailRequestPassword(user.email, user.username, resetPasswordUrl);
 
-    // mailer.send(message);
-
-    res.status(200).json("Request Password");
+    res.status(constants.HTTP_STATUS_OK).json();
   } catch (error) {
     next(error);
   }

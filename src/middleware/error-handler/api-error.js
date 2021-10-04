@@ -2,13 +2,7 @@ import { STATUS_CODES } from "http";
 import { constants } from "http2";
 
 class ApiError {
-  constructor(
-    code,
-    message,
-    optional = {
-      errors: {},
-    }
-  ) {
+  constructor(code, message, optional = { errors: {} }) {
     this.code = code;
     this.message = message;
     if (optional.errors) {
@@ -20,9 +14,7 @@ class ApiError {
     return new ApiError(constants.HTTP_STATUS_BAD_REQUEST, message);
   }
 
-  static unauthorized(
-    message = STATUS_CODES[constants.HTTP_STATUS_UNAUTHORIZED]
-  ) {
+  static unauthorized(message = STATUS_CODES[constants.HTTP_STATUS_UNAUTHORIZED]) {
     return new ApiError(constants.HTTP_STATUS_UNAUTHORIZED, message);
   }
 
@@ -30,13 +22,8 @@ class ApiError {
     return new ApiError(constants.HTTP_STATUS_NOT_FOUND, message);
   }
 
-  static unprocessableEntity(
-    message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY],
-    errors = {}
-  ) {
-    return new ApiError(constants.HTTP_STATUS_UNPROCESSABLE_ENTITY, message, {
-      ...errors,
-    });
+  static unprocessableEntity(message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY], errors = {}) {
+    return new ApiError(constants.HTTP_STATUS_UNPROCESSABLE_ENTITY, message, { ...errors });
   }
 }
 

@@ -18,13 +18,11 @@ export default async function () {
      */
     const object = await searchModules("./src/modules");
     for (const property in object) {
-      const { default: router } = await import(
-        `./modules/${property}/router.js`
-      );
+      const { default: router } = await import(`./modules/${property}/router.js`);
       app.use(`/${property}`, router);
     }
     return app;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 }

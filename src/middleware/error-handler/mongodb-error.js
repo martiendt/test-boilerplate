@@ -10,20 +10,14 @@ export const handle = (error) => {
   }
 };
 
-function handleUniqueValidation(
-  error,
-  message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY]
-) {
+function handleUniqueValidation(error, message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY]) {
   const errors = {
     [Object.keys(error.keyPattern)]: ["is exists"],
   };
   return ApiError.unprocessableEntity(message, { errors });
 }
 
-function handleSchemaValidation(
-  error,
-  message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY]
-) {
+function handleSchemaValidation(error, message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY]) {
   let errors = {};
   if (error.errInfo) {
     error.errInfo.details.schemaRulesNotSatisfied.forEach((el) => {

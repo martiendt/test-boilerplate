@@ -29,10 +29,7 @@ describe("admin", () => {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
       };
-      const result = await request
-        .post("/v1/admin")
-        .set("Accept", "application/json")
-        .send(data);
+      const result = await request.post("/v1/admin").set("Accept", "application/json").send(data);
 
       expect(result.status).toStrictEqual(201);
     });
