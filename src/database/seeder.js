@@ -1,10 +1,10 @@
-import { searchSeeds } from "#src/utils/file-system/index.js";
+import { searchFiles } from "#src/utils/file-system/index.js";
 
 export async function seed() {
   try {
-    const object = await searchSeeds("./src/modules");
+    const object = await searchFiles("seed.js", "./src/modules");
     for (const property in object) {
-      const { seed } = await import(`../modules/${property}/seed.js`);
+      const { seed } = await import(`#${object[property]}`);
       await seed();
     }
   } catch (error) {

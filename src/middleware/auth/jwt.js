@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { appName } from "#src/config/server.js";
 
 export const tokenType = "Bearer";
 
@@ -22,13 +23,15 @@ export const getTokenFromHeader = (req) => {
  * @returns {String}
  */
 export const signNewToken = (id, secret) => {
+  const date = new Date().getTime();
+  // expired in 1 hour
+  const exp = new Date().setTime(date + 1000 * 60 * 60);
   return jwt.sign(
     {
-      iss: "",
-      aud: "",
+      iss: appName,
       sub: id,
-      iat: new Date().getTime(),
-      exp: new Date().setDate(new Date().getDate() + 1),
+      iat: date,
+      exp: exp,
     },
     secret
   );
@@ -42,12 +45,15 @@ export const signNewToken = (id, secret) => {
  * @returns {String}
  */
 export const generateRefreshToken = (id, secret) => {
+  const date = new Date().getTime();
+  // expired in 1 month
+  const exp = new Date().setTime(date + 1000 * 60 * 60 * 24 * 30);
   return jwt.sign(
     {
-      iss: "express-api-boilerplate",
+      iss: appName,
       sub: id,
-      iat: new Date().getTime(),
-      exp: new Date().setDate(new Date().getDate() + 30),
+      iat: date,
+      exp: exp,
     },
     secret
   );
@@ -62,4 +68,18 @@ export const generateRefreshToken = (id, secret) => {
  */
 export const verifyToken = (token, secret) => {
   return jwt.verify(token, secret);
+};
+
+/**
+ * Check expiration token
+ *
+ * @param {Timestamp} exp
+ * @returns {Boolean}
+ */
+export const isExpired = (exp) => {
+  if (new Date().getTime() < exp) {
+    return false;
+  }
+
+  return true;
 };

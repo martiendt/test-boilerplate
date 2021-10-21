@@ -23,7 +23,6 @@ export default async (req, res, next) => {
       email: user.email,
       tokenType: tokenType,
       accessToken: accessToken,
-      expiresIn: "",
       refreshToken: refreshToken,
     });
   } catch (error) {

@@ -1,9 +1,8 @@
-import { searchModules } from "../index.js";
+import { searchFiles } from "../index.js";
 
-describe("router helper", () => {
-  it("should return router in modules", async () => {
-    const obj = await searchModules("./src/modules");
+describe("file system", () => {
+  it("should return files inside directory", async () => {
+    const obj = await searchFiles("router.js", "./src/modules");
     expect(obj).toHaveProperty("admin");
-    expect(obj).toHaveProperty("user");
   });
 });

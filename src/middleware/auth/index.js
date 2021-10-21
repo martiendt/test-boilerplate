@@ -1,4 +1,4 @@
-import { getTokenFromHeader, verifyToken } from "./jwt.js";
+import { getTokenFromHeader, verifyToken, isExpired } from "./jwt.js";
 import { authConfig } from "#src/config/auth.js";
 import ApiError from "#src/middleware/error-handler/api-error.js";
 import { readOne } from "#src/modules/admin/service/admin.service.js";
@@ -16,12 +16,18 @@ export async function authenticate(req, res, next) {
     return next(ApiError.unauthorized());
   }
 
+  // check if token not expired
+  if (isExpired(result.exp)) {
+    return next(ApiError.unauthorized());
+  }
+
   // check if user is exists in database
   const user = await readOne(result.sub);
   if (!user) {
     return next(ApiError.unauthorized());
   }
 
+  // inject user
   req.user = user;
 
   next();
@@ -40,14 +46,19 @@ export async function refreshToken(req, res, next) {
     return next(ApiError.unauthorized());
   }
 
+  // check if token not expired
+  if (isExpired(result.exp)) {
+    return next(ApiError.unauthorized());
+  }
+
   // check if user is exists in database
   const user = await readOne(result.sub);
   if (!user) {
     return next(ApiError.unauthorized());
   }
 
+  // inject user + token
   user.accessToken = generateAccessToken({ name: user.name });
-
   req.user = user;
 
   next();

@@ -94,21 +94,21 @@ export async function createCollection(database) {
                       bsonType: "date",
                       description: "must be a date and is required",
                     },
-                    updatedAt: {
-                      bsonType: "date",
-                      description: "must be a date and is required",
-                    },
-                    expiresAt: {
-                      bsonType: "date",
-                      description: "must be a date and is required",
-                    },
                     accessToken: {
                       bsonType: "string",
                       description: "must be a string and is required",
                     },
+                    accessTokenExpiresAt: {
+                      bsonType: "date",
+                      description: "must be a date and is required",
+                    },
                     refreshToken: {
                       bsonType: "string",
                       description: "must be a string and is required",
+                    },
+                    refreshTokenExpiresAt: {
+                      bsonType: "date",
+                      description: "must be a date and is required",
                     },
                     issuer: {
                       bsonType: "string",

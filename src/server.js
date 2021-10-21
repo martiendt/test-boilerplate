@@ -10,9 +10,11 @@ const server = app().then((app) => {
       logger().info(`Server listening at http://localhost:${configPort}`);
     })
     .on("error", (e) => {
-      if (e.code === "EADDRINUSE")
+      if (e.code === "EADDRINUSE") {
         logger().error(`Failed to start server, Port ${configPort} is taken`);
-      else logger().error(e);
+      } else {
+        logger().error(e);
+      }
     });
 });
 

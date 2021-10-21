@@ -1,4 +1,4 @@
-import * as adminModel from "../admin.model.js";
+import * as adminModel from "../model.js";
 import { encrypt } from "#src/middleware/auth/hash.js";
 
 export async function updatePassword(id, newPassword, options = { upsert: false }) {

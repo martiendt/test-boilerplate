@@ -1,7 +1,7 @@
 export default {
-  firstName: "required|string",
-  lastName: "required|string",
-  username: "required|alpha_num",
-  email: "required|email",
+  firstName: "string",
+  lastName: "string",
+  username: "alpha_num",
+  email: "required|email|unique:admins",
   password: "required|min:8",
 };

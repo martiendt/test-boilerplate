@@ -1,4 +1,4 @@
-import * as adminModel from "../admin.model.js";
+import * as adminModel from "../model.js";
 import { generateEmailVerificationCode } from "../utils/generator.js";
 import { encrypt } from "#src/middleware/auth/hash.js";
 
@@ -64,6 +64,16 @@ export async function readOne(id, query = {}, options = { includeRestrictedField
 }
 
 export async function update(id, data = {}, options = { upsert: true }) {
+  try {
+    const result = await adminModel.update(id, data, options);
+
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function replace(id, data = {}, options = { upsert: true }) {
   try {
     const result = await adminModel.update(id, data, options);
 

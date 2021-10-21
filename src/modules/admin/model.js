@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { collectionName, restrictedFields } from "./admin.schema.js";
+import { collectionName, restrictedFields } from "./schema.js";
 import Connection from "#src/database/connection.js";
 import { removeEmpty } from "#src/utils/object/index.js";
 import queryString from "#src/utils/query-string-mongodb/index.js";
@@ -127,6 +127,20 @@ export async function update(id, data = {}, options = { upsert: true }) {
     const filter = { _id: ObjectId(id) };
 
     const result = await collection.updateOne(filter, { $set: data }, options);
+
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function replace(id, data = {}, options = { upsert: true }) {
+  try {
+    const collection = Connection.getCollection(collectionName);
+
+    const filter = { _id: ObjectId(id) };
+
+    const result = await collection.replaceOne(filter, { $set: data }, options);
 
     return result;
   } catch (error) {
