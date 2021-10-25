@@ -1,7 +1,7 @@
 import { constants } from "http2";
 import { create, readOne } from "../service/admin.service.js";
 import { sendEmailVerification } from "../service/email.service.js";
-import { domain } from "#src/config/server.js";
+import { serverConfig } from "#src/config/server.js";
 
 export default async (req, res, next) => {
   try {
@@ -17,7 +17,7 @@ export default async (req, res, next) => {
     await sendEmailVerification(
       req.body.email,
       `${req.body.firstName} ${req.body.lastName}`,
-      `https://${domain}/${user.emailVerificationCode}`
+      `https://${serverConfig.domain}/${user.emailVerificationCode}`
     );
 
     return res.status(constants.HTTP_STATUS_CREATED).json({

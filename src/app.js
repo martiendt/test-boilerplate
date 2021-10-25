@@ -6,13 +6,13 @@ import Connection from "./database/connection.js";
 import ApiError from "./middleware/error-handler/api-error.js";
 import errorHandler from "./middleware/error-handler/index.js";
 import router from "./router.js";
-import { env } from "#src/config/server.js";
+import { serverConfig } from "#src/config/server.js";
 import { seed } from "#src/database/seeder.js";
 
 export default async function app() {
   const app = express();
 
-  if (env !== "test") {
+  if (serverConfig.env !== "test") {
     // open connection to mongodb database
     await Connection.open();
 

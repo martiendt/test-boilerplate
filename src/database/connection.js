@@ -1,5 +1,9 @@
 import { MongoClient } from "mongodb";
 import databaseConfig from "#src/config/database.js";
+import {
+  createCollection as createCollectionRateLimit,
+  dropCollection as dropCollectionRateLimit,
+} from "#src/middleware/rate-limit/schema.js";
 import { searchFiles } from "#src/utils/file-system/index.js";
 import logger from "#src/utils/logger/index.js";
 
@@ -73,6 +77,7 @@ class Connection {
    * Create new collection if not exists and any schema validation or indexes
    */
   async createCollections() {
+    await createCollectionRateLimit(this.database);
     const object = await searchFiles("schema.js", "./src/modules");
     for (const property in object) {
       const { createCollection } = await import(`#${object[property]}`);
@@ -87,6 +92,7 @@ class Connection {
    * So every test can generate fresh database
    */
   async dropCollections() {
+    await dropCollectionRateLimit(this.database);
     const object = await searchFiles("schema.js", "./src/modules");
     for (const property in object) {
       const { dropCollection } = await import(`#${object[property]}`);

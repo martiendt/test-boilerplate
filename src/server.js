@@ -1,17 +1,15 @@
 import app from "./app.js";
-import { port } from "./config/server.js";
+import { serverConfig } from "./config/server.js";
 import logger from "./utils/logger/index.js";
-
-const configPort = port || 3000;
 
 const server = app().then((app) => {
   app
-    .listen(configPort, () => {
-      logger().info(`Server listening at http://localhost:${configPort}`);
+    .listen(serverConfig.port, () => {
+      logger().info(`Server listening at http://localhost:${serverConfig.port}`);
     })
     .on("error", (e) => {
       if (e.code === "EADDRINUSE") {
-        logger().error(`Failed to start server, Port ${configPort} is taken`);
+        logger().error(`Failed to start server, Port ${serverConfig.port} is taken`);
       } else {
         logger().error(e);
       }

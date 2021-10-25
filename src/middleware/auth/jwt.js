@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { appName } from "#src/config/server.js";
+import { serverConfig } from "#src/config/server.js";
 
 export const tokenType = "Bearer";
 
@@ -28,7 +28,7 @@ export const signNewToken = (id, secret) => {
   const exp = new Date().setTime(date + 1000 * 60 * 60);
   return jwt.sign(
     {
-      iss: appName,
+      iss: serverConfig.appName,
       sub: id,
       iat: date,
       exp: exp,
@@ -50,7 +50,7 @@ export const generateRefreshToken = (id, secret) => {
   const exp = new Date().setTime(date + 1000 * 60 * 60 * 24 * 30);
   return jwt.sign(
     {
-      iss: appName,
+      iss: serverConfig.appName,
       sub: id,
       iat: date,
       exp: exp,

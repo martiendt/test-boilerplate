@@ -1,9 +1,9 @@
 import devLogger from "./dev-logger.js";
 import prodLogger from "./prod-logger.js";
 import testLogger from "./test-logger.js";
-import { env as environment } from "#src/config/server.js";
+import { serverConfig } from "#src/config/server.js";
 
-export default function logger(env = environment) {
+export default function logger(env = serverConfig.env) {
   if (env === "production") {
     return prodLogger;
   } else if (env === "test") {

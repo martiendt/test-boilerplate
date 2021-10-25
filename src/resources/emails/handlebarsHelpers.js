@@ -1,4 +1,4 @@
-import { appName as name } from "#src/config/server.js";
+import { serverConfig } from "#src/config/server.js";
 
 /**
  * Generate text containing released year and
@@ -21,5 +21,5 @@ export const copyrightYear = (releaseYear) => {
  * @returns {string}
  */
 export const appName = () => {
-  return name;
+  return serverConfig.appName;
 };
