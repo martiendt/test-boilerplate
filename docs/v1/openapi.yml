@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: Ex-Module
+  description: |
+    # Introduction
+    This API is documented in **OpenAPI format**, You can find more information :
+
+    - **Specs:** https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md#pathsObject
+    - **Basic Structure:** https://swagger.io/docs/specification/basic-structure/
+    - **Tutorial:** https://support.smartbear.com/swaggerhub/docs/tutorials/openapi-3-tutorial.html
+    
+    # Cross-Origin Resource Sharing
+    This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).
+    And that allows cross-domain communication from the browser.
+    All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
+
+    # Authentication
+    Ex-Module offers two forms of authentication:
+      - Local Authentication
+      - Json Web Token
+  x-logo:
+    url: http://localhost:3000/assets/logo-inverse.png
+    altText: Ex-Module logo
+  contact:
+    name: API Support
+    email: martiendt@gmail.com
+    url: https://github.com/Redocly/redoc
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 0.0.1
+servers:
+  - url: https://api.ex-module.com/v1
+    description: Sandbox Server
+  - url: https://sandbox.ex-module.com/v1
+    description: Production Server
+tags:
+  - name: Admin
+    description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  
+paths:
+  /admins:
+    get:
+      tags:
+        - Admin
+      summary: Fetch all admin
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - active
+                - inactive
+                - suspended
+              default: active
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Admin'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+    post:
+      tags:
+        - Admin
+      summary: Create new admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  insertedId:
+                    type: string
+components:
+  requestBodies:
+    Admin:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Admin'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Admin'
+      description: Admin object that needs to be added to the store
+      required: true
+  schemas:
+    Admin:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Auto generated value
+        name:
+          type: string
+      required:
+        - name

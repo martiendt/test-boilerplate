@@ -1,3 +1,5 @@
+import * as path from "path";
+import { fileURLToPath } from "url";
 import compression from "compression";
 import cors from "cors";
 import express, { json, urlencoded } from "express";
@@ -40,6 +42,16 @@ export default async function app() {
 
   // Api routes version 1
   app.use("/v1", await router());
+
+  // API documentation
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  app.use("/assets", express.static("src/assets"));
+  app.use("/assets/api-docs", express.static("docs"));
+  app.get("/", (req, res) => {
+    res.header("Content-Security-Policy", "script-src blob:");
+    res.header("Content-Security-Policy", "worker-src blob:");
+    res.sendFile(path.join(__dirname, "../docs/index.html"));
+  });
 
   // Send back a 404 error for any unknown api request
   app.use((req, res, next) => {

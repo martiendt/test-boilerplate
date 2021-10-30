@@ -1,37 +1,29 @@
 # Express API Boilerplate
 
+![Logo](/src/assets/logo-inverse.png)
+
 ## Overview
 
 This is a boilerplate application for building REST APIs in Node.js using ES6 and Express. Helps you stay productive by following best practices.
 
 ## Features
-- **Authentication & Authorization** using [Passport](http://www.passportjs.org/)
+- **Authentication** using [JsonWebToken](https://www.npmjs.com/package/jsonwebtoken)
+- **Authorization**
 - **Code Linting** using [ESLint](http://eslint.org) and [Prettier](https://prettier.io/)
 - **Compression** Using gzip compression with [Compression](https://github.com/expressjs/compression)
 - **CORS** Cross-Origin Resource-Sharing enabled using [Cors](https://github.com/expressjs/cors)
-- **Environment Variable** using [dotenv-safe](https://www.npmjs.com/package/dotenv-safe)
+- **Database (NoSQL)** using  [MongoDB](https://www.mongodb.com/)
+- **Database Seeder**
+- **Environment Variable** using [dotenv](https://www.npmjs.com/package/dotenv)
 - **Logging** using [Winston](https://github.com/winstonjs/winston) and [winston-daily-rotate-file
 ](https://www.npmjs.com/package/winston-daily-rotate-file)
 - **Mail Delivery** using [NodeMailer](...)
-- **NoSQL Database** using  [MongoDB](https://www.mongodb.com/)
 - **Process Manager (development)** using [Nodemon](https://github.com/remy/nodemon)
 - **Process Manager (production)** using [PM2](https://pm2.keymetrics.io/)
+- **Rate Limitter**
 - **Secure HTTP Headers** using [Helmet](https://github.com/helmetjs/helmet)
 - **Testing** using [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) 
 - **Validation** using [ValidatorJS](https://github.com/mikeerickson/validatorjs)
-- **Rate Limitter** using [...](...)
-
-- Auth Database (Refresh Token, Revoke)
-- Server Auth
-- Cron
-- Cache
-- Socketio, Redis
-- Storage AWS s3 (Upload, Download, Stream, Delete)
-- Image Processing
-- Notification (Email / Wa / SMS)
-- Import Export Excel
-- Telescope
-- Localization
 
 ## Directory Structure
 ```
@@ -71,8 +63,8 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 │       └── service
 │       │   └── <module>.service.js
 │       └── test
-│       └── <module>.model.js
-│       └── <module>.schema.js
+│       └── model.js
+│       └── schema.js
 │       └── seed.js
 │       └── router.js
 ├── utils
@@ -85,11 +77,11 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 ```
 
 ## Getting Started
-
+...
 ### Installation
-
+...
 ### Quick Start
-
+...
 ### Testing Email
 When building complex applications then sooner or later you end up in a situation where you need to send emails from your application in test environment but do not want to accidentally spam anyone.
 
@@ -98,5 +90,7 @@ One solution would be to separate development email addresses and use only some 
 There are several options for using such a service, Nodemailer has built-in support for Ethereal Email. You can create new testing account on the fly by using the createTestAccount method or from the Ethereal homepage.
 
 Reference Links: 
+
 https://nodemailer.com/smtp/testing/
+
 https://ethereal.email/
