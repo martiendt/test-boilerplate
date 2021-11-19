@@ -1,6 +1,6 @@
 # Express API Boilerplate
 
-![Logo](/src/assets/logo-inverse.png)
+![Logo](/src/assets/logo.png)
 
 ## Overview
 
