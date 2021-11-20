@@ -1,0 +1,35 @@
+components:
+  requestBodies:
+    Admin:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Admin'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Admin'
+      description: Admin object that needs to be added to the store
+      required: true
+  schemas:
+    Admin:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Auto generated value
+        name:
+          type: string
+          minLength: 3
+          maxLength: 20
+        email:
+          type: string
+        address:
+          type: string
+        tesla:
+          type: object
+          properties:
+            id:
+              type: string
+      required:
+        - name

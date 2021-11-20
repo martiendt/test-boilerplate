@@ -1,0 +1,53 @@
+get:
+  tags:
+    - Admin
+    - Invoice
+  summary: Fetch all admin
+  parameters:
+    - name: status
+      in: query
+      description: Status values that need to be considered for filter
+      required: true
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - active
+            - inactive
+            - suspended
+          default: active
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: './schema.yml#/components/schemas/Admin'
+    '422':
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            $ref: './schema.yml#/components/schemas/Admin'
+post:
+  tags:
+    - Admin
+  summary: Create new admin
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: './schema.yml#/components/schemas/Admin'
+  responses:
+    '201':
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              insertedId:
+                type: string

@@ -11,6 +11,7 @@
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",
     "lint:fix": "eslint ./src/* --fix",
+    "docs": "openapi bundle docs/v1/openapi.yml -o ./docs/v1/bundled.yml",
     "css:build": "npx tailwindcss -c ./tailwind.config.cjs -i ./src/resources/emails/styles.css -o ./src/resources/emails/styles.min.css",
     "css:watch": "css:build --watch"
   },

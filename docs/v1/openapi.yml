@@ -19,7 +19,7 @@ info:
       - Local Authentication
       - Json Web Token
   x-logo:
-    url: http://localhost:3000/assets/logo-inverse.png
+    url: http://localhost:3000/assets/logo.png
     altText: Ex-Module logo
   contact:
     name: API Support
@@ -37,82 +37,8 @@ servers:
 tags:
   - name: Admin
     description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-  
+  - name: Invoice
+    description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 paths:
   /admins:
-    get:
-      tags:
-        - Admin
-      summary: Fetch all admin
-      parameters:
-        - name: status
-          in: query
-          description: Status values that need to be considered for filter
-          required: true
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - active
-                - inactive
-                - suspended
-              default: active
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Admin'
-        '422':
-          description: Unprocessable entity
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Admin'
-    post:
-      tags:
-        - Admin
-      summary: Create new admin
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Admin'
-      responses:
-        '201':
-          description: OK
-          content:
-            application/json:
-              schema:
-                properties:
-                  insertedId:
-                    type: string
-components:
-  requestBodies:
-    Admin:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Admin'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/Admin'
-      description: Admin object that needs to be added to the store
-      required: true
-  schemas:
-    Admin:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Auto generated value
-        name:
-          type: string
-      required:
-        - name
+    $ref: './admin.yml'
