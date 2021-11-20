@@ -11,7 +11,7 @@
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",
     "lint:fix": "eslint ./src/* --fix",
-    "docs": "openapi bundle docs/v1/openapi.yml -o ./docs/v1/bundled.yml",
+    "docs": "./node_modules/@redocly/openapi-cli/bin/cli.js bundle docs/v1/openapi.yml -o ./docs/v1/bundled.yml",
     "css:build": "npx tailwindcss -c ./tailwind.config.cjs -i ./src/resources/emails/styles.css -o ./src/resources/emails/styles.min.css",
     "css:watch": "css:build --watch"
   },
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
+    "@redocly/openapi-cli": "^1.0.0-beta.69",
     "@types/jest": "^27.0.1",
     "autoprefixer": "^10.3.6",
     "babel-plugin-dynamic-import-node": "^2.3.3",
