@@ -26,13 +26,13 @@ get:
           schema:
             type: array
             items:
-              $ref: './schema.yml#/components/schemas/Admin'
+              $ref: './schema/admin.schema.yml#/components/schemas/Admin'
     '422':
       description: Unprocessable entity
       content:
         application/json:
           schema:
-            $ref: './schema.yml#/components/schemas/Admin'
+            $ref: './schema/admin.schema.yml#/components/schemas/Admin'
 post:
   tags:
     - Admin
@@ -41,7 +41,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: './schema.yml#/components/schemas/Admin'
+          $ref: './schema/admin.schema.yml#/components/schemas/Admin'
   responses:
     '201':
       description: OK
