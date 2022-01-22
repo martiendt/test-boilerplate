@@ -1,4 +1,4 @@
-export const collectionName = "rateLimits";
+export const collectionName = "rate-limits";
 
 export async function createCollection(database) {
   try {
@@ -11,7 +11,7 @@ export async function createCollection(database) {
         validator: {
           $jsonSchema: {
             bsonType: "object",
-            required: ["counter", "ip", "label", "expiredAt", "createdAt"],
+            required: ["counter", "ip", "expiredAt", "createdAt"],
             properties: {
               counter: {
                 bsonType: "int",

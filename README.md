@@ -22,6 +22,7 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 - **Process Manager (production)** using [PM2](https://pm2.keymetrics.io/)
 - **Rate Limitter**
 - **Secure HTTP Headers** using [Helmet](https://github.com/helmetjs/helmet)
+- **Storage** using Amazon S3 Driver
 - **Testing** using [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) 
 - **Validation** using [ValidatorJS](https://github.com/mikeerickson/validatorjs)
 
@@ -81,7 +82,9 @@ This is a boilerplate application for building REST APIs in Node.js using ES6 an
 ### Installation
 ...
 ### Quick Start
-...
+```
+git clone
+```
 ### Testing Email
 When building complex applications then sooner or later you end up in a situation where you need to send emails from your application in test environment but do not want to accidentally spam anyone.
 

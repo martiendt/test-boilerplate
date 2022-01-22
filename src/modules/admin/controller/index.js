@@ -4,6 +4,9 @@ export { default as readAll } from "./read-all.js";
 export { default as readOne } from "./read-one.js";
 export { default as update } from "./update.js";
 export { default as destroy } from "./destroy.js";
+export { default as upload } from "./upload.js";
+export { default as download } from "./download.js";
+export { default as destroya } from "./destroya.js";
 
 // admin auth routes
 export { default as signin } from "./signin.js";

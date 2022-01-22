@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
 import { collectionName } from "./schema.js";
 import Connection from "#src/database/connection.js";
+import { clean as cleanObject } from "#src/utils/object-helper/index.js";
 import queryString from "#src/utils/query-string-mongodb/index.js";
-
 /**
  * Create data
  *
@@ -13,13 +13,13 @@ export async function create(data) {
   try {
     const collection = Connection.getCollection(collectionName);
 
-    let payload = {
+    let payload = cleanObject({
       counter: data.counter,
       ip: data.ip,
       label: data.label,
       expiredAt: data.expiredAt,
       createdAt: new Date(),
-    };
+    });
 
     const result = await collection.insertOne(payload, { session: Connection.session });
 
