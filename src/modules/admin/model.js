@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 import { collectionName, restrictedFields } from "./schema.js";
 import Connection from "#src/database/connection.js";
-import { removeEmpty } from "#src/utils/object/index.js";
 import queryString from "#src/utils/query-string-mongodb/index.js";
 
 /**
@@ -30,8 +29,6 @@ export async function create(data) {
       createdAt: createdAt,
       updatedAt: createdAt,
     };
-
-    payload = removeEmpty(payload);
 
     const result = await collection.insertOne(payload, { session: Connection.session });
 

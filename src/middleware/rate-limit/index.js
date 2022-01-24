@@ -1,43 +1,74 @@
-import { create, readAll } from "./model.js";
-import { clean as cleanObject } from "#src/utils/object-helper/index.js";
+import {
+  create as createRateLimit,
+  destroyMany as destroyManyRateLimit,
+  readAll as readAllRateLimit,
+  update as updateRateLimit,
+} from "./model.js";
+import ApiError from "#src/middleware/error-handler/api-error.js";
 
-export function rateLimit(options = {}) {
+export function throttling(
+  options = {
+    windowMs: 1000 * 60 * 1, // default 1 minutes
+    max: 60, // max 60 request / windowMs
+    label: "",
+  }
+) {
   return async function (req, res, next) {
-    const max = 3;
+    reset();
+    let windowMs = options.windowMs;
+    let max = options.max;
+    let createdAt = new Date();
+    let expiredAt = createdAt;
+    expiredAt.setMilliseconds(expiredAt.getMilliseconds() + windowMs);
 
     let data = {
-      label: "",
-      counter: 0,
+      label: options.label,
       ip: req.ip,
-      expiredAt: new Date(),
+      counter: 0,
+      createdAt: createdAt,
+      expiredAt: expiredAt,
     };
 
     let label = data.label;
-
     if (data.label === "") {
       label = { $exists: false };
     }
 
-    let filter = {
-      $and: [{ label }, { ip: req.ip }],
-    };
-
-    console.log(filter);
-
-    const response = await readAll({
-      filter: filter,
+    const response = await readAllRateLimit({
+      filter: {
+        $and: [{ label }, { ip: req.ip }],
+      },
     });
 
-    console.log(response);
-
+    // record data if there is new request
     if (response.data.length === 0) {
-      // const res2 = await create(data);
+      data.counter++;
+      await createRateLimit(data);
+      return next();
     }
 
-    // Check if counter greather than max allowed request
-    // if (this.counter > this.max) {
-    //   return;
-    // }
+    // check if counter greather than max allowed request
+    if (response.data[0].counter >= max) {
+      return next(ApiError.tooManyRequest());
+    }
+
+    // request is allowed, increate counter
+    response.data[0].counter++;
+    await updateRateLimit(response.data[0]._id, response.data[0]);
+
     return next();
   };
 }
+
+// Remove all rate limit that expired
+export const reset = async () => {
+  const response = await destroyManyRateLimit({
+    filter: {
+      expiredAt: {
+        $lte: new Date().toString(),
+      },
+    },
+  });
+
+  return response;
+};

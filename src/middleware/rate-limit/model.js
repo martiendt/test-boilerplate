@@ -18,7 +18,7 @@ export async function create(data) {
       ip: data.ip,
       label: data.label,
       expiredAt: data.expiredAt,
-      createdAt: new Date(),
+      createdAt: data.createdAt,
     });
 
     const result = await collection.insertOne(payload, { session: Connection.session });
@@ -147,6 +147,23 @@ export async function destroy(id) {
     const collection = Connection.getCollection(collectionName);
 
     return await collection.deleteOne({ _id: ObjectId(id) });
+  } catch (error) {
+    throw error;
+  }
+}
+
+/**
+ * Destroy all data by query
+ *
+ * @param {Object} query
+ * @returns {Promise<Object>}
+ * @public
+ */
+export async function destroyMany(query) {
+  try {
+    const collection = Connection.getCollection(collectionName);
+
+    return await collection.deleteMany(queryString.filter(query.filter));
   } catch (error) {
     throw error;
   }

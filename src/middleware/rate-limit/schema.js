@@ -13,23 +13,23 @@ export async function createCollection(database) {
             bsonType: "object",
             required: ["counter", "ip", "expiredAt", "createdAt"],
             properties: {
-              counter: {
-                bsonType: "int",
-                description: "must be a int and is required",
+              label: {
+                bsonType: "string",
+                description: "must be a string",
               },
               ip: {
                 bsonType: "string",
                 description: "must be a string and is required",
               },
-              label: {
-                bsonType: "string",
-                description: "must be a string and is required",
+              counter: {
+                bsonType: "int",
+                description: "must be a int and is required",
               },
-              createdAt: {
+              expiredAt: {
                 bsonType: "date",
                 description: "must be a date and is required",
               },
-              expiredAt: {
+              createdAt: {
                 bsonType: "date",
                 description: "must be a date and is required",
               },

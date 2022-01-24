@@ -25,6 +25,10 @@ class ApiError {
   static unprocessableEntity(message = STATUS_CODES[constants.HTTP_STATUS_UNPROCESSABLE_ENTITY], errors = {}) {
     return new ApiError(constants.HTTP_STATUS_UNPROCESSABLE_ENTITY, message, { ...errors });
   }
+
+  static tooManyRequest(message = STATUS_CODES[constants.HTTP_STATUS_TOO_MANY_REQUESTS], errors = {}) {
+    return new ApiError(constants.HTTP_STATUS_TOO_MANY_REQUESTS, message);
+  }
 }
 
 export default ApiError;

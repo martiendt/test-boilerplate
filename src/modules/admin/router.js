@@ -3,7 +3,7 @@ import multer from "multer";
 import * as adminController from "./controller/index.js";
 import * as rules from "./rules/index.js";
 import { authenticate } from "#src/middleware/auth/index.js";
-import { rateLimit } from "#src/middleware/rate-limit/index.js";
+import { throttling } from "#src/middleware/rate-limit/index.js";
 import validate from "#src/middleware/validation/index.js";
 
 // const apiLimiter = rateLimit({
@@ -25,7 +25,7 @@ const router = Router();
 
 router.post("/", authenticate, validate(rules.create), adminController.create);
 
-router.get("/", rateLimit(), adminController.readAll);
+router.get("/", throttling(), adminController.readAll);
 
 router.get("/:id", authenticate, adminController.readOne);
 
