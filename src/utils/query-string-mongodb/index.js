@@ -161,15 +161,6 @@ const renameAggregator = (val, keysMap) => {
   return val;
 };
 
-function removeNull(obj) {
-  Object.keys(obj).forEach(
-    (key) =>
-      (obj[key] && typeof obj[key] === "object" && removeNull(obj[key])) ||
-      ((obj[key] === undefined || obj[key] === null) && delete obj[key])
-  );
-  return obj;
-}
-
 export default {
   fields,
   filter,

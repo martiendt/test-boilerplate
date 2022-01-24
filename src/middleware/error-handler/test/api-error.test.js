@@ -31,9 +31,14 @@ describe("error handler", () => {
         password: ["should have at least 8 digit"],
       };
       const error = ApiError.unprocessableEntity(message, errors);
-      expect(error.code).toStrictEqual(
-        constants.HTTP_STATUS_UNPROCESSABLE_ENTITY
-      );
+      expect(error.code).toStrictEqual(constants.HTTP_STATUS_UNPROCESSABLE_ENTITY);
+      expect(error.message).toStrictEqual(message);
+    });
+
+    it("should return error format too many request", () => {
+      const message = "error message";
+      const error = ApiError.tooManyRequest(message);
+      expect(error.code).toStrictEqual(constants.HTTP_STATUS_TOO_MANY_REQUESTS);
       expect(error.message).toStrictEqual(message);
     });
   });
