@@ -4,7 +4,7 @@ export async function seed() {
   try {
     const object = await searchFiles("seed.js", "./src/modules");
     for (const property in object) {
-      const { seed } = await import(`#${object[property]}`);
+      const { seed } = await import(`#${object[property]}`.replace('\\','/'));
       await seed();
     }
   } catch (error) {

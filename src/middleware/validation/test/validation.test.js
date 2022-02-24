@@ -1,5 +1,4 @@
-import faker from "faker";
-import validation from "#src/middleware/validation/index.js";
+import validation from "../index.js";
 
 describe("validate", () => {
   let rules = {};
@@ -7,8 +6,8 @@ describe("validate", () => {
   beforeEach(() => {
     req = {
       body: {
-        name: faker.internet.userName(),
-        password: faker.internet.password(8),
+        name: "john doe",
+        password: "password",
       },
     };
     res = {};
@@ -20,7 +19,7 @@ describe("validate", () => {
   });
 
   it("should call next(error) function when error occured", () => {
-    req.body.password = faker.internet.password(4);
+    req.body.password = "1234";
 
     validation(rules)(req, res, next);
 

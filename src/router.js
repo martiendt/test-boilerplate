@@ -22,7 +22,7 @@ export default async function () {
      */
     const object = await searchFiles("router.js", "./src/modules");
     for (const property in object) {
-      const { default: router } = await import(`#${object[property]}`);
+      const { default: router } = await import(`#${object[property]}`.replace('\\','/'));
       app.use(`/${property}`, router);
     }
     return app;

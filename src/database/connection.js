@@ -80,7 +80,7 @@ class Connection {
     await createCollectionRateLimit(this.database);
     const object = await searchFiles("schema.js", "./src/modules");
     for (const property in object) {
-      const { createCollection } = await import(`#${object[property]}`);
+      const { createCollection } = await import(`#${object[property]}`.replace("\\", "/"));
       await createCollection(this.database);
     }
   }
@@ -95,7 +95,7 @@ class Connection {
     await dropCollectionRateLimit(this.database);
     const object = await searchFiles("schema.js", "./src/modules");
     for (const property in object) {
-      const { dropCollection } = await import(`#${object[property]}`);
+      const { dropCollection } = await import(`#${object[property]}`.replace("\\", "/"));
       await dropCollection(this.database);
     }
   }

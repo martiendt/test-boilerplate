@@ -43,14 +43,23 @@ export default async function app() {
   // Api routes version 1
   app.use("/v1", await router());
 
-  // API documentation
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  /**
+   * API documentation
+   * ===========================================================
+   * This would serve api documentation website
+   *
+   * const __dirname = path.dirname(fileURLToPath(import.meta.url));
+   * res.sendFile(path.join(__dirname, "../docs/index.html"));
+   *
+   * Code above isn't work on jest (SyntaxError: Cannot use 'import.meta' outside a module)
+   * So we use process.cwd() instead
+   */
   app.use("/assets", express.static("src/assets"));
   app.use("/assets/api-docs", express.static("docs"));
   app.get("/", (req, res) => {
     res.header("Content-Security-Policy", "script-src blob:");
     res.header("Content-Security-Policy", "worker-src blob:");
-    res.sendFile(path.join(__dirname, "../docs/index.html"));
+    res.sendFile(path.join(process.cwd(), "/docs/index.html"));
   });
 
   // Send back a 404 error for any unknown api request

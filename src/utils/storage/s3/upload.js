@@ -23,7 +23,7 @@ export default async (file, options = {}) => {
     const response = await client.send(command);
 
     return response;
-  } catch (err) {
-    console.log("Error", err);
+  } catch (error) {
+    throw error;
   }
 };
