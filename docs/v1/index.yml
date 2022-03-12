@@ -39,6 +39,35 @@ tags:
     description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
   - name: Invoice
     description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  - name: Fixed Asset Group
+    description: Manage Master Fixed Asset Data.
+  - name: Fixed Asset
+    description: Manage Master Fixed Asset Group Data.
+  - name: Cut Off
+    description: |
+      - Problem Awal : Admin Accounting Bertugas melakukan pencatatan setiap transaksi perusahaan. Kemudian perusahaan menggunakan sistem untuk mengotomatis pencatatan transaksi perusahaan. akan tetapi admin accounting tidak bisa menambahkan saldo awal perusahaan. sehingga pembukuan harus dicatat dua kali. menggunakan excel dan menggunakan program accounting.
+      - Solusi : Agar Admin accounting bisa melakukan pencatatan transaksi satu kali dan menyimpan data saldo awal perusahaan maka admin memerlukan Modul "CUT OFF" untuk memindahkan saldo awal perusahaan, menyampaikan laporan keuangan secara akurat kepada atasannya.
+  
 paths:
   /admins:
     $ref: './admin.yml'
+
+  # Fixed Asset
+  /api/v1/master/fixed-assets:
+    $ref: './modules/master/fixed asset/fixed-asset.yml'
+  /api/v1/master/fixed-assets/{id}:
+    $ref: './modules/master/fixed asset/fixed-asset-id.yml'
+  /api/v1/master/fixed-asset-groups:
+    $ref: './modules/master/fixed asset group/fixed-asset-group.yml'
+  /api/v1/master/fixed-asset-groups/{id}:
+    $ref: './modules/master/fixed asset group/fixed-asset-group-id.yml'
+
+  # Cutoff
+  /api/v1/accounting/cut-offs:
+    $ref: './modules/accounting/cutoff/cut-off.yml'
+  /api/v1/accounting/cut-offs/account:
+    $ref: './modules/accounting/cutoff/cut-off-account.yml'
+  /api/v1/accounting/cut-offs/account/{id}:
+    $ref: './modules/accounting/cutoff/cut-off-account-id.yml'
+  /api/v1/accounting/cut-offs/total:
+    $ref: './modules/accounting/cutoff/cut-off-total.yml'

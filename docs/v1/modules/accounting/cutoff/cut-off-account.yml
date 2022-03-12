@@ -1,0 +1,82 @@
+get:
+  tags:
+    - Cut Off
+  summary: Fetch all Cut Off and Group By Account
+  parameters:
+    - name: limit
+      in: query
+      description: Data limit
+      schema:
+        type: integer
+    - name: page
+      in: query
+      description: Data page
+      schema:
+        type: integer
+    - name: sort_by
+      in: query
+      description: Sort the result by a key
+      explode: true
+      schema:
+        type: string
+        enum: [account.number]
+        default: "name"
+    - name: filter_like
+      in: query
+      explode: true
+      schema:
+        type: object
+        properties:
+          form.number:
+            type: string
+          account.alias:
+            type: string
+    - name: filter_equal
+      in: query
+      explode: true
+      schema:
+        type: object
+        properties:
+          chart_of_account_id:
+            type: integer
+    - name: join
+      in: query
+      description: multi value, divide with semicolon (;)
+      schema:
+        type: string
+        enum: [chartOfAccount, cutoff.form]
+    - name: includes
+      in: query
+      description: multi value, divide with semicolon (;)
+      schema:
+        type: string
+        enum: [chartOfAccount, chartOfAccount.type, cutoff.form.createdBy]
+    - name: fields
+      in: query
+      description: multi value, divide with semicolon (;)
+      schema:
+        type: string
+        enum: [cutoff_accounts.id, cutoff_id, chart_of_account_id, raw:sum(debit) as debit, raw:sum(credit) as credit, cutoff_accounts.created_at, cutoff_accounts.updated_at]
+    - name: isDownload
+      in: query
+      description: Flag to generate download link of PDF file
+      schema:
+        type: boolean
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '../../../schema/pagination/meta.schema.yml#/components/schemas/meta'
+              links:
+                $ref: '../../../schema/pagination/links.schema.yml#/components/schemas/links'
+              data:
+                type: array
+                items:
+                  $ref: './cut-off.schema.yml#/components/schemas/cut_off_account'
+              data (for isDownload = true):
+                $ref: './cut-off.schema.yml#/components/schemas/cut_off_account_download'

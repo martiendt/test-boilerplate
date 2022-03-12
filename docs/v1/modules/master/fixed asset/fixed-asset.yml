@@ -1,0 +1,75 @@
+get:
+  tags:
+    - Fixed Asset
+  summary: Fetch all fixed assets
+  parameters:
+    - name: limit
+      in: query
+      description: Data limit
+      schema:
+        type: integer
+    - name: page
+      in: query
+      description: Data page
+      schema:
+        type: integer
+    - name: sort_by
+      in: query
+      description: Sort the result by a key
+      schema:
+        type: string
+        enum: [name]
+    - name: includes
+      in: query
+      description: multi value, divide with semicolon (;)
+      schema:
+        type: string
+        enum: [groups, account, accumulationAccount, depreciationAccount]
+    - name: filter_like
+      in: query
+      explode: true
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+          name:
+            type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '../../../schema/pagination/meta.schema.yml#/components/schemas/meta'
+              links:
+                $ref: '../../../schema/pagination/links.schema.yml#/components/schemas/links'
+              data:
+                type: array
+                items:
+                  $ref: './fixed-asset.schema.yml#/components/schemas/fixed_asset'
+
+
+post:
+  tags:
+    - Fixed Asset
+  summary: Create new Fixed Asset
+  requestBody:
+    content:
+      application/json:
+        schema:
+              $ref: './fixed-asset.schema.yml#/components/schemas/fixed_asset'
+  responses:
+    '201':
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                $ref: './fixed-asset.schema.yml#/components/schemas/fixed_asset_response'
+    '422':
+      description: Unprocessable entity

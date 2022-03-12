@@ -1,0 +1,33 @@
+components:
+  schemas:
+    warehouse:
+      type: object
+      properties:
+        address:
+          type: string
+        archived_at:
+          type: date
+        archived_by:
+          type: integer
+        branch_id:
+          type: integer
+        code:
+          type: string
+        created_at:
+          type: date
+        created_by:
+          type: integer
+        id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+        phone:
+          type: string
+        updated_at:
+          type: date
+        updated_by:
+          type: integer

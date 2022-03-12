@@ -1,0 +1,48 @@
+get:
+  tags:
+    - Fixed Asset
+  summary: Fetch fixed asset
+  parameters:
+    - name: id
+      in: path
+      description: Fixed Asset ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: './fixed-asset.schema.yml#/components/schemas/fixed_asset'
+patch:
+  tags:
+    - Fixed Asset
+  summary: Update Fixed Asset
+  parameters:
+    - name: id
+      in: path
+      description: Fixed Asset ID
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: './fixed-asset.schema.yml#/components/schemas/fixed_asset_edit'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                $ref: './fixed-asset.schema.yml#/components/schemas/fixed_asset_response_edit'
+    '422':
+      description: Unprocessable entity

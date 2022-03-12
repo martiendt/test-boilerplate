@@ -1,0 +1,143 @@
+components:
+  schemas:
+    fixed_asset:
+      type: object
+      properties:
+        accumulation_chart_of_account_id:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        depreciation_chart_of_account_id:
+          type: integer
+        depreciation_method:
+          type: string
+          enum:
+            - STRAIGHT_LINE
+            - NO_DEPRECIATION
+        fixed_asset_group_id:
+          type: integer
+        name:
+          type: string
+        salvage_value:
+          type: integer
+        useful_life_year:
+          type: integer
+      
+      required:
+        - code
+        - chart_of_account_id
+        - name
+
+    fixed_asset_edit:
+      type: object
+      properties:
+        id:
+          type: integer
+        fixed_asset_group_id:
+          type: integer
+        name:
+          type: string
+      
+      required:
+        - id
+        - name
+
+
+    # Response
+
+    fixed_asset_response:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data
+        accumulation_chart_of_account_id:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        depreciation_chart_of_account_id:
+          type: integer
+        depreciation_method:
+          type: string
+          enum:
+            - STRAIGHT_LINE
+            - NO_DEPRECIATION
+        fixed_asset_group_id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        salvage_value:
+          type: integer
+        useful_life_year:
+          type: integer
+        useful_life_month:
+          type: integer
+        account:
+          $ref: '../../accounting/chart of account/chart-of-account.schema.yml#/components/schemas/chart_of_account/'
+        accumulation_account:
+          $ref: '../../accounting/chart of account/chart-of-account.schema.yml#/components/schemas/chart_of_account'
+        depreciation_account:
+          $ref: '../../accounting/chart of account/chart-of-account.schema.yml#/components/schemas/chart_of_account'
+
+
+    fixed_asset_response_edit:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data
+        accumulation_chart_of_account_id:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        depreciation_chart_of_account_id:
+          type: integer
+        depreciation_method:
+          type: string
+          enum:
+            - STRAIGHT_LINE
+            - NO_DEPRECIATION
+        fixed_asset_group_id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        salvage_value:
+          type: integer
+        useful_life_year:
+          type: integer
+        useful_life_month:
+          type: integer

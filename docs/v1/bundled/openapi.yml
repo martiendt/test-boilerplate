@@ -73,6 +73,22 @@ tags:
       sheets containing Lorem Ipsum passages, and more recently with desktop
       publishing software like Aldus PageMaker including versions of Lorem
       Ipsum.
+  - name: Fixed Asset Group
+    description: Manage Master Fixed Asset Data.
+  - name: Fixed Asset
+    description: Manage Master Fixed Asset Group Data.
+  - name: Cut Off
+    description: >
+      - Problem Awal : Admin Accounting Bertugas melakukan pencatatan setiap
+      transaksi perusahaan. Kemudian perusahaan menggunakan sistem untuk
+      mengotomatis pencatatan transaksi perusahaan. akan tetapi admin accounting
+      tidak bisa menambahkan saldo awal perusahaan. sehingga pembukuan harus
+      dicatat dua kali. menggunakan excel dan menggunakan program accounting.
+
+      - Solusi : Agar Admin accounting bisa melakukan pencatatan transaksi satu
+      kali dan menyimpan data saldo awal perusahaan maka admin memerlukan Modul
+      "CUT OFF" untuk memindahkan saldo awal perusahaan, menyampaikan laporan
+      keuangan secara akurat kepada atasannya.
 paths:
   /admins:
     get:
@@ -128,6 +144,419 @@ paths:
                 properties:
                   insertedId:
                     type: string
+  /api/v1/master/fixed-assets:
+    get:
+      tags:
+        - Fixed Asset
+      summary: Fetch all fixed assets
+      parameters:
+        - name: limit
+          in: query
+          description: Data limit
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Data page
+          schema:
+            type: integer
+        - name: sort_by
+          in: query
+          description: Sort the result by a key
+          schema:
+            type: string
+            enum:
+              - name
+        - name: includes
+          in: query
+          description: multi value, divide with semicolon (;)
+          schema:
+            type: string
+            enum:
+              - groups
+              - account
+              - accumulationAccount
+              - depreciationAccount
+        - name: filter_like
+          in: query
+          explode: true
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+              name:
+                type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/meta'
+                  links:
+                    $ref: '#/components/schemas/links'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/fixed_asset'
+    post:
+      tags:
+        - Fixed Asset
+      summary: Create new Fixed Asset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fixed_asset'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fixed_asset_response'
+        '422':
+          description: Unprocessable entity
+  /api/v1/master/fixed-assets/{id}:
+    get:
+      tags:
+        - Fixed Asset
+      summary: Fetch fixed asset
+      parameters:
+        - name: id
+          in: path
+          description: Fixed Asset ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fixed_asset'
+    patch:
+      tags:
+        - Fixed Asset
+      summary: Update Fixed Asset
+      parameters:
+        - name: id
+          in: path
+          description: Fixed Asset ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fixed_asset_edit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fixed_asset_response_edit'
+        '422':
+          description: Unprocessable entity
+  /api/v1/master/fixed-asset-groups:
+    get:
+      tags:
+        - Fixed Asset Group
+      summary: Fetch all fixed asset groups
+      parameters:
+        - name: sort_by
+          in: query
+          description: Sort the result by a key
+          explode: true
+          schema:
+            type: string
+            enum:
+              - name
+            default: ''
+        - name: filter_like
+          in: query
+          description: Search where the data like
+          explode: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+        - name: limit
+          in: query
+          description: Data limit
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Data page
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/meta'
+                  links:
+                    $ref: '#/components/schemas/links'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/fixed_asset_group'
+    post:
+      tags:
+        - Fixed Asset Group
+      summary: Create new Fixed Asset Group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fixed_asset_group'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fixed_asset_group_response'
+        '422':
+          description: Unprocessable entity
+  /api/v1/master/fixed-asset-groups/{id}:
+    get:
+      tags:
+        - Fixed Asset Group
+      summary: Fetch fixed asset group
+      parameters:
+        - name: id
+          in: path
+          description: Fixed Asset Group ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fixed_asset_group'
+    patch:
+      tags:
+        - Fixed Asset Group
+      summary: Update Fixed Asset Group
+      parameters:
+        - name: id
+          in: path
+          description: Fixed Asset Group ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fixed_asset_group_edit'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/fixed_asset_group_response'
+        '422':
+          description: Unprocessable entity
+  /api/v1/accounting/cut-offs:
+    post:
+      tags:
+        - Cut Off
+      summary: Create new Cut Off
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cut_off_create'
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      created_at:
+                        type: date
+                      date:
+                        type: date
+                      id:
+                        type: integer
+                        description: Auto generated ID
+                      updated_at:
+                        type: date
+        '422':
+          description: Unprocessable entity
+  /api/v1/accounting/cut-offs/account:
+    get:
+      tags:
+        - Cut Off
+      summary: Fetch all Cut Off and Group By Account
+      parameters:
+        - name: limit
+          in: query
+          description: Data limit
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Data page
+          schema:
+            type: integer
+        - name: sort_by
+          in: query
+          description: Sort the result by a key
+          explode: true
+          schema:
+            type: string
+            enum:
+              - account.number
+            default: name
+        - name: filter_like
+          in: query
+          explode: true
+          schema:
+            type: object
+            properties:
+              form.number:
+                type: string
+              account.alias:
+                type: string
+        - name: filter_equal
+          in: query
+          explode: true
+          schema:
+            type: object
+            properties:
+              chart_of_account_id:
+                type: integer
+        - name: join
+          in: query
+          description: multi value, divide with semicolon (;)
+          schema:
+            type: string
+            enum:
+              - chartOfAccount
+              - cutoff.form
+        - name: includes
+          in: query
+          description: multi value, divide with semicolon (;)
+          schema:
+            type: string
+            enum:
+              - chartOfAccount
+              - chartOfAccount.type
+              - cutoff.form.createdBy
+        - name: fields
+          in: query
+          description: multi value, divide with semicolon (;)
+          schema:
+            type: string
+            enum:
+              - cutoff_accounts.id
+              - cutoff_id
+              - chart_of_account_id
+              - raw:sum(debit) as debit
+              - raw:sum(credit) as credit
+              - cutoff_accounts.created_at
+              - cutoff_accounts.updated_at
+        - name: isDownload
+          in: query
+          description: Flag to generate download link of PDF file
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/meta'
+                  links:
+                    $ref: '#/components/schemas/links'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/cut_off_account'
+                  data (for isDownload = true):
+                    $ref: '#/components/schemas/cut_off_account_download'
+  /api/v1/accounting/cut-offs/account/{id}:
+    get:
+      tags:
+        - Cut Off
+      summary: Fetch Cut Off Account Detail
+      parameters:
+        - name: id
+          in: path
+          description: Cut Off Account Detail ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/cut_off_account_details'
+  /api/v1/accounting/cut-offs/total:
+    get:
+      tags:
+        - Cut Off
+      summary: Get total of debit and credit of cutoff
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  debit:
+                    type: integer
+                  credit:
+                    type: integer
 components:
   schemas:
     Admin:
@@ -152,3 +581,955 @@ components:
               type: string
       required:
         - name
+    meta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        from:
+          type: integer
+        last_page:
+          type: integer
+        path:
+          type: string
+        per_page:
+          type: integer
+        to:
+          type: integer
+        total:
+          type: integer
+    links:
+      type: object
+      properties:
+        first:
+          type: string
+        last:
+          type: string
+        next:
+          type: string
+        prev:
+          type: string
+    fixed_asset:
+      type: object
+      properties:
+        accumulation_chart_of_account_id:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        depreciation_chart_of_account_id:
+          type: integer
+        depreciation_method:
+          type: string
+          enum:
+            - STRAIGHT_LINE
+            - NO_DEPRECIATION
+        fixed_asset_group_id:
+          type: integer
+        name:
+          type: string
+        salvage_value:
+          type: integer
+        useful_life_year:
+          type: integer
+      required:
+        - code
+        - chart_of_account_id
+        - name
+    chart_of_account:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        archived_at:
+          type: string
+          description: Date when data archived
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data
+        archived_by:
+          type: integer
+          description: User ID who archived the data
+        alias:
+          type: integer
+        cash_flow:
+          type: string
+        cash_flow_position:
+          type: string
+        group_id:
+          type: integer
+        is_locked:
+          type: integer
+        is_sub_ledger:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        position:
+          type: string
+          enum:
+            - DEBIT
+            - CREDIT
+        sub_ledger:
+          type: string
+        type_id:
+          type: integer
+    fixed_asset_response:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data
+        accumulation_chart_of_account_id:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        depreciation_chart_of_account_id:
+          type: integer
+        depreciation_method:
+          type: string
+          enum:
+            - STRAIGHT_LINE
+            - NO_DEPRECIATION
+        fixed_asset_group_id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        salvage_value:
+          type: integer
+        useful_life_year:
+          type: integer
+        useful_life_month:
+          type: integer
+        account:
+          $ref: '#/components/schemas/chart_of_account'
+        accumulation_account:
+          $ref: '#/components/schemas/chart_of_account'
+        depreciation_account:
+          $ref: '#/components/schemas/chart_of_account'
+    fixed_asset_edit:
+      type: object
+      properties:
+        id:
+          type: integer
+        fixed_asset_group_id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    fixed_asset_response_edit:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data
+        accumulation_chart_of_account_id:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        depreciation_chart_of_account_id:
+          type: integer
+        depreciation_method:
+          type: string
+          enum:
+            - STRAIGHT_LINE
+            - NO_DEPRECIATION
+        fixed_asset_group_id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        salvage_value:
+          type: integer
+        useful_life_year:
+          type: integer
+        useful_life_month:
+          type: integer
+    fixed_asset_group:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    fixed_asset_group_response:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        name:
+          type: string
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data
+    fixed_asset_group_edit:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    cut_off_detail_items_create_payment:
+      type: object
+      description: >-
+        When chart of account sub ledger is CUSTOMER OR EMPLOYEE OR EXPEDITION
+        OR SUPPLIER
+      properties:
+        amount:
+          type: integer
+        date:
+          type: date
+        name:
+          type: integer
+        notes:
+          type: string
+        object_id:
+          type: id
+          description: Object ID (Primary key of the model)
+      required:
+        - object_id
+        - date
+        - amount
+    cut_off_detail_items_create_item_dna:
+      type: object
+      properties:
+        expiry_date:
+          type: date
+        production_number:
+          type: string
+        quantity:
+          type: integer
+        unit:
+          type: object
+          properties:
+            name:
+              type: string
+            label:
+              type: string
+            converter:
+              type: integer
+          required:
+            - converter
+            - name
+            - label
+      required:
+        - expiry_date
+        - production_number
+        - quantity
+        - unit
+    cut_off_detail_items_create_item:
+      type: object
+      description: When chart of account sub ledger is ITEM
+      properties:
+        warehouse_id:
+          type: integer
+          description: Primary key of the Warehouse
+        quantity:
+          type: integer
+        unit:
+          type: integer
+        converter:
+          type: string
+        price:
+          type: integer
+        total:
+          type: integer
+        object_id:
+          type: id
+          description: Object ID (Primary key of the Item)
+        dna:
+          type: array
+          items:
+            $ref: '#/components/schemas/cut_off_detail_items_create_item_dna'
+      required:
+        - object_id
+        - warehouse_id
+        - quantity
+        - unit
+        - converter
+        - price
+        - total
+    cut_off_detail_items_create_asset:
+      type: object
+      description: When chart of account sub ledger is FIXED ASSET
+      properties:
+        object_id:
+          type: id
+          description: Object ID (Primary key of the Fixed Asset)
+        supplier_id:
+          type: id
+          description: Object ID (Primary key of the Supplier)
+        location:
+          type: string
+        purchase_date:
+          type: date
+        quantity:
+          type: integer
+        price:
+          type: integer
+        total:
+          type: integer
+        accumulation:
+          type: integer
+        book_value:
+          type: integer
+      required:
+        - object_id
+        - supplier_id
+        - location
+        - purchase_date
+        - quantity
+        - price
+        - total
+        - accumulation
+        - book_value
+    cut_off_detail_create:
+      type: object
+      properties:
+        chart_of_account_id:
+          type: integer
+        chart_of_account_position:
+          type: string
+        chart_of_account_sub_ledger:
+          type: string
+          enum:
+            - CUSTOMER
+            - EMPLOYEE
+            - FIXED ASSET
+            - ITEM
+            - SUPPLIER
+        chart_of_account_type:
+          type: object
+          properties:
+            name:
+              type: string
+          required:
+            - name
+        debit:
+          type: integer
+        credit:
+          type: integer
+        items:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/cut_off_detail_items_create_payment'
+              - $ref: '#/components/schemas/cut_off_detail_items_create_item'
+              - $ref: '#/components/schemas/cut_off_detail_items_create_asset'
+      required:
+        - chart_of_account_id
+        - chart_of_account_position
+        - chart_of_account_sub_ledger
+        - debit
+        - credit
+    cut_off_create:
+      type: object
+      properties:
+        date:
+          type: string
+          description: String of Date
+        increment_group:
+          type: string
+        notes:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/cut_off_detail_create'
+    cut_off_account:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        chart_of_account_id:
+          type: integer
+        chart_of_account:
+          $ref: '#/components/schemas/chart_of_account'
+        credit:
+          type: integer
+        debit:
+          type: integer
+        cutoff_id:
+          type: integer
+      required:
+        - name
+    cut_off_account_download:
+      type: object
+      properties:
+        url:
+          type: string
+    Base:
+      type: object
+      properties:
+        archived_at:
+          type: datetime
+        archived_by:
+          type: integer
+        created_at:
+          type: datetime
+        created_by:
+          type: integer
+        id:
+          type: integer
+        branch_id:
+          type: integer
+        updated_at:
+          type: datetime
+        updated_by:
+          type: integer
+    customer:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            address:
+              type: string
+            city:
+              type: string
+            code:
+              type: string
+            country:
+              type: string
+            credit_limit:
+              type: integer
+            email:
+              type: string
+            label:
+              type: string
+            latitude:
+              type: string
+            longitude:
+              type: string
+            name:
+              type: string
+            notes:
+              type: string
+            phone:
+              type: string
+            phone_cc:
+              type: string
+            pricing_group_id:
+              type: integer
+            state:
+              type: string
+            tax_identification_number:
+              type: string
+            zip_code:
+              type: string
+    employee:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            address:
+              type: string
+            city:
+              type: string
+            code:
+              type: string
+            country:
+              type: string
+            email:
+              type: string
+            label:
+              type: string
+            latitude:
+              type: string
+            longitude:
+              type: string
+            name:
+              type: string
+            notes:
+              type: string
+            phone:
+              type: string
+            phone_cc:
+              type: string
+            pricing_group_id:
+              type: integer
+            state:
+              type: string
+            tax_identification_number:
+              type: string
+            zip_code:
+              type: string
+            birth_date:
+              type: string
+            birth_place:
+              type: string
+            bpjs:
+              type: string
+            communication_allowance:
+              type: string
+            daily_transport_allowance:
+              type: string
+            employee_gender_id:
+              type: string
+            employee_group_id:
+              type: string
+            employee_job_location_id:
+              type: string
+            employee_marital_status_id:
+              type: string
+            employee_religion_id:
+              type: string
+            employee_status_id:
+              type: string
+            functional_allowance:
+              type: string
+            job_title:
+              type: string
+            join_date:
+              type: string
+            kpi_template_id:
+              type: string
+            last_education:
+              type: string
+            married_with:
+              type: string
+            personal_identity:
+              type: string
+            resign_date:
+              type: string
+            user_id:
+              type: string
+    expedition:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            address:
+              type: string
+            city:
+              type: string
+            code:
+              type: string
+            country:
+              type: string
+            disabled:
+              type: integer
+            email:
+              type: string
+            latitude:
+              type: string
+            longitude:
+              type: string
+            name:
+              type: string
+            notes:
+              type: string
+            phone:
+              type: string
+            phone_cc:
+              type: string
+            state:
+              type: string
+            tax_identification_number:
+              type: string
+            zip_code:
+              type: string
+    supplier:
+      type: object
+      properties:
+        address:
+          type: string
+        archived_at:
+          type: datetime
+        archived_by:
+          type: integer
+        branch_id:
+          type: integer
+        city:
+          type: string
+        code:
+          type: string
+        country:
+          type: string
+        created_at:
+          type: datetime
+        created_by:
+          type: integer
+        email:
+          type: string
+        id:
+          type: integer
+        label:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+        phone:
+          type: string
+        phone_cc:
+          type: string
+        state:
+          type: string
+        tax_identification_number:
+          type: string
+        updated_at:
+          type: datetime
+        updated_by:
+          type: integer
+        zip_code:
+          type: string
+    cut_off_detail_items_detail_payment:
+      type: object
+      properties:
+        amount:
+          type: integer
+        date:
+          type: date
+        name:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: datetime
+        cutoff_paymentable_id:
+          type: integer
+        cutoff_paymentable_type:
+          type: string
+          enum:
+            - Customer
+            - Exployee
+            - Expedition
+            - Supplier
+        id:
+          type: integer
+        payment_type:
+          type: string
+          enum:
+            - RECEIVABLE
+            - PAYABLE
+        updated_at:
+          type: datetime
+        cutoff_paymentable:
+          oneOf:
+            - $ref: '#/components/schemas/customer'
+            - $ref: '#/components/schemas/employee'
+            - $ref: '#/components/schemas/expedition'
+            - $ref: '#/components/schemas/supplier'
+    cut_off_detail_items_detail_down_payment:
+      type: object
+      properties:
+        amount:
+          type: integer
+        date:
+          type: date
+        name:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: datetime
+        cutoff_downpaymentable_id:
+          type: integer
+        cutoff_downpaymentable_type:
+          type: string
+          enum:
+            - Customer
+            - Exployee
+            - Expedition
+            - Supplier
+        id:
+          type: integer
+        payment_type:
+          type: string
+          enum:
+            - RECEIVABLE
+            - PAYABLE
+        updated_at:
+          type: datetime
+        cutoff_downpaymentable:
+          oneOf:
+            - $ref: '#/components/schemas/customer'
+            - $ref: '#/components/schemas/employee'
+            - $ref: '#/components/schemas/expedition'
+            - $ref: '#/components/schemas/supplier'
+    item:
+      type: object
+      properties:
+        archived_at:
+          type: datetime
+        archived_by:
+          type: integer
+        barcode:
+          type: string
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        color:
+          type: string
+        created_at:
+          type: datetime
+        created_by:
+          type: integer
+        groups:
+          type: array
+        id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+        require_expiry_date:
+          type: integer
+        require_production_number:
+          type: integer
+        size:
+          type: string
+        stock:
+          type: integer
+        stock_reminder:
+          type: integer
+        taxable:
+          type: integer
+        unit_default:
+          type: integer
+        unit_default_purchase:
+          type: integer
+        unit_default_sales:
+          type: integer
+        updated_at:
+          type: datetime
+        updated_by:
+          type: integer
+        weight:
+          type: integer
+    warehouse:
+      type: object
+      properties:
+        address:
+          type: string
+        archived_at:
+          type: date
+        archived_by:
+          type: integer
+        branch_id:
+          type: integer
+        code:
+          type: string
+        created_at:
+          type: date
+        created_by:
+          type: integer
+        id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+        phone:
+          type: string
+        updated_at:
+          type: date
+        updated_by:
+          type: integer
+    cut_off_account_detail_item_dna:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        item_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        expiry_date:
+          type: date
+        production_number:
+          type: string
+        quantity:
+          type: integer
+    cut_off_account_detail_item:
+      type: object
+      description: When chart of account sub ledger is ITEM
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        item_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        chart_of_account_id:
+          type: integer
+        warehouse_id:
+          type: integer
+          description: Primary key of the Warehouse
+        quantity:
+          type: integer
+        unit:
+          type: integer
+        converter:
+          type: string
+        price:
+          type: integer
+        total:
+          type: integer
+        item:
+          $ref: '#/components/schemas/item'
+        warehouse:
+          $ref: '#/components/schemas/warehouse'
+        dna:
+          type: array
+          items:
+            $ref: '#/components/schemas/cut_off_account_detail_item_dna'
+    cut_off_detail_asset:
+      type: object
+      properties:
+        accumulation:
+          type: integer
+        book_value:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: datetime
+        fixed_asset_id:
+          type: integer
+        id:
+          type: integer
+        location:
+          type: string
+        price:
+          type: integer
+        purchase_date:
+          type: date
+        quantity:
+          type: integer
+        supplier_id:
+          type: integer
+        total:
+          type: integer
+        updated_at:
+          type: datetime
+        fixed_asset:
+          $ref: '#/components/schemas/fixed_asset_response'
+        supplier:
+          $ref: '#/components/schemas/supplier'
+    cut_off_account_detail:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        cutoffable_id:
+          type: integer
+        cutoffable_type:
+          type: string
+        cutoffable:
+          oneOf:
+            - $ref: '#/components/schemas/cut_off_detail_items_detail_payment'
+            - $ref: '#/components/schemas/cut_off_detail_items_detail_down_payment'
+            - $ref: '#/components/schemas/cut_off_account_detail_item'
+            - $ref: '#/components/schemas/cut_off_detail_asset'
+    cut_off_account_details:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        credit:
+          type: integer
+        debit:
+          type: integer
+        cutoff_id:
+          type: integer
+        cut_off_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/cut_off_account_detail'

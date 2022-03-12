@@ -1,0 +1,41 @@
+components:
+  schemas:
+    customer:
+      allOf:
+        - $ref: '../base.schema.yml#/components/schemas/Base'
+        - type: object
+          properties:
+            address:
+              type: string
+            city:
+              type: string
+            code:
+              type: string
+            country:
+              type: string
+            credit_limit:
+              type: integer
+            email:
+              type: string
+            label:
+              type: string
+            latitude:
+              type: string
+            longitude:
+              type: string
+            name:
+              type: string
+            notes:
+              type: string
+            phone:
+              type: string
+            phone_cc:
+              type: string
+            pricing_group_id:
+              type: integer
+            state:
+              type: string
+            tax_identification_number:
+              type: string
+            zip_code:
+              type: string

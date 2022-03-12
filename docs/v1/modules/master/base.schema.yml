@@ -1,0 +1,21 @@
+components:
+  schemas:
+    Base:
+      type: object
+      properties:
+        archived_at:
+          type: datetime
+        archived_by:
+          type: integer
+        created_at:
+          type: datetime
+        created_by:
+          type: integer
+        id:
+          type: integer
+        branch_id:
+          type: integer
+        updated_at:
+          type: datetime
+        updated_by:
+          type: integer
