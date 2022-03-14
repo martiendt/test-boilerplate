@@ -272,6 +272,20 @@ paths:
                     $ref: '#/components/schemas/fixed_asset_response_edit'
         '422':
           description: Unprocessable entity
+    delete:
+      tags:
+        - Fixed Asset
+      summary: Delete Fixed Asset
+      parameters:
+        - name: id
+          in: path
+          description: Fixed Asset ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
   /api/v1/master/fixed-asset-groups:
     get:
       tags:
