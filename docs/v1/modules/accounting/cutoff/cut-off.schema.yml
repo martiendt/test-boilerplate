@@ -39,7 +39,7 @@ components:
           type: integer
         cutoff_id:
           type: integer
-        cutoffs:
+        cutoff:
           $ref: '#/components/schemas/cut_off'
       required:
         - name
