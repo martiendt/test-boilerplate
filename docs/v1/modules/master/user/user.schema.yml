@@ -1,0 +1,29 @@
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        address:
+          type: string
+        branch_id:
+          type: integer
+        created_at:
+          type: date
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        full_name:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        phone:
+          type: string
+        updated_at:
+          type: date
+        warehouse_id:
+          type: integer

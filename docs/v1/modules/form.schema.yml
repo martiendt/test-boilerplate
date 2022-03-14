@@ -1,0 +1,63 @@
+components:
+  schemas:
+    form:
+      type: object
+      properties:
+        approval_at:
+          type: datetime
+        approval_by:
+          type: integer
+        approval_reason:
+          type: string
+        approval_status:
+          type: integer
+        branch_id:
+          type: integer
+        cancellation_approval_at:
+          type: datetime
+        cancellation_approval_by:
+          type: integer
+        cancellation_approval_reason:
+          type: string
+        cancellation_status:
+          type: integer
+        created_at:
+          type: datetime
+        created_by: 
+          $ref: './master/user/user.schema.yml#/components/schemas/user'
+        date:
+          type: datetime
+        done:
+          type: integer
+        edited_notes:
+          type: string
+        edited_number:
+          type: string
+        formable_id: 
+          type: integer
+        formable_type: 
+          type: string
+        id:
+          type: integer
+        increment:
+          type: integer
+        increment_group:
+          type: integer
+        notes:
+          type: string
+        number: 
+          type: string
+        request_approval_to: 
+          type: integer
+        request_cancellation_at: 
+          type: datetime
+        request_cancellation_by: 
+          type: integer
+        request_cancellation_reason: 
+          type: string
+        request_cancellation_to: 
+          type: integer
+        updated_at: 
+          type: datetime
+        updated_by:
+          type: integer

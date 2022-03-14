@@ -996,6 +996,110 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cut_off_detail_create'
+    user:
+      type: object
+      properties:
+        address:
+          type: string
+        branch_id:
+          type: integer
+        created_at:
+          type: date
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        full_name:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        phone:
+          type: string
+        updated_at:
+          type: date
+        warehouse_id:
+          type: integer
+    form:
+      type: object
+      properties:
+        approval_at:
+          type: datetime
+        approval_by:
+          type: integer
+        approval_reason:
+          type: string
+        approval_status:
+          type: integer
+        branch_id:
+          type: integer
+        cancellation_approval_at:
+          type: datetime
+        cancellation_approval_by:
+          type: integer
+        cancellation_approval_reason:
+          type: string
+        cancellation_status:
+          type: integer
+        created_at:
+          type: datetime
+        created_by:
+          $ref: '#/components/schemas/user'
+        date:
+          type: datetime
+        done:
+          type: integer
+        edited_notes:
+          type: string
+        edited_number:
+          type: string
+        formable_id:
+          type: integer
+        formable_type:
+          type: string
+        id:
+          type: integer
+        increment:
+          type: integer
+        increment_group:
+          type: integer
+        notes:
+          type: string
+        number:
+          type: string
+        request_approval_to:
+          type: integer
+        request_cancellation_at:
+          type: datetime
+        request_cancellation_by:
+          type: integer
+        request_cancellation_reason:
+          type: string
+        request_cancellation_to:
+          type: integer
+        updated_at:
+          type: datetime
+        updated_by:
+          type: integer
+    cut_off:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        date:
+          type: string
+        form:
+          $ref: '#/components/schemas/form'
     cut_off_account:
       type: object
       properties:
@@ -1018,6 +1122,8 @@ components:
           type: integer
         cutoff_id:
           type: integer
+        cutoffs:
+          $ref: '#/components/schemas/cut_off'
       required:
         - name
     cut_off_account_download:

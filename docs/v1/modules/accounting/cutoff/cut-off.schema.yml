@@ -1,5 +1,22 @@
 components:
   schemas:
+    cut_off:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        date:
+          type: string
+        form:
+          $ref: '../../form.schema.yml#/components/schemas/form'
+
     cut_off_account:
       type: object
       properties:
@@ -22,7 +39,8 @@ components:
           type: integer
         cutoff_id:
           type: integer
-      
+        cutoffs:
+          $ref: '#/components/schemas/cut_off'
       required:
         - name
 
