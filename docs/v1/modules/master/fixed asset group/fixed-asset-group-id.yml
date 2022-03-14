@@ -46,3 +46,18 @@ patch:
                 $ref: './fixed-asset-group.schema.yml#/components/schemas/fixed_asset_group_response'
     '422':
       description: Unprocessable entity
+
+delete:
+  tags:
+    - Fixed Asset Group
+  summary: Delete Fixed Asset Group
+  parameters:
+    - name: id
+      in: path
+      description: Fixed Asset Group ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: No Content
