@@ -19,7 +19,7 @@ info:
       - Local Authentication
       - Json Web Token
   x-logo:
-    url: http://localhost:3000/assets/logo.png
+    url: ./assets/logo.png
     altText: Ex-Module logo
   contact:
     name: API Support

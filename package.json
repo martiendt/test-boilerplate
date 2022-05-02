@@ -11,7 +11,8 @@
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./src/*",
     "lint:fix": "eslint ./src/* --fix",
-    "docs:build": "openapi bundle docs/v1/index.yml -o ./docs/v1/bundled/openapi.yml",
+    "docs:generate": "openapi bundle docs/v1/index.yml -o ./docs/v1/bundled/openapi.yml",
+    "docs:build": "npm run docs:generate;redoc-cli bundle docs/v1/bundled/openapi.yml --output=docs/index.html",
     "css:build": "npx tailwindcss -c ./tailwind.config.cjs -i ./src/resources/emails/styles.css -o ./src/resources/emails/styles.min.css",
     "css:watch": "css:build --watch"
   },
@@ -67,6 +68,7 @@
     "node-mocks-http": "^1.10.1",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
+    "redoc-cli": "^0.13.10",
     "supertest": "^6.1.6",
     "tailwindcss": "^3.0.23"
   },
