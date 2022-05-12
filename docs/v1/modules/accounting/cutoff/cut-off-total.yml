@@ -1,0 +1,16 @@
+get:
+  tags:
+    - Cut Off
+  summary: Get total of debit and credit of cutoff
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              debit:
+                type: integer
+              credit:
+                type: integer

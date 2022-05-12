@@ -1,0 +1,79 @@
+components:
+  schemas:
+    employee:
+      allOf:
+        - $ref: '../base.schema.yml#/components/schemas/Base'
+        - type: object
+          properties:
+            address:
+              type: string
+            city:
+              type: string
+            code:
+              type: string
+            country:
+              type: string
+            email:
+              type: string
+            label:
+              type: string
+            latitude:
+              type: string
+            longitude:
+              type: string
+            name:
+              type: string
+            notes:
+              type: string
+            phone:
+              type: string
+            phone_cc:
+              type: string
+            pricing_group_id:
+              type: integer
+            state:
+              type: string
+            tax_identification_number:
+              type: string
+            zip_code:
+              type: string
+            birth_date:
+              type: string
+            birth_place:
+              type: string
+            bpjs:
+              type: string
+            communication_allowance:
+              type: string
+            daily_transport_allowance:
+              type: string
+            employee_gender_id:
+              type: string
+            employee_group_id:
+              type: string
+            employee_job_location_id:
+              type: string
+            employee_marital_status_id:
+              type: string
+            employee_religion_id:
+              type: string
+            employee_status_id:
+              type: string
+            functional_allowance:
+              type: string
+            job_title:
+              type: string
+            join_date:
+              type: string
+            kpi_template_id:
+              type: string
+            last_education:
+              type: string
+            married_with:
+              type: string
+            personal_identity:
+              type: string
+            resign_date:
+              type: string
+            user_id:
+              type: string

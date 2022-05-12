@@ -1,0 +1,63 @@
+get:
+  tags:
+    - Fixed Asset Group
+  summary: Fetch fixed asset group
+  parameters:
+    - name: id
+      in: path
+      description: Fixed Asset Group ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: './fixed-asset-group.schema.yml#/components/schemas/fixed_asset_group'
+patch:
+  tags:
+    - Fixed Asset Group
+  summary: Update Fixed Asset Group
+  parameters:
+    - name: id
+      in: path
+      description: Fixed Asset Group ID
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: './fixed-asset-group.schema.yml#/components/schemas/fixed_asset_group_edit'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                $ref: './fixed-asset-group.schema.yml#/components/schemas/fixed_asset_group_response'
+    '422':
+      description: Unprocessable entity
+
+delete:
+  tags:
+    - Fixed Asset Group
+  summary: Delete Fixed Asset Group
+  parameters:
+    - name: id
+      in: path
+      description: Fixed Asset Group ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: No Content

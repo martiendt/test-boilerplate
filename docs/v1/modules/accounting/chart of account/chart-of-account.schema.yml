@@ -1,0 +1,51 @@
+components:
+  schemas:
+    chart_of_account:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        archived_at:
+          type: string
+          description: Date when data archived
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data
+        archived_by:
+          type: integer
+          description: User ID who archived the data
+        alias:
+          type: integer
+        cash_flow:
+          type: string
+        cash_flow_position:
+          type: string
+        group_id:
+          type: integer
+        is_locked:
+          type: integer
+        is_sub_ledger:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        position:
+          type: string
+          enum: [DEBIT, CREDIT]
+        sub_ledger:
+          type: string
+        type_id:
+          type: integer

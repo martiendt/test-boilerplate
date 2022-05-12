@@ -1,0 +1,13 @@
+components:
+  schemas:
+    links:
+      type: object
+      properties:
+        first:
+          type: string
+        last:
+          type: string
+        next:
+          type: string
+        prev:
+          type: string

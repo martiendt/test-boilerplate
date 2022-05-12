@@ -1,0 +1,44 @@
+components:
+  schemas:
+    fixed_asset_group:
+      type: object
+      properties:
+        name:
+          type: string
+      
+      required:
+        - name
+
+    fixed_asset_group_edit:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      
+      required:
+        - id
+        - name
+
+
+    fixed_asset_group_response:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        name:
+          type: string
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        created_by:
+          type: integer
+          description: User ID who create the data
+        updated_by:
+          type: integer
+          description: User ID who update the data

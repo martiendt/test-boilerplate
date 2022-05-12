@@ -1,0 +1,21 @@
+get:
+  tags:
+    - Cut Off
+  summary: Fetch Cut Off Account Detail
+  parameters:
+    - name: id
+      in: path
+      description:  Cut Off Account Detail ID
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: './cut-off.schema.yml#/components/schemas/cut_off_account_details'

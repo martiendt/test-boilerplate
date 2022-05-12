@@ -1,0 +1,51 @@
+components:
+  schemas:
+    supplier:
+      type: object
+      properties:
+        address:
+          type: string
+        archived_at:
+          type: datetime
+        archived_by:
+          type: integer
+        branch_id:
+          type: integer
+        city:
+          type: string
+        code:
+          type: string
+        country:
+          type: string
+        created_at:
+          type: datetime
+        created_by:
+          type: integer
+        email:
+          type: string
+        id:
+          type: integer
+        label:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+        phone:
+          type: string
+        phone_cc:
+          type: string
+        state:
+          type: string
+        tax_identification_number:
+          type: string
+        updated_at:
+          type: datetime
+        updated_by:
+          type: integer
+        zip_code:
+          type: string

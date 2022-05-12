@@ -1,0 +1,55 @@
+components:
+  schemas:
+    item:
+      type: object
+      properties:
+        archived_at:
+          type: datetime
+        archived_by:
+          type: integer
+        barcode:
+          type: string
+        chart_of_account_id:
+          type: integer
+        code:
+          type: string
+        color:
+          type: string
+        created_at:
+          type: datetime
+        created_by:
+          type: integer
+        groups:
+          type: array
+        id:
+          type: integer
+        label:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+        require_expiry_date:
+          type: integer
+        require_production_number:
+          type: integer
+        size:
+          type: string
+        stock:
+          type: integer
+        stock_reminder:
+          type: integer
+        taxable:
+          type: integer
+        unit_default:
+          type: integer
+        unit_default_purchase:
+          type: integer
+        unit_default_sales:
+          type: integer
+        updated_at:
+          type: datetime
+        updated_by:
+          type: integer
+        weight:
+          type: integer

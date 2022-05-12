@@ -1,0 +1,421 @@
+components:
+  schemas:
+    cut_off:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        date:
+          type: string
+        form:
+          $ref: '../../form.schema.yml#/components/schemas/form'
+
+    cut_off_account:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        created_at:
+          type: string
+          description: Date when data created
+        updated_at:
+          type: string
+          description: Date when data updated
+        chart_of_account_id:
+          type: integer
+        chart_of_account:
+          $ref: '../../accounting/chart of account/chart-of-account.schema.yml#/components/schemas/chart_of_account/'
+        credit:
+          type: integer
+        debit:
+          type: integer
+        cutoff_id:
+          type: integer
+        cutoff:
+          $ref: '#/components/schemas/cut_off'
+      required:
+        - name
+
+    cut_off_account_download:
+      type: object
+      properties:
+        url:
+          type: string
+
+    cut_off_detail_items_create_payment:
+      type: object
+      description: When chart of account sub ledger is CUSTOMER OR EMPLOYEE OR EXPEDITION OR SUPPLIER
+      properties:
+        amount:
+          type: integer
+        date:
+          type: date
+        name:
+          type: integer
+        notes:
+          type: string
+        object_id:
+          type: id
+          description: Object ID (Primary key of the model)
+      required:
+        - object_id
+        - date
+        - amount
+
+    cut_off_detail_items_create_item_dna:
+      type: object
+      properties:
+        expiry_date:
+          type: date
+        production_number:
+          type: string
+        quantity:
+          type: integer
+        unit:
+          type: object
+          properties:
+            name:
+              type: string
+            label:
+              type: string
+            converter: 
+              type: integer
+          required:
+            - converter
+            - name
+            - label
+      required:
+        - expiry_date
+        - production_number
+        - quantity
+        - unit
+
+    cut_off_detail_items_create_item:
+      type: object
+      description: When chart of account sub ledger is ITEM
+      properties:
+        warehouse_id:
+          type: integer
+          description: Primary key of the Warehouse
+        quantity:
+          type: integer
+        unit:
+          type: integer
+        converter:
+          type: string
+        price:
+          type: integer
+        total:
+          type: integer
+        object_id:
+          type: id
+          description: Object ID (Primary key of the Item)
+        dna:
+          type: array
+          items:
+            $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_items_create_item_dna'
+      required:
+        - object_id
+        - warehouse_id
+        - quantity
+        - unit
+        - converter
+        - price
+        - total
+
+    cut_off_detail_items_create_asset:
+      type: object
+      description: When chart of account sub ledger is FIXED ASSET
+      properties:
+        object_id:
+          type: id
+          description: Object ID (Primary key of the Fixed Asset)
+        supplier_id:
+          type: id
+          description: Object ID (Primary key of the Supplier)
+        location:
+          type: string
+        purchase_date:
+          type: date
+        quantity:
+          type: integer
+        price:
+          type: integer
+        total:
+          type: integer
+        accumulation:
+          type: integer
+        book_value:
+          type: integer
+      required:
+        - object_id
+        - supplier_id
+        - location
+        - purchase_date
+        - quantity
+        - price
+        - total
+        - accumulation
+        - book_value
+
+    cut_off_detail_create:
+      type: object
+      properties:
+        chart_of_account_id:
+          type: integer
+        chart_of_account_position:
+          type: string
+        chart_of_account_sub_ledger:
+          type: string
+          enum: [CUSTOMER, EMPLOYEE, FIXED ASSET, ITEM, SUPPLIER]
+        chart_of_account_type:
+          type: object
+          properties:
+            name:
+              type: string
+          required:
+            - name
+        debit:
+          type: integer
+        credit:
+          type: integer
+        items:
+          type: array
+          items:
+            oneOf:
+              - $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_items_create_payment'
+              - $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_items_create_item'
+              - $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_items_create_asset'
+      required:
+        - chart_of_account_id
+        - chart_of_account_position
+        - chart_of_account_sub_ledger
+        - debit
+        - credit
+
+    cut_off_create:
+      type: object
+      properties:
+        date:
+          type: string
+          description: String of Date
+        increment_group:
+          type: string
+        notes:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_create'
+
+    # Detail
+
+    cut_off_account_detail_item_dna:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        item_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        expiry_date:
+          type: date
+        production_number:
+          type: string
+        quantity:
+          type: integer
+
+    cut_off_account_detail_item:
+      type: object
+      description: When chart of account sub ledger is ITEM
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        item_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        chart_of_account_id:
+          type: integer
+        warehouse_id:
+          type: integer
+          description: Primary key of the Warehouse
+        quantity:
+          type: integer
+        unit:
+          type: integer
+        converter:
+          type: string
+        price:
+          type: integer
+        total:
+          type: integer
+        item:
+          $ref: '../../master/item/item.schema.yml#/components/schemas/item'
+        warehouse:
+          $ref: '../../master/warehouse/warehouse.schema.yml#/components/schemas/warehouse'
+        dna:
+          type: array
+          items:
+            $ref: './cut-off.schema.yml#/components/schemas/cut_off_account_detail_item_dna'
+
+    cut_off_detail_asset:
+      type: object
+      properties:
+        accumulation:
+          type: integer
+        book_value:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: datetime
+        fixed_asset_id:
+          type: integer
+        id:
+          type: integer
+        location:
+          type: string
+        price:
+          type: integer
+        purchase_date:
+          type: date
+        quantity:
+          type: integer
+        supplier_id:
+          type: integer
+        total:
+          type: integer
+        updated_at:
+          type: datetime
+        fixed_asset:
+          $ref: '../../master/fixed asset/fixed-asset.schema.yml#/components/schemas/fixed_asset_response'
+        supplier:
+          $ref: '../../master/supplier/supplier.schema.yml#/components/schemas/supplier'
+
+    cut_off_detail_items_detail_payment:
+      type: object
+      properties:
+        amount:
+          type: integer
+        date:
+          type: date
+        name:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: datetime
+        cutoff_paymentable_id:
+          type: integer
+        cutoff_paymentable_type:
+          type: string
+          enum: [Customer, Exployee, Expedition, Supplier]
+        id:
+          type: integer
+        payment_type:
+          type: string
+          enum: [RECEIVABLE, PAYABLE]
+        updated_at:
+          type: datetime
+        cutoff_paymentable:
+          oneOf:
+           - $ref: '../../master/customer/customer.schema.yml#/components/schemas/customer'
+           - $ref: '../../master/employee/employee.schema.yml#/components/schemas/employee'
+           - $ref: '../../master/expedition/expedition.schema.yml#/components/schemas/expedition'
+           - $ref: '../../master/supplier/supplier.schema.yml#/components/schemas/supplier'
+
+    cut_off_detail_items_detail_down_payment:
+      type: object
+      properties:
+        amount:
+          type: integer
+        date:
+          type: date
+        name:
+          type: integer
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: datetime
+        cutoff_downpaymentable_id:
+          type: integer
+        cutoff_downpaymentable_type:
+          type: string
+          enum: [Customer, Exployee, Expedition, Supplier]
+        id:
+          type: integer
+        payment_type:
+          type: string
+          enum: [RECEIVABLE, PAYABLE]
+        updated_at:
+          type: datetime
+        cutoff_downpaymentable:
+          oneOf:
+           - $ref: '../../master/customer/customer.schema.yml#/components/schemas/customer'
+           - $ref: '../../master/employee/employee.schema.yml#/components/schemas/employee'
+           - $ref: '../../master/expedition/expedition.schema.yml#/components/schemas/expedition'
+           - $ref: '../../master/supplier/supplier.schema.yml#/components/schemas/supplier'
+
+
+    cut_off_account_detail:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        cutoffable_id:
+          type: integer
+        cutoffable_type:
+          type: string
+        cutoffable:
+          oneOf:
+            - $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_items_detail_payment'
+            - $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_items_detail_down_payment'
+            - $ref: './cut-off.schema.yml#/components/schemas/cut_off_account_detail_item'
+            - $ref: './cut-off.schema.yml#/components/schemas/cut_off_detail_asset'
+
+
+    cut_off_account_details:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Auto generated primary key
+        chart_of_account_id:
+          type: integer
+        created_at:
+          type: date
+        updated_at:
+          type: date
+        credit:
+          type: integer
+        debit:
+          type: integer
+        cutoff_id:
+          type: integer
+        cut_off_details:
+          type: array
+          items:
+            $ref: './cut-off.schema.yml#/components/schemas/cut_off_account_detail'

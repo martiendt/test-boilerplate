@@ -1,0 +1,30 @@
+post:
+  tags:
+    - Cut Off
+  summary: Create new Cut Off
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: './cut-off.schema.yml#/components/schemas/cut_off_create'
+  responses:
+    '201':
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: object
+                properties:
+                  created_at:
+                    type: date
+                  date:
+                    type: date
+                  id:
+                    type: integer
+                    description: Auto generated ID
+                  updated_at:
+                    type: date
+    '422':
+      description: Unprocessable entity
