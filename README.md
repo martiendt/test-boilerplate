@@ -2,6 +2,38 @@
 
 ![Logo](/src/assets/logo.png)
 
+```vue
+<script setup lang="ts">
+  import { BaseComponent } from '@point-hub/vue-library-starter'
+</script>
+
+<template>
+  <div>
+    <component
+      :is="BaseComponent"
+      title="Hello World"
+      description="Lorem ipsumLorem ipsum dolor sit amet, consectetur adipiscing elit."
+    ></component>
+  </div>
+</template>
+```
+
+```html
+<script setup lang="ts">
+  import { BaseComponent } from '@point-hub/vue-library-starter'
+</script>
+
+<template>
+  <div>
+    <component
+      :is="BaseComponent"
+      title="Hello World"
+      description="Lorem ipsumLorem ipsum dolor sit amet, consectetur adipiscing elit."
+    ></component>
+  </div>
+</template>
+```
+
 ## Overview
 
 This is a boilerplate application for building REST APIs in Node.js using ES6 and Express. Helps you stay productive by following best practices.
